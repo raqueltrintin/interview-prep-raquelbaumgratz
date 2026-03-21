@@ -393,6 +393,27 @@
 
 
 
+
+  /* SSI inline notes */
+  .ssi-note-wrap { display: none; margin: 4px 0 4px 27px; }
+  .ssi-note-wrap.open { display: block; }
+  .ssi-note-btn {
+    font-size: 0.72rem; color: var(--muted); cursor: pointer;
+    margin-left: 27px; padding: 1px 0; display: inline-flex;
+    align-items: center; gap: 4px; opacity: 0.7;
+    transition: opacity 0.15s; border: none; background: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ssi-note-btn:hover { opacity: 1; color: var(--accent); }
+  .ssi-note-ta {
+    width: 100%; min-height: 52px; padding: 0.5rem 0.65rem;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: rgba(181,98,62,0.04); font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; color: var(--ink); resize: vertical;
+    outline: none; transition: border-color 0.15s;
+  }
+  .ssi-note-ta:focus { border-color: rgba(181,98,62,0.4); }
+  .ssi-note-ta::placeholder { color: var(--muted); font-style: italic; }
   /* SSI Checklist */
   .ssi-checklist { list-style: none; padding: 0; margin: 0; }
   .ssi-checklist li { padding: 0; }
@@ -2830,7 +2851,7 @@
 
         <div class="q-card" onclick="toggleCard(this)">
           <div class="q-header">
-            <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">S1</div>
+            <div class="q-number ssi-card-num" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">S1</div>
             <div class="q-text">
               <strong>Semana 1 — Construir a base</strong>
               <span class="q-meta">Marca profissional · Localizar pessoas</span>
@@ -6894,6 +6915,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function ssiRestoreChecks() {
+    ssiRestoreNotes();
     const saved = localStorage.getItem('ssi_checklist_s1');
     if (!saved) { ssiUpdateProgress(); return; }
     try {
@@ -6907,6 +6929,49 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     ssiUpdateProgress();
   }
 
+
+  function ssiNoteToggle(e, key) {
+    e.stopPropagation();
+    const wrap = document.getElementById('ssi-note-wrap-' + key);
+    if (!wrap) return;
+    wrap.classList.toggle('open');
+    if (wrap.classList.contains('open')) {
+      const ta = document.getElementById('ssi-note-' + key);
+      if (ta) {
+        const saved = localStorage.getItem('ssi_note_' + key) || '';
+        ta.value = saved;
+        setTimeout(() => ta.focus(), 50);
+      }
+    }
+  }
+
+  let _ssiNoteTimers = {};
+  function ssiNoteSave(e, key) {
+    e.stopPropagation();
+    const val = e.target.value;
+    localStorage.setItem('ssi_note_' + key, val);
+    clearTimeout(_ssiNoteTimers[key]);
+    _ssiNoteTimers[key] = setTimeout(async function() {
+      if (!currentUser) return;
+      try {
+        await sb.from('notes').upsert({
+          user_id: currentUser.id,
+          note_key: 'ssi_note_' + key,
+          content: val,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id,note_key' });
+      } catch(err) {}
+    }, 1200);
+  }
+
+  function ssiRestoreNotes() {
+    const keys = ['s1-foto','s1-titulo','s1-sobre','s1-exp','s1-extras','s1-rec','s1-pub','s1-share','s1-map'];
+    keys.forEach(key => {
+      const val = localStorage.getItem('ssi_note_' + key);
+      const ta  = document.getElementById('ssi-note-' + key);
+      if (ta && val) ta.value = val;
+    });
+  }
   function ssiUpdateProgress() {
     const items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s1-"]');
     const total = items.length;
