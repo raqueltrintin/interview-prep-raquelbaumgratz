@@ -6644,7 +6644,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('app').style.display = 'flex';
     applyRole(currentRole);
     requestAnimationFrame(syncDockSpacer);
-    setTimeout(ssiRestoreChecks, 300);
+    setTimeout(ssiRestoreChecks, 400);
   })();
 
   // ── Carregar notas do Supabase ────────────────────────────────────────────
@@ -6859,20 +6859,51 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   });
   // ── END NODE GRAPH NAV ────────────────────────────────────────────────────
 
+  // ── SSI Checklist — salvo por usuário no Supabase ─────────────────────────
+  let _ssiSaveTimer = null;
+
   function ssiToggle(e, el, key) {
     e.stopPropagation();
     el.classList.toggle('checked');
-    localStorage.setItem('ssi_' + key, el.classList.contains('checked') ? '1' : '0');
     ssiUpdateProgress();
+    ssiSaveToSupabase();
+  }
+
+  function ssiGetState() {
+    const state = {};
+    document.querySelectorAll('#ssi .ssi-check-item[onclick]').forEach(el => {
+      const m = el.getAttribute('onclick').match(/ssiToggle\(event,this,'([^']+)'\)/);
+      if (m) state[m[1]] = el.classList.contains('checked') ? 1 : 0;
+    });
+    return state;
+  }
+
+  function ssiSaveToSupabase() {
+    clearTimeout(_ssiSaveTimer);
+    _ssiSaveTimer = setTimeout(async function() {
+      if (!currentUser) return;
+      try {
+        await sb.from('notes').upsert({
+          user_id: currentUser.id,
+          note_key: 'ssi_checklist_s1',
+          content: JSON.stringify(ssiGetState()),
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id,note_key' });
+      } catch(err) {}
+    }, 800);
   }
 
   function ssiRestoreChecks() {
-    document.querySelectorAll('.ssi-check-item[onclick]').forEach(el => {
-      const match = el.getAttribute('onclick').match(/ssiToggle\(this,'([^']+)'\)/);
-      if (!match) return;
-      const key = match[1];
-      if (localStorage.getItem('ssi_' + key) === '1') el.classList.add('checked');
-    });
+    const saved = localStorage.getItem('ssi_checklist_s1');
+    if (!saved) { ssiUpdateProgress(); return; }
+    try {
+      const state = JSON.parse(saved);
+      document.querySelectorAll('#ssi .ssi-check-item[onclick]').forEach(el => {
+        const m = el.getAttribute('onclick').match(/ssiToggle\(event,this,'([^']+)'\)/);
+        if (!m) return;
+        el.classList.toggle('checked', !!state[m[1]]);
+      });
+    } catch(e) {}
     ssiUpdateProgress();
   }
 
@@ -6886,9 +6917,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     if (bar) bar.style.width = pct + '%';
     if (lbl) lbl.textContent = done + ' de ' + total + ' tarefas concluídas';
   }
-
-  // Restore on section load
-  document.addEventListener('DOMContentLoaded', ssiRestoreChecks);
 
 </script>
 </body>
