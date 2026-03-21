@@ -165,7 +165,8 @@
   #app {
     display: none;
     flex-direction: column;
-    padding-top: var(--topbar-h, 78px);
+    padding-top: 0;
+    background: var(--cream);
   }
 
   /* TOP BAR */
@@ -276,7 +277,7 @@
   .section-header-strip {
     background: var(--card);
     border-bottom: 0.5px solid var(--border);
-    padding: 1.5rem 2rem 1.25rem;
+    padding: 0.75rem 2rem;
     margin-bottom: 0;
   }
 
@@ -284,7 +285,7 @@
   main {
     max-width: 860px;
     margin: 0 auto;
-    padding: 2rem 2rem 2.5rem;
+    padding: 1.25rem 2rem 2.5rem;
   }
 
   /* ── NODE GRAPH NAV ───────────────────────────────────────────────── */
@@ -1169,8 +1170,8 @@
         <div class="ng-sub-list" id="ng-sub-list"></div>
       </div>
       <!-- controles no rodapé do sidebar -->
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.5rem 0.2rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:auto;flex-shrink:0;">
-        <div style="display:flex;gap:4px;">
+      <div style="display:flex;flex-direction:column;gap:8px;padding:0.75rem 0.5rem 0.4rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:auto;flex-shrink:0;">
+        <div style="display:flex;gap:4px;align-items:center;">
           <button class="lang-btn active" id="app-lang-pt" onclick="setLang('pt')" style="font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;">🇧🇷 PT</button>
           <button class="lang-btn" id="app-lang-en" onclick="setLang('en')" style="font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;">🇺🇸 EN</button>
         </div>
