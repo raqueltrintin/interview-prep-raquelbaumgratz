@@ -303,19 +303,7 @@
     position: fixed; left: 0; top: 0; bottom: 0;
     z-index: 150; display: flex; flex-direction: column;
     pointer-events: none; width: 340px;
-  }
-  /* fade na borda direita do sidebar */
-  .dock-bar::after {
-    content: '';
-    position: absolute;
-    top: 0; right: -32px;
-    width: 32px; height: 100%;
-    background: linear-gradient(to right, rgba(24,18,14,0.18), transparent);
-    pointer-events: none;
-  }
-  /* canto arredondado onde sidebar encontra o topbar */
-  .app-topbar {
-    border-bottom-left-radius: 0 !important;
+    overflow: visible;
   }
   .dock-spacer {
     flex-shrink: 0; height: var(--topbar-h, 78px); pointer-events: none;
@@ -330,6 +318,15 @@
     display: flex; flex-direction: column;
     padding: 1rem 0.75rem 0.75rem;
     font-family: 'DM Sans', sans-serif;
+  }
+  .dock-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; right: -28px; bottom: 0;
+    width: 28px;
+    background: linear-gradient(to right, rgba(24,18,14,0.22), transparent);
+    pointer-events: none;
+    z-index: 1;
   }
   .ng-badge {
     font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
