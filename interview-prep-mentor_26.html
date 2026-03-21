@@ -6644,6 +6644,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('app').style.display = 'flex';
     applyRole(currentRole);
     requestAnimationFrame(syncDockSpacer);
+    setTimeout(ssiRestoreChecks, 300);
   })();
 
   // ── Carregar notas do Supabase ────────────────────────────────────────────
