@@ -279,7 +279,7 @@
 
   /* CONTENT AREA */
   .app-content {
-    padding-left: 200px;
+    padding-left: 348px;
     min-height: calc(100vh - 78px);
   }
 
@@ -298,138 +298,93 @@
     padding: 2rem 2rem 2.5rem;
   }
 
-  /* ── SIDEBAR NAV ──────────────────────────────────────────────────── */
+  /* ── NODE GRAPH NAV ───────────────────────────────────────────────── */
   .dock-shell {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 150;
-    display: flex;
-    flex-direction: column;
-    pointer-events: none;
-    width: 192px;
+    position: fixed; left: 0; top: 0; bottom: 0;
+    z-index: 150; display: flex; flex-direction: column;
+    pointer-events: none; width: 340px;
   }
-
-  /* spacer to push sidebar below topbar */
   .dock-spacer {
-    flex-shrink: 0;
-    height: var(--topbar-h, 78px);
-    pointer-events: none;
+    flex-shrink: 0; height: var(--topbar-h, 78px); pointer-events: none;
   }
-
   .dock-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: rgba(24,18,14,0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-right: 0.5px solid rgba(255,255,255,0.08);
-    padding: 0.75rem 0.65rem;
-    pointer-events: all;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  /* ── Collapsible group sidebar ─────────────────── */
-  .dock-group { margin-bottom: 0.1rem; }
-
-  .dock-group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.38rem 0.55rem;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.15s;
-    user-select: none;
-  }
-  .dock-group-header:hover { background: rgba(255,255,255,0.04); }
-
-  .dock-group-label {
-    font-size: 0.5rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.28);
+    background: rgba(24,18,14,0.97);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-right: 0.5px solid rgba(255,255,255,0.07);
+    pointer-events: all; flex: 1; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 1rem 0.75rem 0.75rem;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
   }
-
-  .dock-group-arrow {
-    width: 10px; height: 10px;
-    fill: none;
-    stroke: rgba(255,255,255,0.25);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform 0.2s;
-    flex-shrink: 0;
+  .ng-badge {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(181,98,62,0.55); font-weight: 500;
+    text-align: center; margin-bottom: 8px;
   }
-  .dock-group.collapsed .dock-group-arrow { transform: rotate(-90deg); }
-
-  .dock-group-items {
-    overflow: hidden;
-    max-height: 600px;
-    opacity: 1;
-    transition: max-height 0.28s ease, opacity 0.2s;
+  .ng-area { position: relative; flex: 1; overflow: hidden; }
+  .ng-svg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
   }
-  .dock-group.collapsed .dock-group-items { max-height: 0; opacity: 0; }
-
-  .dock-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    cursor: pointer;
-    position: relative;
-    padding: 0.38rem 0.55rem;
-    border-radius: 7px;
-    transition: background 0.15s;
-    margin-bottom: 1px;
+  .ng-avatar-block {
+    position: absolute; transform: translate(-50%,-50%);
+    z-index: 4; display: flex; flex-direction: column; align-items: center;
   }
-  .dock-item:hover { background: rgba(255,255,255,0.05); }
-  .dock-item.active { background: rgba(181,98,62,0.15); }
-
-  .dock-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.05);
-    border: 0.5px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-    flex-shrink: 0;
+  .ng-avatar-ring {
+    width: 90px; height: 90px; border-radius: 50%;
+    border: 1.5px solid rgba(181,98,62,0.45); background: #2a1e17;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative; cursor: pointer;
+    box-shadow: 0 0 20px rgba(181,98,62,0.1); transition: border-color 0.2s;
   }
-  .dock-icon svg { width: 13px; height: 13px; }
-  .dock-item:hover .dock-icon { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.14); }
-  .dock-item.active .dock-icon { background: rgba(181,98,62,0.22); border-color: rgba(181,98,62,0.45); }
-
-  .dock-tooltip {
-    font-size: 0.71rem;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: rgba(240,235,228,0.35);
-    transition: color 0.15s;
-    flex: 1;
-    pointer-events: none;
+  .ng-avatar-ring:hover { border-color: rgba(181,98,62,0.75); }
+  .ng-avatar-ring:hover .ng-av-hint { opacity: 1; }
+  .ng-initials { font-size: 22px; font-weight: 600; color: #c97040; letter-spacing: 1px; position: relative; z-index: 1; }
+  .ng-photo { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2; }
+  .ng-av-hint {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(28,20,16,0.8); font-size: 8px; letter-spacing: 0.8px;
+    text-transform: uppercase; color: rgba(240,235,228,0.7);
+    text-align: center; padding: 4px 0; opacity: 0; transition: opacity 0.2s; z-index: 3;
   }
-  .dock-item:hover .dock-tooltip { color: rgba(240,235,228,0.7); }
-  .dock-item.active .dock-tooltip { color: #f0ebe4; font-weight: 500; }
-
-  .dock-dot {
-    position: absolute;
-    left: 0; top: 20%; bottom: 20%;
-    width: 2.5px;
-    border-radius: 0 99px 99px 0;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.18s;
+  #ng-avatar-input { display: none; }
+  .ng-av-name { margin-top: 8px; font-size: 11px; color: rgba(240,235,228,0.4); white-space: nowrap; }
+  .ng-av-prog { margin-top: 2px; font-size: 10px; color: rgba(181,98,62,0.5); white-space: nowrap; }
+  .ng-pill {
+    position: absolute; transform: translate(-50%,-50%);
+    cursor: pointer; user-select: none; transition: transform 0.18s; z-index: 2;
   }
-  .dock-item.active .dock-dot { opacity: 1; }
+  .ng-pill:hover { transform: translate(-50%,-50%) scale(1.05); }
+  .ng-pill-inner {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 13px; border-radius: 26px;
+    border: 1px solid rgba(240,235,228,0.09);
+    background: rgba(240,235,228,0.04);
+    font-size: 11.5px; font-weight: 400;
+    color: rgba(240,235,228,0.7); white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .ng-pill:hover .ng-pill-inner { background: rgba(181,98,62,0.13); border-color: rgba(181,98,62,0.38); color: #f0ebe4; }
+  .ng-pill.active .ng-pill-inner { background: rgba(181,98,62,0.2); border-color: rgba(181,98,62,0.6); color: #f0ebe4; font-weight: 500; }
+  .ng-sub-list {
+    position: absolute; z-index: 6; display: none; flex-direction: column;
+    background: #231912; border: 1px solid rgba(181,98,62,0.2);
+    border-radius: 10px; overflow: hidden; min-width: 178px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .ng-sub-list.visible { display: flex; }
+  .ng-sub-row {
+    display: flex; align-items: center; gap: 7px; padding: 8px 12px;
+    font-size: 11px; font-weight: 400; color: rgba(240,235,228,0.6);
+    cursor: pointer; transition: background 0.15s, color 0.15s;
+    border-bottom: 1px solid rgba(240,235,228,0.05);
+  }
+  .ng-sub-row:last-child { border-bottom: none; }
+  .ng-sub-row:hover, .ng-sub-row.active { background: rgba(181,98,62,0.13); color: #f0ebe4; }
+  .ng-sub-row.active { font-weight: 500; }
+  /* legacy compat */
+  .dock-item { display: none !important; }
+  .dock-group { display: none !important; }
   .dock-sep { display: none; }
 
 
@@ -1208,145 +1163,33 @@
     </main>
   </div>
 
-  <!-- DOCK -->
+  <!-- NODE GRAPH NAV -->
   <div class="dock-shell">
     <div class="dock-spacer" id="dock-spacer"></div>
     <div class="dock-bar" id="dock-bar">
-
-      <!-- GROUP: Perfil & Candidatura -->
-      <div class="dock-group collapsed" id="grp-perfil">
-        <div class="dock-group-header" onclick="toggleGroup('grp-perfil')">
-          <span class="dock-group-label">Perfil &amp; Candidatura</span>
-          <svg class="dock-group-arrow" viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg>
+      <div class="ng-badge" id="ng-badge">Central do Mentorado</div>
+      <div class="ng-area" id="ng-area">
+        <svg class="ng-svg" id="ng-svg"><defs>
+          <marker id="ng-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 2L8 5L2 8" fill="none" stroke="rgba(181,98,62,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs></svg>
+        <div class="ng-avatar-block" id="ng-av-block">
+          <div class="ng-avatar-ring" onclick="document.getElementById('ng-avatar-input').click()">
+            <span class="ng-initials" id="ng-initials">--</span>
+            <img class="ng-photo" id="ng-photo" style="display:none"/>
+            <div class="ng-av-hint">trocar foto</div>
+          </div>
+          <input type="file" id="ng-avatar-input" accept="image/*" onchange="ngHandlePhoto(event)"/>
+          <div class="ng-av-name" id="ng-av-name"></div>
+          <div class="ng-av-prog" id="ng-av-prog"></div>
         </div>
-        <div class="dock-group-items">
-          <div class="dock-item" data-tab="linkedin" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.linkedin">LinkedIn Estratégico</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="2.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M5.5 8v4.5M5.5 5.5v.8M8.5 12.5V9.8C8.5 8.8 9.2 8 10 8s1.5.8 1.5 1.8v2.7M8.5 8v4.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="ssi" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.ssi">Plano SSI</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M3 13l3.5-4 3 3 5-7" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="cv" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.cv">Currículo</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><rect x="3" y="1.5" width="12" height="15" rx="1.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M6 5.5h6M6 8.5h6M6 11.5h4" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="coverletter" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.cl">Cover Letter</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="3.5" width="14" height="11" rx="1.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M2 6l7 4.5L16 6" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-        </div>
+        <div class="ng-sub-list" id="ng-sub-list"></div>
       </div>
-
-      <!-- GROUP: Entrevista -->
-      <div class="dock-group collapsed" id="grp-entrevista">
-        <div class="dock-group-header" onclick="toggleGroup('grp-entrevista')">
-          <span class="dock-group-label">Entrevista</span>
-          <svg class="dock-group-arrow" viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg>
-        </div>
-        <div class="dock-group-items">
-          <div class="dock-item active" data-tab="intro" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.intro">Início</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="rgba(181,98,62,0.8)"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.25)"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.25)"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.25)"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="positioning" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.positioning">Posicionamento</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6.5" r="2.8" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M3.5 15c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="behavioral" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.behavioral">Behavioral</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M3 5h12M3 9h8M3 13h10" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="situational" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.situational">Situacional</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2v3M9 13v3M2 9h3M13 9h3" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="9" r="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="motivation" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.motivation">Motivação</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M9 3l1.8 4 4.4.4-3.2 3 1 4.3L9 12.5 5 14.7l1-4.3-3.2-3L7.2 7z" stroke="rgba(255,255,255,0.5)" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="closing" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.closing">Fechamento</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3.5 3.5 6.5-7" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-          <div class="dock-item" data-tab="salary" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.salary">Negociação Salarial</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M9 5v1M9 12v1M6.5 10.5c0 .8.7 1.5 2.5 1.5s2.5-.7 2.5-1.5-1-1.5-2.5-1.5-2.5-.7-2.5-1.5S7.2 6 9 6s2.5.7 2.5 1.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GROUP: Recursos -->
-      <div class="dock-group collapsed" id="grp-recursos">
-        <div class="dock-group-header" onclick="toggleGroup('grp-recursos')">
-          <span class="dock-group-label">Recursos</span>
-          <svg class="dock-group-arrow" viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg>
-        </div>
-        <div class="dock-group-items">
-          <div class="dock-item" data-tab="tips" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.tips">Dicas Práticas</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/><path d="M9 5.5v4.5M9 13v.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GROUP: Mentora (mentor only) -->
-      <div class="dock-group mentor-tab collapsed" id="grp-mentora" style="display:none">
-        <div class="dock-group-header" onclick="toggleGroup('grp-mentora')">
-          <span class="dock-group-label">Mentora</span>
-          <svg class="dock-group-arrow" viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg>
-        </div>
-        <div class="dock-group-items">
-          <div class="dock-item mentor-tab" data-tab="coaching" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.coaching">Coaching</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M3 13.5C3 10.5 5.7 8 9 8s6 2.5 6 5.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3" stroke-linecap="round"/><circle cx="9" cy="5" r="2.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GROUP: Vendas (mentor only) -->
-      <div class="dock-group mentor-tab collapsed" id="grp-vendas" style="display:none">
-        <div class="dock-group-header" onclick="toggleGroup('grp-vendas')">
-          <span class="dock-group-label">Vendas</span>
-          <svg class="dock-group-arrow" viewBox="0 0 10 10"><polyline points="2,3 5,7 8,3"/></svg>
-        </div>
-        <div class="dock-group-items">
-          <div class="dock-item mentor-tab" data-tab="funil" onclick="dockNav(this)">
-            <div class="dock-tooltip" data-i18n="nav.funil">Funil de Vendas</div>
-            <div class="dock-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M2 3h14l-5 6v5l-4-2V9L2 3z" stroke="rgba(255,255,255,0.5)" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
-            <div class="dock-dot"></div>
-          </div>
-        </div>
-      </div>
-
     </div>
-
-  <!-- keep hidden nav for JS compat -->
+  </div>
   <nav class="nav-tabs" style="display:none">
     <button class="tab-btn active" data-tab="intro">Início</button>
-    <button class="tab-btn" data-tab="positioning">Posicionamento</button>
-    <button class="tab-btn" data-tab="behavioral">Behavioral</button>
-    <button class="tab-btn" data-tab="situational">Situacional</button>
-    <button class="tab-btn" data-tab="motivation">Motivação</button>
-    <button class="tab-btn" data-tab="closing">Fechamento</button>
-    <button class="tab-btn" data-tab="tips">Dicas Práticas</button>
-    <button class="tab-btn" data-tab="linkedin">LinkedIn</button>
-    <button class="tab-btn" data-tab="ssi">Plano SSI</button>
-    <button class="tab-btn mentor-tab" style="display:none" data-tab="coaching">Coaching</button>
   </nav>
 
 </div>
@@ -6409,28 +6252,16 @@
       if (el.tagName === 'DIV' && el.classList.contains('section')) return;
       el.style.display = isMentor ? '' : 'none';
     });
-    // Show/hide mentor-only groups and items
-    document.querySelectorAll('.dock-group.mentor-tab').forEach(el => {
-      el.style.display = isMentor ? '' : 'none';
-    });
-    document.querySelectorAll('.dock-item.mentor-tab').forEach(el => {
-      el.style.display = isMentor ? 'flex' : 'none';
-    });
+    ngBuildGraph(role);
   }
 
   function dockNav(el) {
     if (!el) return;
-    const id = el.dataset.tab;
-    // Update dock active state
-    document.querySelectorAll('.dock-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-    // Show section
+    const id = typeof el === 'string' ? el : el.dataset.tab;
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Update tooltip labels via i18n
-    updateDockTooltips();
   }
 
   function updateDockTooltips() {
@@ -6453,13 +6284,7 @@
   }
 
   function showTab(id, btn) {
-    // Redirect old showTab calls to dockNav
-    const dockItem = document.querySelector(`.dock-item[data-tab="${id}"]`);
-    if (dockItem) { dockNav(dockItem); return; }
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const section = document.getElementById(id);
-    if (section) section.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    dockNav(id);
   }
 
   function toggleCard(card) {
@@ -6619,13 +6444,196 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function syncDockSpacer() {
     const topbar = document.querySelector('.app-topbar');
     const spacer = document.getElementById('dock-spacer');
-    if (topbar && spacer) {
-      spacer.style.height = topbar.offsetHeight + 'px';
-    }
+    if (topbar && spacer) spacer.style.height = topbar.offsetHeight + 'px';
+    if (typeof ngBuildGraph === 'function') ngBuildGraph(currentRole || 'mentee');
   }
   document.getElementById('app').addEventListener('transitionend', syncDockSpacer);
   // Call after login
   const _origDoLogin = doLogin;
+
+  // ── NODE GRAPH NAV ────────────────────────────────────────────────────────
+  const NG_GROUPS = {
+    perfil: { icon: '💼', label: 'Perfil & Candidatura', subs: [
+      { id: 'linkedin',    icon: '💼', label: 'LinkedIn Estratégico' },
+      { id: 'ssi',         icon: '📈', label: 'Plano SSI' },
+      { id: 'cv',          icon: '📄', label: 'Currículo' },
+      { id: 'coverletter', icon: '✉️',  label: 'Cover Letter' },
+    ]},
+    entrevista: { icon: '🎤', label: 'Entrevista', subs: [
+      { id: 'intro',       icon: '⬛', label: 'Início' },
+      { id: 'positioning', icon: '🎯', label: 'Posicionamento' },
+      { id: 'behavioral',  icon: '📝', label: 'Behavioral' },
+      { id: 'situational', icon: '⚙️',  label: 'Situacional' },
+      { id: 'motivation',  icon: '⭐', label: 'Motivação' },
+      { id: 'closing',     icon: '✅', label: 'Fechamento' },
+      { id: 'salary',      icon: '💰', label: 'Negociação Salarial' },
+    ]},
+    recursos: { icon: '💡', label: 'Recursos', subs: [
+      { id: 'tips', icon: '💡', label: 'Dicas Práticas' },
+    ]},
+    mentora: { icon: '👤', label: 'Mentora', subs: [
+      { id: 'coaching', icon: '🧠', label: 'Coaching' },
+    ]},
+    vendas: { icon: '🔽', label: 'Vendas', subs: [
+      { id: 'funil', icon: '🔽', label: 'Funil de Vendas' },
+    ]},
+  };
+
+  const NG_MODES = {
+    mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
+  };
+
+  let ngActiveGroup = null;
+  let ngMainPos = {};
+
+  function ngBuildGraph(role) {
+    role = role || 'mentee';
+    ngActiveGroup = null;
+
+    const area    = document.getElementById('ng-area');
+    const svgEl   = document.getElementById('ng-svg');
+    const subList = document.getElementById('ng-sub-list');
+    const badge   = document.getElementById('ng-badge');
+    if (!area || !svgEl) return;
+
+    // clear
+    area.querySelectorAll('.ng-pill').forEach(e => e.remove());
+    svgEl.querySelectorAll('line, circle, path:not([d="M2 2L8 5L2 8"])').forEach(e => e.remove());
+    if (subList) subList.classList.remove('visible');
+
+    const cfg = NG_MODES[role] || NG_MODES.mentee;
+    if (badge) badge.textContent = cfg.badge;
+
+    // avatar info from currentUser
+    const name = (currentUser && currentUser.name) ? currentUser.name : '';
+    const initials = name ? name.split(' ').slice(0,2).map(w => w[0].toUpperCase()).join('') : (role === 'mentor' ? 'RB' : '--');
+    const elInit = document.getElementById('ng-initials');
+    const elName = document.getElementById('ng-av-name');
+    const elProg = document.getElementById('ng-av-prog');
+    if (elInit) elInit.textContent = initials;
+    if (elName) elName.textContent = name;
+    if (elProg) elProg.textContent = role === 'mentor' ? 'Acesso completo' : '';
+
+    const W = area.offsetWidth  || 310;
+    const H = area.offsetHeight || 400;
+    const avatarR = 46;
+    const ax = avatarR + 18;
+    const ay = H * 0.46;
+
+    const avBlock = document.getElementById('ng-av-block');
+    if (avBlock) { avBlock.style.left = ax + 'px'; avBlock.style.top = ay + 'px'; }
+
+    const ox = ax + avatarR;
+    const oy = ay;
+    const grps  = cfg.groups;
+    const count = grps.length;
+    const R = 155;
+    const arcStart = -68, arcEnd = 68;
+    const toRad = d => d * Math.PI / 180;
+    const angles = count === 1 ? [0] : grps.map((_, i) => arcStart + i * (arcEnd - arcStart) / (count - 1));
+
+    // arc guide
+    const arcEl = document.createElementNS('http://www.w3.org/2000/svg','path');
+    const s = toRad(arcStart), e = toRad(arcEnd);
+    arcEl.setAttribute('d', `M${ox + Math.cos(s)*R},${oy + Math.sin(s)*R} A${R},${R} 0 0,1 ${ox + Math.cos(e)*R},${oy + Math.sin(e)*R}`);
+    arcEl.setAttribute('fill','none');
+    arcEl.setAttribute('stroke','rgba(181,98,62,0.07)');
+    arcEl.setAttribute('stroke-width','1');
+    arcEl.setAttribute('stroke-dasharray','4 8');
+    svgEl.appendChild(arcEl);
+
+    // origin dot
+    const originDot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    originDot.setAttribute('cx', ox); originDot.setAttribute('cy', oy);
+    originDot.setAttribute('r','3'); originDot.setAttribute('fill','rgba(181,98,62,0.35)');
+    svgEl.appendChild(originDot);
+
+    ngMainPos = {};
+    grps.forEach((gid, i) => {
+      const g  = NG_GROUPS[gid];
+      const a  = angles[i];
+      const nx = ox + Math.cos(toRad(a)) * R;
+      const ny = oy + Math.sin(toRad(a)) * R;
+      ngMainPos[gid] = { x: nx, y: ny };
+
+      // spoke
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', ox); line.setAttribute('y1', oy);
+      line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+      line.setAttribute('stroke','rgba(181,98,62,0.18)');
+      line.setAttribute('stroke-width','1');
+      line.setAttribute('stroke-dasharray','5 6');
+      svgEl.appendChild(line);
+
+      // end dot
+      const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dot.setAttribute('cx', nx); dot.setAttribute('cy', ny);
+      dot.setAttribute('r','2'); dot.setAttribute('fill','rgba(181,98,62,0.28)');
+      svgEl.appendChild(dot);
+
+      // pill
+      const pill = document.createElement('div');
+      pill.className = 'ng-pill';
+      pill.dataset.gid = gid;
+      pill.style.left = nx + 'px';
+      pill.style.top  = ny + 'px';
+      pill.innerHTML = `<div class="ng-pill-inner"><span>${g.icon}</span><span>${g.label}</span></div>`;
+      pill.onclick = () => ngSelectGroup(gid, pill);
+      area.appendChild(pill);
+    });
+  }
+
+  function ngSelectGroup(gid, el) {
+    const area    = document.getElementById('ng-area');
+    const subList = document.getElementById('ng-sub-list');
+    const same    = ngActiveGroup === gid;
+
+    area.querySelectorAll('.ng-pill').forEach(p => p.classList.remove('active'));
+    subList.classList.remove('visible');
+
+    if (same) { ngActiveGroup = null; return; }
+    ngActiveGroup = gid;
+    el.classList.add('active');
+
+    const g  = NG_GROUPS[gid];
+    const { x: px, y: py } = ngMainPos[gid];
+    const areaW  = area.offsetWidth || 300;
+    const listW  = 180;
+    const left   = Math.max(4, Math.min(px - 10, areaW - listW - 8));
+
+    subList.style.left = left + 'px';
+    subList.style.top  = (py + 22) + 'px';
+    subList.innerHTML  = g.subs.map(s =>
+      `<div class="ng-sub-row" onclick="ngSelectSub(this,'${s.id}')"><span>${s.icon}</span><span>${s.label}</span></div>`
+    ).join('');
+    subList.classList.add('visible');
+  }
+
+  function ngSelectSub(el, id) {
+    document.getElementById('ng-sub-list').querySelectorAll('.ng-sub-row')
+      .forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    dockNav(id);
+  }
+
+  function ngHandlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = document.getElementById('ng-photo');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.getElementById('ng-initials').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  window.addEventListener('resize', () => {
+    if (typeof currentRole !== 'undefined') ngBuildGraph(currentRole);
+  });
+  // ── END NODE GRAPH NAV ────────────────────────────────────────────────────
 </script>
 </body>
 </html>
