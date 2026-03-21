@@ -313,7 +313,7 @@
     background: rgba(24,18,14,0.97);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-right: none;
-    border-bottom-right-radius: 20px;
+    border-bottom-right-radius: 20px; border-top-right-radius: 20px;
     pointer-events: all; flex: 1; overflow: visible;
     display: flex; flex-direction: column;
     padding: 1rem 0.75rem 0.75rem;
@@ -6457,7 +6457,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     const topbar = document.querySelector('.app-topbar');
     const spacer = document.getElementById('dock-spacer');
     if (topbar && spacer) spacer.style.height = topbar.offsetHeight + 'px';
-    if (typeof ngBuildGraph === 'function') ngBuildGraph(currentRole || 'mentee');
+    const _ngArea=document.getElementById('ng-area'),_w=_ngArea?_ngArea.offsetWidth:0;if(typeof ngBuildGraph==='function'&&_w!==(syncDockSpacer._lw||0)){syncDockSpacer._lw=_w;ngBuildGraph(currentRole||'mentee');}
   }
   document.getElementById('app').addEventListener('transitionend', syncDockSpacer);
   // Call after login
