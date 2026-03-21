@@ -2871,15 +2871,27 @@
                   </label>
                   <div class="ssi-check-children">
                     <ul class="ssi-checklist">
-                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-foto')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Foto e capa</span></label></li>
-                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-titulo')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Título (formato cargo / kw1 / kw2...)</span></label></li>
-                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-sobre')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Sobre (About em inglês com métricas e fuso horário)</span></label></li>
-                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-exp')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Experiências (contexto de empresas brasileiras + resultados)</span></label></li>
-                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-extras')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-foto')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Foto e capa</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-foto')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-foto"><textarea class="ssi-note-ta" id="ssi-note-s1-foto" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-foto')" onclick="event.stopPropagation()"></textarea></div></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-titulo')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Título (formato cargo / kw1 / kw2...)</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-titulo')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-titulo"><textarea class="ssi-note-ta" id="ssi-note-s1-titulo" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-titulo')" onclick="event.stopPropagation()"></textarea></div></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-sobre')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Sobre (About em inglês com métricas e fuso horário)</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-sobre')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-sobre"><textarea class="ssi-note-ta" id="ssi-note-s1-sobre" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-sobre')" onclick="event.stopPropagation()"></textarea></div></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-exp')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Experiências (contexto de empresas brasileiras + resultados)</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-exp')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-exp"><textarea class="ssi-note-ta" id="ssi-note-s1-exp" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-exp')" onclick="event.stopPropagation()"></textarea></div></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-extras')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-extras')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-extras"><textarea class="ssi-note-ta" id="ssi-note-s1-extras" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-extras')" onclick="event.stopPropagation()"></textarea></div></li>
                     </ul>
                   </div>
                 </li>
-                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-rec')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-rec')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-rec')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-rec"><textarea class="ssi-note-ta" id="ssi-note-s1-rec" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-rec')" onclick="event.stopPropagation()"></textarea></div></li>
                 <li>
                   <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-pub')\">
                     <span class="ssi-check-box"></span>
@@ -2888,8 +2900,12 @@
                       <div class="ssi-check-sub">Ideias técnicas: manual prático, tutorial, guia. Ideias gerais: aprendizado recente, publicação pós-evento, ferramenta interessante, técnica de autoavaliação.</div>
                     </span>
                   </label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-pub')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-pub"><textarea class="ssi-note-ta" id="ssi-note-s1-pub" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-pub')" onclick="event.stopPropagation()"></textarea></div>
                 </li>
-                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-share')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-share')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</span></label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-share')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-share"><textarea class="ssi-note-ta" id="ssi-note-s1-share" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-share')" onclick="event.stopPropagation()"></textarea></div></li>
               </ul>
             </div>
             <div class="guide-block">
@@ -2903,6 +2919,8 @@
                       <div class="ssi-check-sub">Use o ranking GPTW como ponto de partida: gptw.com.br/ranking/melhores-empresas-para-trabalhar</div>
                     </span>
                   </label>
+                  <button class="ssi-note-btn" onclick="ssiNoteToggle(event,'s1-map')">✏ anotações</button>
+                  <div class="ssi-note-wrap" id="ssi-note-wrap-s1-map"><textarea class="ssi-note-ta" id="ssi-note-s1-map" placeholder="Escreva suas anotações aqui..." oninput="ssiNoteSave(event,'s1-map')" onclick="event.stopPropagation()"></textarea></div>
                 </li>
               </ul>
             </div>
