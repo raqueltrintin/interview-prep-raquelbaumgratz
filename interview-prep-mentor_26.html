@@ -517,7 +517,7 @@
   }
 
   /* QUESTION CARDS */
-  .questions-grid { display: grid; gap: 0.85rem; }
+  .questions-grid { display: grid; gap: 1.2rem; }
 
   .q-card {
     background: var(--card);
@@ -2954,31 +2954,50 @@
             <div class="q-toggle">+</div>
           </div>
           <div class="q-body" onclick="event.stopPropagation()">
+            <div class="ssi-progress-label" id="s3-prog-label">0 de 6 tarefas concluídas</div>
+            <div class="ssi-progress-bar-wrap"><div class="ssi-progress-bar" id="s3-prog-bar" style="width:0%"></div></div>
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
-              <ul>
-                <li><strong>Se conectar com mais 50 pessoas-chave</strong> — agora com foco em pessoas dentro das empresas que você mapeou na Semana 1</li>
+              <ul class="ssi-checklist">
+                <li>
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-conexoes')\">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Se conectar com mais 50 pessoas-chave</strong>
+                      <div class="ssi-check-sub">Com foco em pessoas dentro das empresas que você mapeou na Semana 1</div>
+                    </span>
+                  </label>
+                </li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">🤝 Criar relacionamentos</div>
-              <ul>
-                <li><strong>Enviar mensagem para as novas conexões</strong> seguindo o mesmo template da Semana 2</li>
+              <ul class="ssi-checklist">
+                <li>
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-msg')\">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Enviar mensagem para as novas conexões</strong>
+                      <div class="ssi-check-sub">Seguindo o mesmo template da Semana 2</div>
+                    </span>
+                  </label>
+                </li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">💡 Interagir oferecendo insights</div>
-              <ul>
-                <li><strong>Curtir, comentar e compartilhar 5 posts</strong> das novas conexões desta semana</li>
-                <li><strong>Publicar 1 novo conteúdo</strong></li>
+              <ul class="ssi-checklist">
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-curtir')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Curtir 5 posts das novas conexões desta semana</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-comentar')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Comentar 5 posts das novas conexões desta semana</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-share')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Compartilhar 5 posts das novas conexões desta semana</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s3-publicar')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Publicar 1 novo conteúdo</span></label></li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">Após a Semana 3</div>
-              <p>Acesse <strong>linkedin.com/sales/ssi</strong> e registre o score final na tabela acima. Compare com o score inicial e identifique qual pilar ainda precisa de mais atenção.</p>
+              <p style="font-size:0.88rem;color:var(--muted);">Acesse <strong>linkedin.com/sales/ssi</strong> e registre o score final na tabela acima. Compare com o score inicial e identifique qual pilar ainda precisa de mais atenção.</p>
             </div>
           </div>
-        </div>
 
       </div>
 
@@ -6912,6 +6931,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     const s2lbl   = document.getElementById('s2-prog-label');
     if (s2bar) s2bar.style.width = (s2items.length ? Math.round(s2done/s2items.length*100) : 0) + '%';
     if (s2lbl) s2lbl.textContent = s2done + ' de ' + s2items.length + ' tarefas concluídas';
+    // S3
+    const s3items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s3-"]');
+    const s3done  = [...s3items].filter(i => i.classList.contains('checked')).length;
+    const s3bar   = document.getElementById('s3-prog-bar');
+    const s3lbl   = document.getElementById('s3-prog-label');
+    if (s3bar) s3bar.style.width = (s3items.length ? Math.round(s3done/s3items.length*100) : 0) + '%';
+    if (s3lbl) s3lbl.textContent = s3done + ' de ' + s3items.length + ' tarefas concluídas';
   }
 
   // Restore on section load
