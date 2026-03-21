@@ -2901,29 +2901,48 @@
             <div class="q-toggle">+</div>
           </div>
           <div class="q-body" onclick="event.stopPropagation()">
+            <div class="ssi-progress-label" id="s2-prog-label">0 de 8 tarefas concluídas</div>
+            <div class="ssi-progress-bar-wrap"><div class="ssi-progress-bar" id="s2-prog-bar" style="width:0%"></div></div>
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
-              <ul>
-                <li><strong>Se conectar com pelo menos 50 pessoas-chave</strong>: profissionais da sua área + recrutadores das empresas-alvo</li>
+              <ul class="ssi-checklist">
+                <li>
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-conexoes')\">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Se conectar com pelo menos 50 pessoas-chave</strong>
+                      <div class="ssi-check-sub">Profissionais da sua área + recrutadores das empresas-alvo</div>
+                    </span>
+                  </label>
+                </li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">🤝 Criar relacionamentos</div>
-              <ul>
-                <li><strong>Enviar mensagem para as novas conexões</strong> usando o template sugerido (mensagem curta, sem pedir emprego, demonstrando interesse genuíno no trabalho da pessoa)</li>
+              <ul class="ssi-checklist">
+                <li>
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-msg')\">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Enviar mensagem para as novas conexões</strong>
+                      <div class="ssi-check-sub">Mensagem curta, sem pedir emprego, demonstrando interesse genuíno no trabalho da pessoa</div>
+                    </span>
+                  </label>
+                </li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">💡 Interagir oferecendo insights</div>
-              <ul>
-                <li><strong>Participar de grupos relevantes</strong> da sua área e interagir com conteúdo dentro deles</li>
-                <li><strong>Curtir, comentar e compartilhar 10 posts</strong> das suas novas conexões — comentários com conteúdo real têm mais peso que curtidas</li>
-                <li><strong>Se inscrever e participar de 1 evento ou webinar</strong> da sua área e compartilhar no LinkedIn depois</li>
-                <li><strong>Publicar 1 novo conteúdo</strong></li>
+              <ul class="ssi-checklist">
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-grupos')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Participar de grupos relevantes da sua área e interagir com conteúdo dentro deles</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-curtir')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Curtir 10 posts das suas novas conexões</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-comentar')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Comentar 10 posts das suas novas conexões</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-share')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Compartilhar 10 posts das suas novas conexões</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-evento')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Se inscrever e participar de 1 evento ou webinar da sua área e compartilhar no LinkedIn depois</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s2-publicar')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Publicar 1 novo conteúdo</span></label></li>
               </ul>
             </div>
           </div>
-        </div>
 
         <div class="q-card">
           <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
@@ -6879,14 +6898,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function ssiUpdateProgress() {
-    const items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s1-"]');
-    const total = items.length;
-    const done  = [...items].filter(i => i.classList.contains('checked')).length;
-    const pct   = total ? Math.round(done / total * 100) : 0;
-    const bar   = document.getElementById('s1-prog-bar');
-    const lbl   = document.getElementById('s1-prog-label');
-    if (bar) bar.style.width = pct + '%';
-    if (lbl) lbl.textContent = done + ' de ' + total + ' tarefas concluídas';
+    // S1
+    const s1items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s1-"]');
+    const s1done  = [...s1items].filter(i => i.classList.contains('checked')).length;
+    const s1bar   = document.getElementById('s1-prog-bar');
+    const s1lbl   = document.getElementById('s1-prog-label');
+    if (s1bar) s1bar.style.width = (s1items.length ? Math.round(s1done/s1items.length*100) : 0) + '%';
+    if (s1lbl) s1lbl.textContent = s1done + ' de ' + s1items.length + ' tarefas concluídas';
+    // S2
+    const s2items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s2-"]');
+    const s2done  = [...s2items].filter(i => i.classList.contains('checked')).length;
+    const s2bar   = document.getElementById('s2-prog-bar');
+    const s2lbl   = document.getElementById('s2-prog-label');
+    if (s2bar) s2bar.style.width = (s2items.length ? Math.round(s2done/s2items.length*100) : 0) + '%';
+    if (s2lbl) s2lbl.textContent = s2done + ' de ' + s2items.length + ' tarefas concluídas';
   }
 
   // Restore on section load
