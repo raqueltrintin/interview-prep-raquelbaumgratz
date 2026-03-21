@@ -2844,23 +2844,23 @@
               <div class="guide-label">🏷️ Estabelecer sua marca profissional</div>
               <ul class="ssi-checklist">
                 <li>
-                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-perfil')">
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-perfil')\">
                     <span class="ssi-check-box"></span>
                     <span class="ssi-check-label"><strong>Fazer ajustes no perfil do LinkedIn</strong></span>
                   </label>
                   <div class="ssi-check-children">
                     <ul class="ssi-checklist">
-                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-foto')"><span class="ssi-check-box"></span><span class="ssi-check-label">Foto e capa</span></label></li>
-                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-titulo')"><span class="ssi-check-box"></span><span class="ssi-check-label">Título (formato cargo / kw1 / kw2...)</span></label></li>
-                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-sobre')"><span class="ssi-check-box"></span><span class="ssi-check-label">Sobre (About em inglês com métricas e fuso horário)</span></label></li>
-                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-exp')"><span class="ssi-check-box"></span><span class="ssi-check-label">Experiências (contexto de empresas brasileiras + resultados)</span></label></li>
-                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-extras')"><span class="ssi-check-box"></span><span class="ssi-check-label">Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-foto')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Foto e capa</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-titulo')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Título (formato cargo / kw1 / kw2...)</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-sobre')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Sobre (About em inglês com métricas e fuso horário)</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-exp')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Experiências (contexto de empresas brasileiras + resultados)</span></label></li>
+                      <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-extras')\"><span class="ssi-check-box"></span><span class="ssi-check-label">Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</span></label></li>
                     </ul>
                   </div>
                 </li>
-                <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-rec')"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-rec')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</span></label></li>
                 <li>
-                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-pub')">
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-pub')\">
                     <span class="ssi-check-box"></span>
                     <span class="ssi-check-label">
                       <strong>Publicar 1 conteúdo e adicionar nos destaques</strong>
@@ -2868,14 +2868,14 @@
                     </span>
                   </label>
                 </li>
-                <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-share')"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</span></label></li>
+                <li><label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-share')\"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</span></label></li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
               <ul class="ssi-checklist">
                 <li>
-                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-map')">
+                  <label class="ssi-check-item" onclick=\"ssiToggle(event,this,'s1-map')\">
                     <span class="ssi-check-box"></span>
                     <span class="ssi-check-label">
                       <strong>Mapear pelo menos 15 empresas target</strong>
@@ -6858,7 +6858,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   });
   // ── END NODE GRAPH NAV ────────────────────────────────────────────────────
 
-  function ssiToggle(el, key) {
+  function ssiToggle(e, el, key) {
+    e.stopPropagation();
     el.classList.toggle('checked');
     localStorage.setItem('ssi_' + key, el.classList.contains('checked') ? '1' : '0');
     ssiUpdateProgress();
