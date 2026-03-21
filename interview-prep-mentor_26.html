@@ -1308,8 +1308,8 @@
       </div>
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Tell me about yourself.</strong>
@@ -1317,7 +1317,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1346,8 +1346,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>How would you describe yourself as a professional?</strong>
@@ -1355,7 +1355,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1378,8 +1378,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Where do you see yourself in 3 to 5 years?</strong>
@@ -1387,7 +1387,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1435,8 +1435,8 @@
       </div>
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Tell me about a time you had to deal with a difficult stakeholder or colleague.</strong>
@@ -1444,7 +1444,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1473,8 +1473,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Tell me about a project that didn't go as planned. What happened and what did you learn?</strong>
@@ -1482,7 +1482,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1505,8 +1505,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Describe a situation where you had to deliver results under tight deadlines or with limited resources.</strong>
@@ -1514,7 +1514,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1536,8 +1536,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Tell me about a time you influenced a decision without having formal authority.</strong>
@@ -1545,7 +1545,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1568,8 +1568,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>Give me an example of when you had to adapt your communication style to a specific audience.</strong>
@@ -1577,7 +1577,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1620,8 +1620,8 @@
       </div>
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Imagine you join the team and after 30 days you notice a major process problem. What do you do?</strong>
@@ -1629,7 +1629,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1656,8 +1656,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>You're working on a project and realize you won't meet the deadline. What do you do?</strong>
@@ -1665,7 +1665,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1687,8 +1687,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>You disagree with a decision made by your manager. How do you handle it?</strong>
@@ -1696,7 +1696,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1719,8 +1719,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>How would you onboard yourself into a new team working fully remotely?</strong>
@@ -1728,7 +1728,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1770,8 +1770,8 @@
       </div>
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Why do you want to work here specifically?</strong>
@@ -1779,7 +1779,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1806,8 +1806,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Why are you leaving your current or last position?</strong>
@@ -1815,7 +1815,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1838,8 +1838,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>What do you know about our company and what excites you most?</strong>
@@ -1847,7 +1847,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1866,8 +1866,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>What are your strengths and weaknesses?</strong>
@@ -1875,7 +1875,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estrutura da resposta</div>
               <ul>
@@ -1918,8 +1918,8 @@
       </div>
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Do you have any questions for us?</strong>
@@ -1927,7 +1927,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Perguntas estratégicas para preparar</div>
               <ul>
@@ -1956,8 +1956,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Is there anything about my background that gives you pause?</strong>
@@ -1965,7 +1965,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Como usar essa pergunta</div>
               <ul>
@@ -2010,8 +2010,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>What are your salary expectations?</strong>
@@ -2019,7 +2019,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estratégia: adiar e inverter</div>
               <p>O objetivo é não ser o primeiro a dar um número. Tente inverter a pergunta para entender o que a empresa tem em mente antes de revelar qualquer expectativa.</p>
@@ -2053,8 +2053,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>What's your current salary?</strong>
@@ -2062,7 +2062,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Estratégia: redirecionar sem mentir</div>
               <p>Em muitos estados americanos e países europeus, é ilegal perguntar o salário atual. Mesmo onde é legal, você não é obrigada a responder. O objetivo é redirecionar para o futuro, não o passado.</p>
@@ -2078,8 +2078,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Você recebeu uma oferta — como negociar para mais</strong>
@@ -2087,7 +2087,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Premissa: ofertas iniciais raramente são finais</div>
               <p>Empresas esperam negociação. Quem não negocia deixa dinheiro na mesa — e sinaliza que pode aceitar condições abaixo do ideal em outros contextos também. Negociar não arrisca a oferta.</p>
@@ -2124,8 +2124,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Você tem outra oferta — como usar como alavanca</strong>
@@ -2133,7 +2133,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Quando e como usar</div>
               <p>Uma oferta concorrente é o maior poder de negociação que existe. Use com transparência — não como ameaça, mas como contexto.</p>
@@ -2211,8 +2211,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Qualificar demais as próprias respostas</strong>
@@ -2220,7 +2220,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que acontece</div>
               <p>"I believe I have some experience...", "I'm not sure if this is the best example but...", "Maybe this is relevant..." Minimizar realizações é um hábito cultural brasileiro. Em contextos americanos, esse padrão é lido como insegurança ou falta de preparo.</p>
@@ -2236,8 +2236,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Usar "we" quando a pergunta pede "I"</strong>
@@ -2245,7 +2245,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que acontece</div>
               <p>"We developed the solution", "We made the decision", "Our team achieved..." O "nós" é natural no contexto brasileiro, mas em entrevistas o entrevistador quer saber o que você especificamente fez. Usar "we" em excesso apaga a contribuição individual.</p>
@@ -2261,8 +2261,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Descrever o processo sem fechar com resultado</strong>
@@ -2270,7 +2270,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que acontece</div>
               <p>"I did research, then built a prototype, tested it..." e a resposta para aí. Descrever o processo com detalhes sem fechar com impacto deixa o entrevistador sem saber se o projeto funcionou.</p>
@@ -2320,8 +2320,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Pesquisa de palavras-chave — o primeiro passo</strong>
@@ -2329,7 +2329,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Por que fazer isso antes de otimizar qualquer campo</div>
               <p>As palavras-chave certas são a diferença entre aparecer ou não nos resultados de busca de um recrutador. Antes de tocar no perfil, faça esse mapeamento.</p>
@@ -2350,8 +2350,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Título — o campo que o algoritmo mais pesa</strong>
@@ -2359,7 +2359,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Formato</div>
               <p>Use o cargo seguido das palavras-chave mais relevantes que apareceram na sua pesquisa de vagas.</p>
@@ -2386,8 +2386,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>About — resumo profissional</strong>
@@ -2395,7 +2395,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que incluir (nesta ordem)</div>
               <ul>
@@ -2423,14 +2423,14 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Experiências — nicho e resultado</strong>
               <span class="q-meta">Alta prioridade</span>
             </div>
-            <div class="q-body">
+            <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que incluir</div>
               <ul>
@@ -2453,8 +2453,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>Competências — o filtro invisível</strong>
@@ -2462,7 +2462,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Como montar a lista</div>
               <ul>
@@ -2478,8 +2478,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">6</div>
             <div class="q-text">
               <strong>Foto e capa</strong>
@@ -2487,7 +2487,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Foto</div>
               <p>Não tem impacto direto no algoritmo, mas é a primeira impressão visual. Uma foto ruim reduz o clique no perfil, mesmo que ele apareça bem nos resultados.</p>
@@ -2506,8 +2506,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">7</div>
             <div class="q-text">
               <strong>Recomendações e Idiomas</strong>
@@ -2515,7 +2515,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Recomendações</div>
               <ul>
@@ -2535,8 +2535,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">8</div>
             <div class="q-text">
               <strong>Versão do perfil em inglês e URL</strong>
@@ -2544,7 +2544,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Versão em inglês</div>
               <ul>
@@ -2560,8 +2560,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">9</div>
             <div class="q-text">
               <strong>Open to Work — como usar certo</strong>
@@ -2569,7 +2569,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Selo público vs. funcionalidade privada</div>
               <ul>
@@ -2585,8 +2585,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">10</div>
             <div class="q-text">
               <strong>SSI — o algoritmo do LinkedIn</strong>
@@ -2594,7 +2594,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que é o SSI</div>
               <p>O Social Selling Index (SSI) é a nota que o LinkedIn dá ao seu perfil — de 0 a 100 — e determina o quanto a plataforma vai distribuir o seu perfil e o seu conteúdo. A nota ideal é acima de 60. Cada pilar pode chegar a 25 pontos.</p>
@@ -2615,8 +2615,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">11</div>
             <div class="q-text">
               <strong>Métricas para acompanhar semanalmente</strong>
@@ -2624,7 +2624,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que olhar toda semana</div>
               <ul>
@@ -2637,8 +2637,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">12</div>
             <div class="q-text">
               <strong>LinkedIn Premium — vale a pena?</strong>
@@ -2646,7 +2646,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que o Premium oferece de útil</div>
               <ul>
@@ -2667,8 +2667,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">13</div>
             <div class="q-text">
               <strong>Em transição de carreira</strong>
@@ -2676,7 +2676,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Como adaptar o perfil</div>
               <ul>
@@ -2828,8 +2828,8 @@
 
       <div class="questions-grid" style="margin-top:1.5rem;">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">S1</div>
             <div class="q-text">
               <strong>Semana 1 — Construir a base</strong>
@@ -2837,7 +2837,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="ssi-progress-label" id="s1-prog-label">0 de 10 tarefas concluídas</div>
             <div class="ssi-progress-bar-wrap"><div class="ssi-progress-bar" id="s1-prog-bar" style="width:0%"></div></div>
             <div class="guide-block">
@@ -2891,8 +2891,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">S2</div>
             <div class="q-text">
               <strong>Semana 2 — Expandir conexões e interações</strong>
@@ -2900,7 +2900,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
               <ul>
@@ -2925,8 +2925,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">S3</div>
             <div class="q-text">
               <strong>Semana 3 — Consolidar e manter o ritmo</strong>
@@ -2934,7 +2934,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
               <ul>
@@ -2986,8 +2986,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Cabeçalho — o que incluir e o que omitir</strong>
@@ -2995,7 +2995,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que incluir</div>
               <ul>
@@ -3020,8 +3020,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Summary — o parágrafo de posicionamento</strong>
@@ -3029,7 +3029,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que é e por que importa</div>
               <p>3 a 4 linhas no topo do CV que posicionam quem você é, o que você entrega e para que tipo de empresa. É a primeira coisa que o recrutador lê e determina se vai continuar.</p>
@@ -3050,8 +3050,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Experiências — como descrever com impacto</strong>
@@ -3059,7 +3059,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Formato de cada experiência</div>
               <ul>
@@ -3085,8 +3085,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Skills, Educação e demais seções</strong>
@@ -3094,7 +3094,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Skills</div>
               <ul>
@@ -3122,8 +3122,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>ATS — como garantir que o CV seja lido</strong>
@@ -3131,7 +3131,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que é ATS</div>
               <p>Applicant Tracking System — sistema que filtra CVs antes de um recrutador humano vê-los. A maioria das empresas internacionais usa. Se o CV não passar pelo ATS, ninguém vai lê-lo.</p>
@@ -3310,8 +3310,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Antes de escrever — pesquisa obrigatória</strong>
@@ -3319,7 +3319,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que pesquisar antes de começar</div>
               <ul>
@@ -3332,8 +3332,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Parágrafo 1 — O problema deles (gancho)</strong>
@@ -3341,7 +3341,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3357,8 +3357,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Parágrafo 2 — Você como solução (evidência)</strong>
@@ -3366,7 +3366,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3383,8 +3383,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Parágrafo 3 — Call to action (fechamento)</strong>
@@ -3392,7 +3392,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3408,8 +3408,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>Regras de formato e o que nunca fazer</strong>
@@ -3417,7 +3417,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Formato</div>
               <ul>
@@ -3685,8 +3685,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">00–05</div>
             <div class="q-text">
               <strong>Abertura e alinhamento</strong>
@@ -3694,7 +3694,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3706,8 +3706,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">05–20</div>
             <div class="q-text">
               <strong>Posicionamento e Tell me about yourself</strong>
@@ -3715,7 +3715,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3731,8 +3731,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">20–45</div>
             <div class="q-text">
               <strong>Behavioral ou Situacional (2 perguntas)</strong>
@@ -3740,7 +3740,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3756,8 +3756,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">45–55</div>
             <div class="q-text">
               <strong>Motivação e perguntas do candidato</strong>
@@ -3765,7 +3765,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3777,8 +3777,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">55–60</div>
             <div class="q-text">
               <strong>Fechamento da sessão</strong>
@@ -3786,7 +3786,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3807,8 +3807,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Quando a resposta está vaga ou genérica</strong>
@@ -3816,7 +3816,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Perguntas para usar</div>
               <ul>
@@ -3829,8 +3829,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Quando o resultado está ausente</strong>
@@ -3838,7 +3838,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Perguntas para usar</div>
               <ul>
@@ -3851,8 +3851,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Quando a motivação não passa no Specificity Test</strong>
@@ -3860,7 +3860,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Perguntas para usar</div>
               <ul>
@@ -3872,8 +3872,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Quando o aprendizado é superficial</strong>
@@ -3881,7 +3881,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Perguntas para usar</div>
               <ul>
@@ -3902,8 +3902,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>A sequência que funciona</strong>
@@ -3911,7 +3911,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Modelo</div>
               <ul>
@@ -3931,8 +3931,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Quando o mentorado trava ou fica frustrado</strong>
@@ -3940,7 +3940,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -3952,8 +3952,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Quando o mesmo erro se repete</strong>
@@ -3961,7 +3961,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">O que fazer</div>
               <ul>
@@ -4059,8 +4059,8 @@
         </div>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Tell me about yourself.</strong>
@@ -4068,7 +4068,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4096,8 +4096,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>How would you describe yourself as a professional?</strong>
@@ -4105,7 +4105,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4127,8 +4127,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Where do you see yourself in 3 to 5 years?</strong>
@@ -4136,7 +4136,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4182,8 +4182,8 @@
         </div>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Tell me about a time you had to deal with a difficult stakeholder or colleague.</strong>
@@ -4191,7 +4191,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4219,8 +4219,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Tell me about a project that didn't go as planned. What happened and what did you learn?</strong>
@@ -4228,7 +4228,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4250,8 +4250,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Describe a situation where you had to deliver results under tight deadlines or with limited resources.</strong>
@@ -4259,7 +4259,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4280,8 +4280,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Tell me about a time you influenced a decision without having formal authority.</strong>
@@ -4289,7 +4289,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4311,8 +4311,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>Give me an example of when you had to adapt your communication style to a specific audience.</strong>
@@ -4320,7 +4320,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4361,8 +4361,8 @@
         </div>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Imagine you join the team and after 30 days you notice a major process problem. What do you do?</strong>
@@ -4370,7 +4370,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4396,8 +4396,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>You're working on a project and realize you won't meet the deadline. What do you do?</strong>
@@ -4405,7 +4405,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4426,8 +4426,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Two stakeholders give you conflicting directions on the same project. What do you do?</strong>
@@ -4435,7 +4435,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4456,8 +4456,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>How would you approach your first 90 days in this role?</strong>
@@ -4465,7 +4465,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4505,8 +4505,8 @@
         </div>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Why do you want to work here specifically?</strong>
@@ -4514,7 +4514,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4540,8 +4540,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Why are you leaving your current or last position?</strong>
@@ -4549,7 +4549,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4571,8 +4571,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>What do you know about our company and what excites you most?</strong>
@@ -4580,7 +4580,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4598,8 +4598,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>What are your strengths and weaknesses?</strong>
@@ -4607,7 +4607,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Answer structure</div>
               <ul>
@@ -4648,8 +4648,8 @@
         </div>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Do you have any questions for us?</strong>
@@ -4657,7 +4657,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Strategic questions to prepare</div>
               <ul>
@@ -4685,8 +4685,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Is there anything about my background that gives you pause?</strong>
@@ -4694,7 +4694,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">How to use this question</div>
               <ul>
@@ -4738,8 +4738,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>What are your salary expectations?</strong>
@@ -4747,7 +4747,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Strategy: delay and reverse</div>
               <p>The goal is to not be the first to give a number. Try reversing the question to understand what the company has in mind before revealing any expectation.</p>
@@ -4781,8 +4781,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>What's your current salary?</strong>
@@ -4790,7 +4790,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Strategy: redirect without lying</div>
               <p>In many U.S. states and European countries, asking for your current salary is illegal. Even where it's legal, you're not required to answer. The goal is to redirect to the future, not the past.</p>
@@ -4806,8 +4806,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>You received an offer — how to negotiate for more</strong>
@@ -4815,7 +4815,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Premise: initial offers are rarely final</div>
               <p>Companies expect negotiation. Those who don't negotiate leave money on the table — and signal they may accept below-ideal conditions in other contexts too. Negotiating does not put the offer at risk.</p>
@@ -4843,8 +4843,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>You have another offer — how to use it as leverage</strong>
@@ -4852,7 +4852,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">When and how to use it</div>
               <p>A competing offer is the most powerful negotiating tool available. Use it transparently — not as a threat, but as context.</p>
@@ -4925,8 +4925,8 @@
         <p>Cultural habits that tend to appear in international interviews. Recognizing them is the first step to correcting them.</p>
       </div>
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>Over-qualifying your own answers</strong>
@@ -4934,7 +4934,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What happens</div>
               <p>"I believe I have some experience...", "I'm not sure if this is the best example but...", "Maybe this is relevant..." Downplaying achievements is a Brazilian cultural habit. In American contexts, this pattern reads as insecurity or lack of preparation.</p>
@@ -4949,8 +4949,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Using "we" when the question asks for "I"</strong>
@@ -4958,7 +4958,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What happens</div>
               <p>"We developed the solution", "We made the decision", "Our team achieved..." The collective "we" is natural in Brazilian context, but in interviews the interviewer wants to know what you specifically did. Overusing "we" erases the individual contribution.</p>
@@ -4973,8 +4973,8 @@
             </div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>Describing the process without closing with a result</strong>
@@ -4982,7 +4982,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What happens</div>
               <p>"I did research, then built a prototype, tested it..." and the answer stops there. Describing the process in detail without closing with impact leaves the interviewer not knowing whether the project worked.</p>
@@ -5030,8 +5030,8 @@
 
       <div class="questions-grid">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>How international recruiters search for candidates</strong>
@@ -5039,7 +5039,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">How LinkedIn Recruiter works</div>
               <p>Recruiters don't browse profiles randomly. They use LinkedIn Recruiter with combined filters: job title, profile keywords, location, listed skills, and openness to opportunities. The algorithm returns the most relevant profiles for that filter combination — and you need to appear in that list.</p>
@@ -5056,8 +5056,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>Title and Headline — what shows up first</strong>
@@ -5065,7 +5065,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Current job title</div>
               <p>Use international market terminology, not a literal translation of your Brazilian job title. The title on your experience needs to be instantly recognizable to an American or European recruiter.</p>
@@ -5087,8 +5087,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>About — the most underestimated field</strong>
@@ -5096,7 +5096,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What needs to be in the About</div>
               <ul>
@@ -5114,8 +5114,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>Skills — the invisible filter</strong>
@@ -5123,7 +5123,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">How to think about Skills</div>
               <p>Recruiters filter by specific skills in LinkedIn Recruiter. List the competencies that recruiters in your field actually search for — not the ones you think sound good. Research job descriptions for roles you want and identify the terms that repeat.</p>
@@ -5137,8 +5137,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">5</div>
             <div class="q-text">
               <strong>Experiences — contextualizing for those who don't know</strong>
@@ -5146,7 +5146,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">The Brazilian company problem</div>
               <p>A recruiter in San Francisco doesn't know Banco do Brasil, Contabilizei, or Amavi. Without context, the company name communicates nothing. One line of context fixes that.</p>
@@ -5163,8 +5163,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">6</div>
             <div class="q-text">
               <strong>Recommendations, Certifications and Activity</strong>
@@ -5172,7 +5172,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Recommendations</div>
               <ul>
@@ -5337,8 +5337,8 @@
 
       <div class="questions-grid" style="margin-top:1.5rem;">
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">W1</div>
             <div class="q-text">
               <strong>Week 1 — Build the foundation</strong>
@@ -5346,7 +5346,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">🏷️ Establish your professional brand</div>
               <ul>
@@ -5380,8 +5380,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">W2</div>
             <div class="q-text">
               <strong>Week 2 — Expand connections and engagement</strong>
@@ -5389,7 +5389,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">🔍 Find the right people</div>
               <ul>
@@ -5414,8 +5414,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="background:var(--accent);color:#fff;font-size:0.72rem;width:auto;padding:0 0.6rem;">W3</div>
             <div class="q-text">
               <strong>Week 3 — Consolidate and maintain momentum</strong>
@@ -5423,7 +5423,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">🔍 Find the right people</div>
               <ul>
@@ -5474,30 +5474,30 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">1</div><div class="q-text"><strong>Header — what to include and what to leave out</strong><span class="q-meta">Required section</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">1</div><div class="q-text"><strong>Header — what to include and what to leave out</strong><span class="q-meta">Required section</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">Include</div><ul><li>Full name prominently</li><li>Professional title in English</li><li>Professional email</li><li>LinkedIn custom URL</li><li>City and country (e.g. São Paulo, Brazil)</li><li>Portfolio or GitHub, if applicable</li></ul></div>
             <div class="guide-block"><div class="guide-label">Omit</div><ul><li>Photo — not used in American or British CVs</li><li>Date of birth and age</li><li>Marital status and children</li><li>ID numbers</li><li>Full street address — city and country are enough</li></ul></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">2</div><div class="q-text"><strong>Summary — your positioning paragraph</strong><span class="q-meta">High priority</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">2</div><div class="q-text"><strong>Summary — your positioning paragraph</strong><span class="q-meta">High priority</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">Structure</div><ul><li>Line 1: title + years of experience + specialty</li><li>Line 2: sectors or contexts you've worked in</li><li>Line 3: most relevant result or differentiator</li><li>Line 4: remote availability (optional)</li></ul></div>
             <div class="example-block"><div class="ex-label">Example</div><p>"Senior Product Designer with 7 years of experience in fintech and enterprise B2B. Specialized in end-to-end UX — from discovery to delivery — with a track record of reducing friction at scale. Available for remote opportunities."</p></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">3</div><div class="q-text"><strong>Experience — how to write with impact</strong><span class="q-meta">Most important section</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">3</div><div class="q-text"><strong>Experience — how to write with impact</strong><span class="q-meta">Most important section</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">Formula for each bullet</div><p>Use: <strong>Action verb + what you did + measurable result</strong></p><ul><li>"Led the end-to-end redesign of the onboarding flow, reducing support tickets by 30% in Q1"</li><li>"Designed and shipped a new checkout experience that increased conversion by 18%"</li></ul></div>
             <div class="guide-block"><div class="guide-label">Recommended action verbs</div><p>Led · Designed · Built · Launched · Reduced · Increased · Improved · Delivered · Managed · Drove · Implemented · Collaborated · Shipped · Owned · Defined</p></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">4</div><div class="q-text"><strong>ATS — how to make sure your CV gets read</strong><span class="q-meta">Technical</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">4</div><div class="q-text"><strong>ATS — how to make sure your CV gets read</strong><span class="q-meta">Technical</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">How to optimize for ATS</div><ul><li>Use simple fonts: Calibri, Arial, Georgia, Garamond</li><li>Avoid tables, columns, text boxes, and headers/footers</li><li>Save and send as PDF unless the job posting asks for .docx</li><li>Use exact terms from the job description</li><li>Use standard section names: Experience, Education, Skills</li></ul></div>
           </div>
         </div>
@@ -5653,36 +5653,36 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">1</div><div class="q-text"><strong>Before writing — required research</strong><span class="q-meta">Foundation</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">1</div><div class="q-text"><strong>Before writing — required research</strong><span class="q-meta">Foundation</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">What to research before you start</div><ul><li><strong>The company's current challenge</strong> — underperforming product, market expansion, rebranding, rapid growth. Look at the company blog, founders' LinkedIn, recent news</li><li><strong>The hiring manager's name</strong> — use LinkedIn. If you can't find it, use "Dear Hiring Manager"</li><li><strong>A recent company achievement</strong> — launch, award, partnership — to show you genuinely researched</li><li><strong>Keywords from the job description</strong> — use the same terms in your cover letter</li></ul></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">2</div><div class="q-text"><strong>Paragraph 1 — Their problem (the hook)</strong><span class="q-meta">4 to 5 lines</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">2</div><div class="q-text"><strong>Paragraph 1 — Their problem (the hook)</strong><span class="q-meta">4 to 5 lines</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">What to do</div><ul><li>Open with the company's specific problem or challenge — not with "I am writing to apply for..."</li><li>Show you understand their business, not just the role</li><li>Connect the problem to the position you'll fill</li></ul></div>
             <div class="example-block"><div class="ex-label">Example opening</div><p>"Scaling a product to new markets while maintaining UX consistency is one of the hardest challenges a design team faces — and it's exactly the challenge [Company] is navigating right now as you expand into [market]. That's the kind of problem I've spent the last seven years solving."</p></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">3</div><div class="q-text"><strong>Paragraph 2 — You as the solution (evidence)</strong><span class="q-meta">8 to 10 lines</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">3</div><div class="q-text"><strong>Paragraph 2 — You as the solution (evidence)</strong><span class="q-meta">8 to 10 lines</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">What to do</div><ul><li>Present 1 or 2 concrete cases with metrics showing you've solved this type of problem before</li><li>Connect your experience explicitly to the challenge in paragraph 1</li><li>Don't repeat your CV — add narrative context the CV doesn't have space for</li></ul></div>
             <div class="example-block"><div class="ex-label">Example</div><p>"At [Company], I led the redesign of an onboarding flow used across three different user segments. We reduced drop-off by 40% in the first quarter post-launch, and the process I developed became the template for two subsequent product lines."</p></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">4</div><div class="q-text"><strong>Paragraph 3 — Call to action (closing)</strong><span class="q-meta">3 to 4 lines</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">4</div><div class="q-text"><strong>Paragraph 3 — Call to action (closing)</strong><span class="q-meta">3 to 4 lines</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">What to do</div><ul><li>Reaffirm interest with something specific about the company</li><li>Propose the next step directly — a conversation, a call</li><li>Avoid passive phrases like "I hope to hear from you"</li></ul></div>
             <div class="example-block"><div class="ex-label">Example closing</div><p>"The way [Company] approaches [something specific you researched] is exactly the kind of design culture I want to grow in. I'd love to explore how my experience could support your team — happy to schedule a call at your convenience."</p></div>
           </div>
         </div>
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header"><div class="q-number">5</div><div class="q-text"><strong>Format rules and what never to do</strong><span class="q-meta">Checklist</span></div><div class="q-toggle">+</div></div>
-          <div class="q-body">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;"><div class="q-number">5</div><div class="q-text"><strong>Format rules and what never to do</strong><span class="q-meta">Checklist</span></div><div class="q-toggle">+</div></div>
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block"><div class="guide-label">Format</div><ul><li>Maximum 400 words — 70% of hiring managers prefer half a page or less</li><li>10–12pt font, clean typeface (same as CV)</li><li>Send as PDF</li><li>Filename: FirstLast-CoverLetter-CompanyName.pdf</li></ul></div>
             <div class="guide-block"><div class="guide-label">Never do</div><ul><li>Don't open with "I am writing to apply for..." — wastes the first line</li><li>Don't repeat your CV in prose — add context, not summary</li><li>Don't use "To Whom It May Concern" — research the name</li><li>Don't send the same letter to every role — 72% of hiring managers spot generic letters immediately</li><li>Don't focus on what the role offers you — focus on what you offer them</li></ul></div>
           </div>
@@ -5854,8 +5854,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">00–05</div>
             <div class="q-text">
               <strong>Opening and alignment</strong>
@@ -5863,7 +5863,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -5875,8 +5875,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">05–20</div>
             <div class="q-text">
               <strong>Positioning and Tell me about yourself</strong>
@@ -5884,7 +5884,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -5900,8 +5900,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">20–45</div>
             <div class="q-text">
               <strong>Behavioral or Situational (2 questions)</strong>
@@ -5909,7 +5909,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -5925,8 +5925,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">45–55</div>
             <div class="q-text">
               <strong>Motivation and candidate questions</strong>
@@ -5934,7 +5934,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -5946,14 +5946,14 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number" style="font-size:0.75rem; width:auto; padding: 0 0.5rem;">55–60</div>
             <div class="q-text">
               <strong>Closing the session</strong>
               <span class="q-meta">5 min</span>
             </div>
-            <div class="q-body">
+            <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -5975,8 +5975,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>When the answer is vague or generic</strong>
@@ -5984,7 +5984,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Questions to use</div>
               <ul>
@@ -5997,8 +5997,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>When the result is missing</strong>
@@ -6006,7 +6006,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Questions to use</div>
               <ul>
@@ -6019,8 +6019,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>When motivation doesn't pass the Specificity Test</strong>
@@ -6028,7 +6028,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Questions to use</div>
               <ul>
@@ -6040,8 +6040,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">4</div>
             <div class="q-text">
               <strong>When the learning is superficial</strong>
@@ -6049,7 +6049,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Questions to use</div>
               <ul>
@@ -6070,8 +6070,8 @@
       </div>
 
       <div class="questions-grid">
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">1</div>
             <div class="q-text">
               <strong>The sequence that works</strong>
@@ -6079,7 +6079,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">Model</div>
               <ul>
@@ -6099,8 +6099,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">2</div>
             <div class="q-text">
               <strong>When the mentee freezes or gets frustrated</strong>
@@ -6108,7 +6108,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
@@ -6120,8 +6120,8 @@
           </div>
         </div>
 
-        <div class="q-card" onclick="toggleCard(this)">
-          <div class="q-header">
+        <div class="q-card">
+          <div class="q-header" onclick="toggleCard(this.closest('.q-card'))" style="cursor:pointer;">
             <div class="q-number">3</div>
             <div class="q-text">
               <strong>When the same mistake keeps repeating</strong>
@@ -6129,7 +6129,7 @@
             </div>
             <div class="q-toggle">+</div>
           </div>
-          <div class="q-body">
+          <div class="q-body" onclick="event.stopPropagation()">
             <div class="guide-block">
               <div class="guide-label">What to do</div>
               <ul>
