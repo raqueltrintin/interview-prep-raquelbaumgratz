@@ -392,6 +392,46 @@
   .dock-sep { display: none; }
 
 
+
+  /* SSI Checklist */
+  .ssi-checklist { list-style: none; padding: 0; margin: 0; }
+  .ssi-checklist li { padding: 0; }
+  .ssi-check-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 0.45rem 0.5rem; border-radius: 6px;
+    cursor: pointer; transition: background 0.15s;
+    user-select: none;
+  }
+  .ssi-check-item:hover { background: rgba(181,98,62,0.06); }
+  .ssi-check-item input[type=checkbox] { display: none; }
+  .ssi-check-box {
+    width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px;
+    border: 1.5px solid rgba(181,98,62,0.4); border-radius: 4px;
+    background: transparent; display: flex; align-items: center;
+    justify-content: center; transition: all 0.15s;
+  }
+  .ssi-check-item.checked .ssi-check-box {
+    background: var(--accent); border-color: var(--accent);
+  }
+  .ssi-check-item.checked .ssi-check-box::after {
+    content: ''; width: 5px; height: 9px;
+    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+    transform: rotate(45deg) translate(-1px, -1px);
+    display: block;
+  }
+  .ssi-check-label { font-size: 0.88rem; color: var(--ink); line-height: 1.5; }
+  .ssi-check-item.checked .ssi-check-label { text-decoration: line-through; color: var(--muted); }
+  .ssi-check-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .ssi-check-children {
+    margin-left: 27px; margin-top: 2px;
+    border-left: 1.5px solid rgba(181,98,62,0.15); padding-left: 12px;
+  }
+  .ssi-progress-bar-wrap {
+    height: 4px; background: rgba(181,98,62,0.12);
+    border-radius: 2px; margin: 0.5rem 0 1rem;
+  }
+  .ssi-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+  .ssi-progress-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
   /* Hide old nav */
   .nav-tabs { display: none; }
   header { display: none; }
@@ -2798,33 +2838,50 @@
             <div class="q-toggle">+</div>
           </div>
           <div class="q-body">
+            <div class="ssi-progress-label" id="s1-prog-label">0 de 10 tarefas concluídas</div>
+            <div class="ssi-progress-bar-wrap"><div class="ssi-progress-bar" id="s1-prog-bar" style="width:0%"></div></div>
             <div class="guide-block">
               <div class="guide-label">🏷️ Estabelecer sua marca profissional</div>
-              <ul>
+              <ul class="ssi-checklist">
                 <li>
-                  <strong>Fazer ajustes no perfil do LinkedIn</strong>
-                  <ul style="margin-top:0.4rem;">
-                    <li>Foto e capa</li>
-                    <li>Título (formato cargo / kw1 / kw2...)</li>
-                    <li>Sobre (About em inglês com métricas e fuso horário)</li>
-                    <li>Experiências (contexto de empresas brasileiras + resultados)</li>
-                    <li>Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</li>
-                  </ul>
+                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-perfil')">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label"><strong>Fazer ajustes no perfil do LinkedIn</strong></span>
+                  </label>
+                  <div class="ssi-check-children">
+                    <ul class="ssi-checklist">
+                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-foto')"><span class="ssi-check-box"></span><span class="ssi-check-label">Foto e capa</span></label></li>
+                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-titulo')"><span class="ssi-check-box"></span><span class="ssi-check-label">Título (formato cargo / kw1 / kw2...)</span></label></li>
+                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-sobre')"><span class="ssi-check-box"></span><span class="ssi-check-label">Sobre (About em inglês com métricas e fuso horário)</span></label></li>
+                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-exp')"><span class="ssi-check-box"></span><span class="ssi-check-label">Experiências (contexto de empresas brasileiras + resultados)</span></label></li>
+                      <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-extras')"><span class="ssi-check-box"></span><span class="ssi-check-label">Formações, idiomas, competências, cursos, prêmios, projetos, recomendações, certificações, trabalho voluntário</span></label></li>
+                    </ul>
+                  </div>
                 </li>
-                <li><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</li>
+                <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-rec')"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Solicitar pelo menos 3 recomendações</strong> de pessoas que trabalharam diretamente com você</span></label></li>
                 <li>
-                  <strong>Publicar 1 conteúdo e adicionar nos destaques</strong>
-                  <br><span style="font-size:0.83rem;color:var(--muted);">Ideias de conteúdo técnico: manual prático, tutorial, guia. Ideias de tema geral: aprendizado recente, publicação pós-evento, ferramenta interessante, técnica de autoavaliação, reflexão sobre tema em alta.</span>
+                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-pub')">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Publicar 1 conteúdo e adicionar nos destaques</strong>
+                      <div class="ssi-check-sub">Ideias técnicas: manual prático, tutorial, guia. Ideias gerais: aprendizado recente, publicação pós-evento, ferramenta interessante, técnica de autoavaliação.</div>
+                    </span>
+                  </label>
                 </li>
-                <li><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</li>
+                <li><label class="ssi-check-item" onclick="ssiToggle(this,'s1-share')"><span class="ssi-check-box"></span><span class="ssi-check-label"><strong>Compartilhar 1 post de outra pessoa</strong> da sua área com um comentário seu</span></label></li>
               </ul>
             </div>
             <div class="guide-block">
               <div class="guide-label">🔍 Localizar as pessoas certas</div>
-              <ul>
+              <ul class="ssi-checklist">
                 <li>
-                  <strong>Mapear pelo menos 15 empresas target</strong>
-                  <br><span style="font-size:0.83rem;color:var(--muted);">Use o ranking GPTW como ponto de partida: <strong>gptw.com.br/ranking/melhores-empresas-para-trabalhar</strong></span>
+                  <label class="ssi-check-item" onclick="ssiToggle(this,'s1-map')">
+                    <span class="ssi-check-box"></span>
+                    <span class="ssi-check-label">
+                      <strong>Mapear pelo menos 15 empresas target</strong>
+                      <div class="ssi-check-sub">Use o ranking GPTW como ponto de partida: gptw.com.br/ranking/melhores-empresas-para-trabalhar</div>
+                    </span>
+                  </label>
                 </li>
               </ul>
             </div>
@@ -6425,6 +6482,7 @@
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
+    if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -6799,6 +6857,37 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     if (typeof currentRole !== 'undefined') ngBuildGraph(currentRole);
   });
   // ── END NODE GRAPH NAV ────────────────────────────────────────────────────
+
+  function ssiToggle(el, key) {
+    el.classList.toggle('checked');
+    localStorage.setItem('ssi_' + key, el.classList.contains('checked') ? '1' : '0');
+    ssiUpdateProgress();
+  }
+
+  function ssiRestoreChecks() {
+    document.querySelectorAll('.ssi-check-item[onclick]').forEach(el => {
+      const match = el.getAttribute('onclick').match(/ssiToggle\(this,'([^']+)'\)/);
+      if (!match) return;
+      const key = match[1];
+      if (localStorage.getItem('ssi_' + key) === '1') el.classList.add('checked');
+    });
+    ssiUpdateProgress();
+  }
+
+  function ssiUpdateProgress() {
+    const items = document.querySelectorAll('#ssi .ssi-check-item[onclick*="s1-"]');
+    const total = items.length;
+    const done  = [...items].filter(i => i.classList.contains('checked')).length;
+    const pct   = total ? Math.round(done / total * 100) : 0;
+    const bar   = document.getElementById('s1-prog-bar');
+    const lbl   = document.getElementById('s1-prog-label');
+    if (bar) bar.style.width = pct + '%';
+    if (lbl) lbl.textContent = done + ' de ' + total + ' tarefas concluídas';
+  }
+
+  // Restore on section load
+  document.addEventListener('DOMContentLoaded', ssiRestoreChecks);
+
 </script>
 </body>
 </html>
