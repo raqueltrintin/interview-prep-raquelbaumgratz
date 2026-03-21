@@ -174,13 +174,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.4rem 1.75rem 1.4rem 208px;
+    padding: 1.4rem 1.75rem 1.4rem 1.75rem;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 250;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
   .app-topbar-left { display: flex; align-items: center; gap: 1rem; }
@@ -279,6 +278,7 @@
 
   /* CONTENT AREA */
   .app-content {
+    border-top: 1px solid rgba(255,255,255,0.08);
     padding-left: 348px;
     min-height: calc(100vh - 78px);
   }
@@ -306,42 +306,28 @@
     overflow: visible;
   }
   .dock-spacer {
-    position: relative;
     flex-shrink: 0; height: var(--topbar-h, 78px); pointer-events: none;
-    background: var(--ink);
   }
   .dock-bar {
     position: relative;
     background: rgba(24,18,14,0.97);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-right: none;
+    border-top-right-radius: 28px;
     border-bottom-right-radius: 28px;
+    border-right: none;
     pointer-events: all; flex: 1; overflow: visible;
     display: flex; flex-direction: column;
     padding: 1rem 0.75rem 0.75rem;
     font-family: 'DM Sans', sans-serif;
   }
-  /* fade suave na borda direita do sidebar */
   .dock-bar::after {
     content: '';
     position: absolute;
-    top: 0; right: -32px; bottom: 0;
-    width: 32px;
-    background: linear-gradient(to right, rgba(24,18,14,0.25), transparent);
+    top: 0; right: -36px; bottom: 0;
+    width: 36px;
+    background: linear-gradient(to right, rgba(24,18,14,0.2), transparent);
     pointer-events: none;
-    border-bottom-right-radius: 28px;
-  }
-  /* curva côncava no canto superior direito do dock-bar */
-  .dock-bar::before {
-    content: '';
-    position: absolute;
-    top: -28px; right: 0;
-    width: 28px; height: 28px;
-    background: var(--ink);
-    -webkit-mask: radial-gradient(circle at 0% 100%, transparent 71%, black 72%);
-    mask: radial-gradient(circle at 0% 100%, transparent 71%, black 72%);
-    pointer-events: none;
-    z-index: 2;
+    border-radius: 0 28px 28px 0;
   }
   .ng-badge {
     font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
