@@ -6846,11 +6846,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     recursos: { icon: '💡', label: 'Recursos', subs: [
       { id: 'tips',       icon: '💡', label: 'Dicas Práticas' },
       { id: 'links',      icon: '🔗', label: 'Links Úteis' },
-    ]},
-    ssi_extra: { icon: '📚', label: 'Plano SSI', subs: [
-      { id: 'ssi',        icon: '📊', label: 'Plano SSI' },
       { id: 'biblioteca', icon: '📚', label: 'Biblioteca de Conteúdos' },
     ]},
+
     mentora: { icon: '👤', label: 'Mentora', subs: [
       { id: 'coaching', icon: '🧠', label: 'Coaching' },
     ]},
@@ -6860,8 +6858,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
   const NG_MODES = {
-    mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos','ssi_extra'] },
-    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','ssi_extra','mentora','vendas'] },
+    mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
   };
 
   let ngActiveGroup = null;
