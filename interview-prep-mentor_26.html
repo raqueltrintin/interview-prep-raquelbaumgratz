@@ -7777,6 +7777,44 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     if(crmSel===id)crmRenderPanel();
   }
 
+
+  function crmPick(id){
+    id=Number(id);
+    crmSel=crmSel===id?null:id;
+    crmRenderKanban();
+    crmRenderPanel();
+  }
+
+  function crmFilt(v){crmQ=v.toLowerCase();crmRenderKanban();}
+
+  function crmAdvance(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    var idx=CRM_COLS.findIndex(function(c){return c.id===l.col;});
+    if(idx<CRM_COLS.length-1){
+      l.col=CRM_COLS[idx+1].id;
+      l.score=Math.min(100,(l.score||0)+15);
+      if(!l.timeline)l.timeline=[];
+      l.timeline.push({t:'Avançou para '+CRM_COLS[idx+1].name,d:crmToday(),c:CRM_COLS[idx+1].pc});
+    }
+    crmSave();crmRenderAll();
+  }
+
+  function crmEditNotes(id,txt){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(l){l.notas=txt;crmSave();}
+  }
+
+  function crmDeleteLead(id){
+    id=Number(id);
+    if(!confirm('Remover este lead?'))return;
+    crmLeads=crmLeads.filter(function(x){return x.id!==id;});
+    crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
   function crmOpenForm(){
     document.getElementById('crm-modal-title').textContent='Novo lead';
     document.getElementById('crm-form-grid').innerHTML=`
