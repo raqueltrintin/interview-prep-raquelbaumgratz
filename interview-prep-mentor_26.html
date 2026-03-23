@@ -7750,7 +7750,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
           '<div class="crm-fld"><div class="crm-fld-lbl">Empresa</div><div class="crm-fld-val">'+(l.empresa||'&mdash;')+'</div></div>'+
           '<div class="crm-fld"><div class="crm-fld-lbl">Profiss&atilde;o</div><div class="crm-fld-val">'+(l.profissao||'&mdash;')+'</div></div>'+
           '<div class="crm-fld"><div class="crm-fld-lbl">Anivers&aacute;rio</div><div class="crm-fld-val">'+(l.aniversario||'&mdash;')+'</div></div>'+
-          '<div class="crm-fld"><div class="crm-fld-lbl">Origem</div><div class="crm-fld-val">'+(l.origem||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Origem</div><div class="crm-fld-val">'+(l.origem||'&mdash;')+(l.indicadoPor?' <span style="color:#8a7a6e;font-size:11px">(por '+l.indicadoPor+')</span>':'')+'</div></div>'+
           '<div class="crm-fld"><div class="crm-fld-lbl">Valor potencial</div><div class="crm-fld-val">R$ 15.000</div></div>'+
         '</div>'+
         '<div class="crm-fld" style="margin-bottom:10px">'+
@@ -7990,10 +7990,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="crm-form-row"><label class="crm-form-lbl">LinkedIn</label><input class="crm-form-inp" id="ef-li" value="'+(l.linkedin||'')+'"></div>'+
       '<div class="crm-form-row"><label class="crm-form-lbl">Aniversário (DD/MM)</label><input class="crm-form-inp" id="ef-aniv" value="'+(l.aniversario||'')+'"></div>'+
       '<div class="crm-form-row"><label class="crm-form-lbl">Origem</label>'+
-        '<select class="crm-form-sel" id="ef-orig">'+
+        '<select class="crm-form-sel" id="ef-orig" onchange="crmToggleIndicadoPor(this.value,\'ef-indicado\')">'+
           ['LinkedIn','Indicação','Instagram','Evento','Outro'].map(function(o){return '<option'+(o===l.origem?' selected':'')+'>'+o+'</option>';}).join('')+
         '</select>'+
       '</div>'+
+      '<div class="crm-form-row" id="ef-indicado-row" style="display:'+(l.origem==='Indicação'?'flex':'none')+'"><label class="crm-form-lbl">Indicado por</label><input class="crm-form-inp" id="ef-indicado" value="'+(l.indicadoPor||'')+'" placeholder="Nome de quem indicou"></div>'+
       '<div class="crm-form-row"><label class="crm-form-lbl">Fase</label>'+
         '<select class="crm-form-sel" id="ef-col">'+colOpts+'</select>'+
       '</div>'+
@@ -8022,12 +8023,19 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     l.linkedin=document.getElementById('ef-li').value||l.linkedin;
     l.aniversario=document.getElementById('ef-aniv').value||l.aniversario;
     l.origem=document.getElementById('ef-orig').value||l.origem;
+    l.indicadoPor=document.getElementById('ef-indicado')&&l.origem==='Indicação'?document.getElementById('ef-indicado').value:'';
     l.col=document.getElementById('ef-col').value||l.col;
     l.notas=document.getElementById('ef-notes').value||l.notas;
     crmCloseEdit();
     crmSave();crmRenderAll();
   }
 
+
+  function crmToggleIndicadoPor(val, inputId){
+    var rowId = inputId + '-row';
+    var row = document.getElementById(rowId);
+    if(row) row.style.display = val === 'Indicação' ? 'flex' : 'none';
+  }
   function crmOpenForm(){
     document.getElementById('crm-modal-title').textContent='Novo lead';
     document.getElementById('crm-form-grid').innerHTML=`
@@ -8060,6 +8068,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       aniversario:document.getElementById('cf-aniv').value||'',
       origem:document.getElementById('cf-orig').value,
       col:'linkedin',score:10,
+      indicadoPor:document.getElementById('cf-indicado')&&document.getElementById('cf-orig').value==='Indicação'?document.getElementById('cf-indicado').value:'',
       notas:document.getElementById('cf-notes').value||'Lead recém-adicionado.',
       timeline:[{t:'Lead criado',d:crmToday(),c:'#b5623e'}]
     });
