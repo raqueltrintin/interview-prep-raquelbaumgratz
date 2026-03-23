@@ -1186,6 +1186,7 @@
       <div class="section" id="links"></div>
       <div class="section" id="biblioteca"></div>
       <div class="section mentor-only" id="coaching"></div>
+      <div class="section mentor-only" id="mentorados"></div>
       <div class="section mentor-only" id="funil"></div>
       <div class="section mentor-only" id="crm"></div>
     </main>
@@ -3917,6 +3918,58 @@
         </div>
       </div>
     </div>`,
+      'mentorados': `<div class="section mentor-only" id="mentorados">
+      <div class="section-intro">
+        <div class="tag">Mentora &middot; Exclusivo</div>
+        <h2>Gest&atilde;o de Mentorados</h2>
+        <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
+      </div>
+      <style>
+        .mnt-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+        .mnt-btn{padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .mnt-btn:hover{background:rgba(181,98,62,0.18)}
+        .mnt-btn.sec{border-color:rgba(0,0,0,0.12);color:#6b5a4e;background:transparent}
+        .mnt-btn.sec:hover{background:#faf7f4}
+        .mnt-btn.danger{border-color:rgba(163,45,45,0.4);color:#a32d2d;background:transparent}
+        .mnt-btn.danger:hover{background:rgba(163,45,45,0.07)}
+        .mnt-table{width:100%;border-collapse:collapse;font-size:13px}
+        .mnt-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8a7a6e;border-bottom:2px solid rgba(0,0,0,0.07)}
+        .mnt-table td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.05);vertical-align:middle}
+        .mnt-table tr:hover td{background:#faf7f4}
+        .mnt-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+        .mnt-badge.ativo{background:#e1f5ee;color:#2a5a38}
+        .mnt-badge.inativo{background:#f5f3f0;color:#8a7a6e}
+        .mnt-av{width:32px;height:32px;border-radius:50%;background:#f8f2ee;color:#b5623e;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+        .mnt-modal-bg{display:none;position:relative;min-height:380px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:1rem}
+        .mnt-modal-bg.open{display:flex}
+        .mnt-modal{background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:440px;border:1px solid rgba(0,0,0,0.08)}
+        .mnt-modal h3{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .mnt-fr{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+        .mnt-fl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .mnt-fi{padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:inherit;width:100%}
+        .mnt-fi:focus{border-color:rgba(181,98,62,0.4)}
+        .mnt-info{font-size:12px;color:#8a7a6e;background:#faf7f4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;line-height:1.6}
+        .mnt-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+        .mnt-saving{font-size:11px;color:#4a7c5a;min-height:16px;text-align:right;margin-bottom:6px}
+        .mnt-empty{text-align:center;padding:2rem;color:#8a7a6e;font-size:13px}
+      </style>
+      <div class="mnt-hdr">
+        <div class="mnt-saving" id="mnt-saving"></div>
+        <button class="mnt-btn" onclick="mntOpenForm()">+ Cadastrar mentorado</button>
+      </div>
+      <div id="mnt-table-wrap"><div class="mnt-empty">Carregando...</div></div>
+      <div class="mnt-modal-bg" id="mnt-modal-bg">
+        <div class="mnt-modal">
+          <h3 id="mnt-modal-title">Cadastrar mentorado</h3>
+          <div class="mnt-info" id="mnt-modal-info">A senha inicial ser&aacute; <strong>Mentoria@2026</strong>. Oriente o mentorado a trocar no primeiro acesso.</div>
+          <div id="mnt-form-body"></div>
+          <div class="mnt-acts">
+            <button class="mnt-btn sec" onclick="mntCloseForm()">Cancelar</button>
+            <button class="mnt-btn" id="mnt-save-btn" onclick="mntSave()">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Visão da Mentora</div>
@@ -6432,6 +6485,110 @@
         </div>
       </div>
     </div>`,
+      'mentorados': `<div class="section mentor-only" id="mentorados">
+      <div class="section-intro">
+        <div class="tag">Mentora &middot; Exclusivo</div>
+        <h2>Gest&atilde;o de Mentorados</h2>
+        <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
+      </div>
+      <style>
+        .mnt-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+        .mnt-btn{padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .mnt-btn:hover{background:rgba(181,98,62,0.18)}
+        .mnt-btn.sec{border-color:rgba(0,0,0,0.12);color:#6b5a4e;background:transparent}
+        .mnt-btn.sec:hover{background:#faf7f4}
+        .mnt-btn.danger{border-color:rgba(163,45,45,0.4);color:#a32d2d;background:transparent}
+        .mnt-btn.danger:hover{background:rgba(163,45,45,0.07)}
+        .mnt-table{width:100%;border-collapse:collapse;font-size:13px}
+        .mnt-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8a7a6e;border-bottom:2px solid rgba(0,0,0,0.07)}
+        .mnt-table td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.05);vertical-align:middle}
+        .mnt-table tr:hover td{background:#faf7f4}
+        .mnt-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+        .mnt-badge.ativo{background:#e1f5ee;color:#2a5a38}
+        .mnt-badge.inativo{background:#f5f3f0;color:#8a7a6e}
+        .mnt-av{width:32px;height:32px;border-radius:50%;background:#f8f2ee;color:#b5623e;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+        .mnt-modal-bg{display:none;position:relative;min-height:380px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:1rem}
+        .mnt-modal-bg.open{display:flex}
+        .mnt-modal{background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:440px;border:1px solid rgba(0,0,0,0.08)}
+        .mnt-modal h3{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .mnt-fr{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+        .mnt-fl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .mnt-fi{padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:inherit;width:100%}
+        .mnt-fi:focus{border-color:rgba(181,98,62,0.4)}
+        .mnt-info{font-size:12px;color:#8a7a6e;background:#faf7f4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;line-height:1.6}
+        .mnt-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+        .mnt-saving{font-size:11px;color:#4a7c5a;min-height:16px;text-align:right;margin-bottom:6px}
+        .mnt-empty{text-align:center;padding:2rem;color:#8a7a6e;font-size:13px}
+      </style>
+      <div class="mnt-hdr">
+        <div class="mnt-saving" id="mnt-saving"></div>
+        <button class="mnt-btn" onclick="mntOpenForm()">+ Cadastrar mentorado</button>
+      </div>
+      <div id="mnt-table-wrap"><div class="mnt-empty">Carregando...</div></div>
+      <div class="mnt-modal-bg" id="mnt-modal-bg">
+        <div class="mnt-modal">
+          <h3 id="mnt-modal-title">Cadastrar mentorado</h3>
+          <div class="mnt-info" id="mnt-modal-info">A senha inicial ser&aacute; <strong>Mentoria@2026</strong>. Oriente o mentorado a trocar no primeiro acesso.</div>
+          <div id="mnt-form-body"></div>
+          <div class="mnt-acts">
+            <button class="mnt-btn sec" onclick="mntCloseForm()">Cancelar</button>
+            <button class="mnt-btn" id="mnt-save-btn" onclick="mntSave()">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
+            'mentorados': `<div class="section mentor-only" id="mentorados">
+      <div class="section-intro">
+        <div class="tag">Mentora &middot; Exclusivo</div>
+        <h2>Gest&atilde;o de Mentorados</h2>
+        <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
+      </div>
+      <style>
+        .mnt-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+        .mnt-btn{padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .mnt-btn:hover{background:rgba(181,98,62,0.18)}
+        .mnt-btn.sec{border-color:rgba(0,0,0,0.12);color:#6b5a4e;background:transparent}
+        .mnt-btn.sec:hover{background:#faf7f4}
+        .mnt-btn.danger{border-color:rgba(163,45,45,0.4);color:#a32d2d;background:transparent}
+        .mnt-btn.danger:hover{background:rgba(163,45,45,0.07)}
+        .mnt-table{width:100%;border-collapse:collapse;font-size:13px}
+        .mnt-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8a7a6e;border-bottom:2px solid rgba(0,0,0,0.07)}
+        .mnt-table td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.05);vertical-align:middle}
+        .mnt-table tr:hover td{background:#faf7f4}
+        .mnt-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+        .mnt-badge.ativo{background:#e1f5ee;color:#2a5a38}
+        .mnt-badge.inativo{background:#f5f3f0;color:#8a7a6e}
+        .mnt-av{width:32px;height:32px;border-radius:50%;background:#f8f2ee;color:#b5623e;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+        .mnt-modal-bg{display:none;position:relative;min-height:380px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:1rem}
+        .mnt-modal-bg.open{display:flex}
+        .mnt-modal{background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:440px;border:1px solid rgba(0,0,0,0.08)}
+        .mnt-modal h3{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .mnt-fr{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+        .mnt-fl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .mnt-fi{padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:inherit;width:100%}
+        .mnt-fi:focus{border-color:rgba(181,98,62,0.4)}
+        .mnt-info{font-size:12px;color:#8a7a6e;background:#faf7f4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;line-height:1.6}
+        .mnt-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+        .mnt-saving{font-size:11px;color:#4a7c5a;min-height:16px;text-align:right;margin-bottom:6px}
+        .mnt-empty{text-align:center;padding:2rem;color:#8a7a6e;font-size:13px}
+      </style>
+      <div class="mnt-hdr">
+        <div class="mnt-saving" id="mnt-saving"></div>
+        <button class="mnt-btn" onclick="mntOpenForm()">+ Cadastrar mentorado</button>
+      </div>
+      <div id="mnt-table-wrap"><div class="mnt-empty">Carregando...</div></div>
+      <div class="mnt-modal-bg" id="mnt-modal-bg">
+        <div class="mnt-modal">
+          <h3 id="mnt-modal-title">Cadastrar mentorado</h3>
+          <div class="mnt-info" id="mnt-modal-info">A senha inicial ser&aacute; <strong>Mentoria@2026</strong>. Oriente o mentorado a trocar no primeiro acesso.</div>
+          <div id="mnt-form-body"></div>
+          <div class="mnt-acts">
+            <button class="mnt-btn sec" onclick="mntCloseForm()">Cancelar</button>
+            <button class="mnt-btn" id="mnt-save-btn" onclick="mntSave()">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Mentor View</div>
@@ -6888,7 +7045,7 @@
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','mentorados'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -7100,6 +7257,7 @@
     if (section) section.classList.add('active');
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
+    if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -8139,6 +8297,154 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     crmCloseForm();crmSave();crmRenderAll();
   }
   // ── END CRM ───────────────────────────────────────────────────────────────────
+
+
+  // ── MENTORADOS ──────────────────────────────────────────────────────────────
+  const MNT_URL = 'https://ruyyanefahvhqdambsis.supabase.co';
+  const MNT_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzk2MzI3NCwiZXhwIjoyMDg5NTM5Mjc0fQ.VlAA92HmYop0XWRBEG-8VQeimNJmT4JdjkwrIq06MMA';
+  let mntList = [], mntEditId = null;
+
+  async function mntApi(method, path, data) {
+    const r = await fetch(MNT_URL + path, {
+      method,
+      headers: { 'Authorization': 'Bearer '+MNT_KEY, 'apikey': MNT_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+      body: data ? JSON.stringify(data) : undefined
+    });
+    const txt = await r.text();
+    if (!r.ok && r.status !== 204) throw new Error(txt);
+    return txt ? JSON.parse(txt) : null;
+  }
+
+  async function mntLoad() {
+    const el = document.getElementById('mnt-table-wrap');
+    if (!el) return;
+    try {
+      const profiles = await mntApi('GET', '/rest/v1/profiles?role=eq.mentee&select=id,name,active,created_at&order=created_at.desc');
+      const users    = await mntApi('GET', '/auth/v1/admin/users');
+      const emailMap = {};
+      (users && users.users || []).forEach(function(u){ emailMap[u.id]=u.email; });
+      mntList = (profiles||[]).map(function(p){
+        return {id:p.id, name:p.name, email:emailMap[p.id]||'—', active:p.active, created_at:p.created_at};
+      });
+      mntRenderTable();
+    } catch(e) {
+      el.innerHTML = '<div class="mnt-empty">Erro ao carregar: '+e.message+'</div>';
+    }
+  }
+
+  function mntIni(name) {
+    return name.split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();
+  }
+
+  function mntRenderTable() {
+    var el = document.getElementById('mnt-table-wrap');
+    if (!el) return;
+    if (!mntList.length) { el.innerHTML='<div class="mnt-empty">Nenhum mentorado cadastrado ainda.</div>'; return; }
+    var rows = mntList.map(function(m) {
+      var date = m.created_at ? new Date(m.created_at).toLocaleDateString('pt-BR') : '—';
+      var statusCls = m.active ? 'ativo' : 'inativo';
+      var statusTxt = m.active ? 'Ativo' : 'Inativo';
+      var btnTxt    = m.active ? 'Desativar' : 'Ativar';
+      return '<tr>' +
+        '<td><div style="display:flex;align-items:center;gap:10px">'+
+          '<div class="mnt-av">'+mntIni(m.name)+'</div>'+
+          '<div><div style="font-weight:500;color:#1c1410">'+m.name+'</div>'+
+          '<div style="font-size:11px;color:#8a7a6e">'+m.email+'</div></div>'+
+        '</div></td>'+
+        '<td><span class="mnt-badge '+statusCls+'">'+statusTxt+'</span></td>'+
+        '<td style="color:#8a7a6e;font-size:12px">'+date+'</td>'+
+        '<td><div style="display:flex;gap:6px">'+
+          '<button class="mnt-btn sec" style="padding:5px 10px;font-size:11px" data-id="'+m.id+'" data-active="'+m.active+'" onclick="mntToggle(this)">'+btnTxt+'</button>'+
+          '<button class="mnt-btn sec" style="padding:5px 10px;font-size:11px" data-id="'+m.id+'" onclick="mntOpenEdit(this.dataset.id)">Editar</button>'+
+          '<button class="mnt-btn danger" style="padding:5px 10px;font-size:11px" data-id="'+m.id+'" data-name="'+m.name+'" onclick="mntDel(this)">Excluir</button>'+
+        '</div></td>'+
+      '</tr>';
+    }).join('');
+    el.innerHTML = '<table class="mnt-table"><thead><tr>'+
+      '<th>Mentorado</th><th>Status</th><th>Cadastro</th><th>Ações</th>'+
+      '</tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+
+  function mntOpenForm() {
+    mntEditId = null;
+    document.getElementById('mnt-modal-title').textContent = 'Cadastrar mentorado';
+    document.getElementById('mnt-save-btn').textContent = 'Cadastrar';
+    document.getElementById('mnt-modal-info').style.display = '';
+    document.getElementById('mnt-form-body').innerHTML =
+      '<div class="mnt-fr"><label class="mnt-fl">Nome completo *</label><input class="mnt-fi" id="mf-name" placeholder="Ana Silva"></div>'+
+      '<div class="mnt-fr"><label class="mnt-fl">E-mail *</label><input class="mnt-fi" id="mf-email" type="email" placeholder="ana@email.com"></div>';
+    document.getElementById('mnt-modal-bg').classList.add('open');
+    setTimeout(function(){ var el=document.getElementById('mf-name'); if(el) el.focus(); }, 100);
+  }
+
+  function mntOpenEdit(id) {
+    var m = mntList.find(function(x){return x.id===id;});
+    if (!m) return;
+    mntEditId = id;
+    document.getElementById('mnt-modal-title').textContent = 'Editar mentorado';
+    document.getElementById('mnt-save-btn').textContent = 'Salvar';
+    document.getElementById('mnt-modal-info').style.display = 'none';
+    document.getElementById('mnt-form-body').innerHTML =
+      '<div class="mnt-fr"><label class="mnt-fl">Nome completo *</label><input class="mnt-fi" id="mf-name" value="'+m.name+'"></div>'+
+      '<div class="mnt-fr"><label class="mnt-fl">E-mail (não editável)</label><input class="mnt-fi" value="'+m.email+'" disabled style="opacity:.6"></div>'+
+      '<div class="mnt-fr"><label class="mnt-fl">Nova senha (deixe vazio para manter)</label><input class="mnt-fi" id="mf-pw" type="password" placeholder="Nova senha..."></div>';
+    document.getElementById('mnt-modal-bg').classList.add('open');
+  }
+
+  function mntCloseForm() {
+    document.getElementById('mnt-modal-bg').classList.remove('open');
+    mntEditId = null;
+  }
+
+  async function mntSave() {
+    var name = (document.getElementById('mf-name').value||'').trim();
+    if (!name) { alert('Nome é obrigatório.'); return; }
+    var sav = document.getElementById('mnt-saving');
+    var btn = document.getElementById('mnt-save-btn');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+    try {
+      if (mntEditId) {
+        await mntApi('PATCH', '/rest/v1/profiles?id=eq.'+mntEditId, {name: name});
+        var pw = (document.getElementById('mf-pw') ? document.getElementById('mf-pw').value : '').trim();
+        if (pw) await mntApi('PUT', '/auth/v1/admin/users/'+mntEditId, {password: pw});
+        if (sav) sav.textContent = 'Salvo ✓';
+      } else {
+        var email = (document.getElementById('mf-email').value||'').trim();
+        if (!email) { alert('E-mail é obrigatório.'); btn.disabled=false; btn.textContent='Cadastrar'; return; }
+        var nu = await mntApi('POST', '/auth/v1/admin/users', {email:email, password:'Mentoria@2026', email_confirm:true});
+        await mntApi('POST', '/rest/v1/profiles', {id:nu.id, name:name, role:'mentee', active:true});
+        if (sav) sav.textContent = 'Mentorado cadastrado ✓';
+      }
+      mntCloseForm();
+      await mntLoad();
+    } catch(e) {
+      alert('Erro: '+e.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = mntEditId ? 'Salvar' : 'Cadastrar';
+      setTimeout(function(){ if(sav) sav.textContent=''; }, 3000);
+    }
+  }
+
+  async function mntToggle(btn) {
+    var id = btn.dataset.id;
+    var active = btn.dataset.active === 'true';
+    try {
+      await mntApi('PATCH', '/rest/v1/profiles?id=eq.'+id, {active: !active});
+      await mntLoad();
+    } catch(e) { alert('Erro: '+e.message); }
+  }
+
+  async function mntDel(btn) {
+    var id = btn.dataset.id, name = btn.dataset.name;
+    if (!confirm('Excluir "'+name+'"? Esta ação não pode ser desfeita.')) return;
+    try {
+      await mntApi('DELETE', '/rest/v1/profiles?id=eq.'+id, null);
+      await mntApi('DELETE', '/auth/v1/admin/users/'+id, null);
+      await mntLoad();
+    } catch(e) { alert('Erro: '+e.message); }
+  }
+  // ── END MENTORADOS ──────────────────────────────────────────────────────────
 
 </script>
 </body>
