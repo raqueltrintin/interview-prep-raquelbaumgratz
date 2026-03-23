@@ -7073,10 +7073,14 @@
   }
 
   function applyRole(role, renderSections = true) {
+    // Garantir que currentRole está sempre atualizado antes de qualquer chamada
+    currentRole = role;
     const isMentor = role === 'mentor';
     applyRoleText();
     if (renderSections) {
       setLang(currentLang);
+      // setLang já chama ngBuildGraph via syncDockSpacer — garantir com role correto
+      setTimeout(function(){ ngBuildGraph(role); }, 50);
       return;
     }
     document.querySelectorAll('.mentor-block').forEach(el => el.classList.toggle('visible', isMentor));
