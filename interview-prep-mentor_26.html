@@ -7677,6 +7677,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmSaveProx(id){
+    id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
     if(!l)return;
     let val=document.getElementById('prox-sel').value;
@@ -7687,6 +7688,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmQuickInt(id,txt){
+    id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
     if(!l){return;}
     if(!l.timeline)l.timeline=[];
@@ -7695,6 +7697,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmAddIntCustom(id){
+    id=Number(id);
     const inp=document.getElementById('crm-int-custom');
     const txt=(inp&&inp.value||'').trim();
     if(!txt)return;
@@ -7706,6 +7709,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmDelInt(id,idx){
+    id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
     if(!l||!l.timeline)return;
     l.timeline.splice(idx,1);
@@ -7766,6 +7770,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmConcluirAcao(id){
+    id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
     if(!l)return;
     if(l.proxAcao){
