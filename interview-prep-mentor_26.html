@@ -7567,82 +7567,101 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
   function crmRenderPanel(){
-    const el=document.getElementById('crm-panel');
+    var el=document.getElementById('crm-panel');
     if(!el)return;
-    if(!crmSel){el.innerHTML='';return}
-    const l=crmLeads.find(x=>x.id===crmSel);
-    if(!l){el.innerHTML='';return}
-    const c=crmCol(l.col);
-    const nxtIdx=CRM_COLS.findIndex(x=>x.id===l.col)+1;
-    const nxtC=nxtIdx<CRM_COLS.length?CRM_COLS[nxtIdx]:null;
-    const av=crmAniv(l.aniversario);
-    const prox=l.proxAcao||'';
-    const proxDate=l.proxData||'';
-    el.innerHTML=`<div class="crm-panel">
-      <div class="crm-p-hd">
-        <div class="crm-p-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
-        <div>
-          <div class="crm-p-name">${l.name}${av?` <span class="crm-aniv">${av}</span>`:''}</div>
-          <div class="crm-p-role">${l.profissao} · ${l.empresa}</div>
-        </div>
-        <span class="crm-p-phase" style="background:${c.pb};color:${c.pc}">${c.name}</span>
-      </div>
-      <div class="crm-next" style="background:${c.pb};border-left-color:${c.pc}">
-        <div class="crm-next-lbl" style="color:${c.nm}">Próxima ação sugerida</div>
-        <div class="crm-next-txt">${c.next}</div>
-      </div>
-      <div class="crm-fld" style="margin-bottom:10px">
-        <div class="crm-fld-lbl" style="margin-bottom:6px">Próxima ação programada</div>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-          <select class="crm-form-sel" id="prox-sel" style="flex:1;min-width:160px;font-size:12px">
-            <option value="">Selecionar ação...</option>
-            ${(CRM_ACTIONS[l.col]||[]).map(a=>`<option value="${a}"${a===prox?' selected':''}>${a}</option>`).join('')}
-            <option value="__custom">Outra ação...</option>
-          </select>
-          <input type="date" class="crm-form-inp" id="prox-date" value="${proxDate}" style="width:130px;font-size:12px">
-          <button class="crm-btn main" style="padding:6px 12px;font-size:12px" onclick="crmSaveProx(${l.id})">Salvar</button>
-        </div>
-        ${prox?`<div style="margin-top:6px;font-size:12px;color:#b5623e;font-weight:500">📌 ${prox}${proxDate?' — '+proxDate.split('-').reverse().join('/'):''}</div>`:''}
-      </div>
-      <div class="crm-p-fields">
-        <div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">${l.whatsapp||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">E-mail</div><div class="crm-fld-val">${l.email||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">LinkedIn</div><div class="crm-fld-val accent">${l.linkedin||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">Empresa</div><div class="crm-fld-val">${l.empresa||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">Profissão</div><div class="crm-fld-val">${l.profissao||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">Aniversário</div><div class="crm-fld-val">${l.aniversario||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">Origem</div><div class="crm-fld-val">${l.origem||'—'}</div></div>
-        <div class="crm-fld"><div class="crm-fld-lbl">Valor potencial</div><div class="crm-fld-val">R$ 15.000</div></div>
-      </div>
-      <div class="crm-fld" style="margin-bottom:10px">
-        <div class="crm-fld-lbl" style="margin-bottom:6px">Score — ${l.score||0}%</div>
-        <div style="height:5px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden">
-          <div style="height:100%;width:${l.score||0}%;background:${crmSc(l.score||0)};border-radius:3px"></div>
-        </div>
-      </div>
-      <div class="crm-sec">Notas</div>
-      <div class="crm-notes" id="crm-notes-edit" contenteditable="true" oninput="crmEditNotes(${l.id},this.innerText)">${l.notas||''}</div>
-      <div class="crm-sec">Histórico</div>
-      <div class="crm-tl" id="crm-tl-list">
-        ${(l.timeline||[]).map((t,i)=>`<div class="crm-tl-row" style="align-items:center">
-          <div class="crm-tl-dot" style="background:${t.c};flex-shrink:0"></div>
-          <div style="flex:1"><div class="crm-tl-main">${t.t}</div><div class="crm-tl-dt">${t.d}</div></div>
-          <button onclick="crmDelInt(${l.id},${i})" style="border:none;background:none;color:#c0392b;cursor:pointer;font-size:16px;padding:0 4px;opacity:.5;flex-shrink:0" title="Remover">×</button>
-        </div>`).join('')}
-      </div>
-      <div class="crm-sec" style="margin-top:12px">Adicionar interação</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
-        ${(CRM_ACTIONS[l.col]||[]).map(a=>`<button class="crm-btn" style="font-size:11px;padding:5px 10px" onclick="crmQuickInt(${l.id},'${a.replace(/'/g,"\\'")}')">+ ${a}</button>`).join('')}
-      </div>
-      <div style="display:flex;gap:6px">
-        <input class="crm-form-inp" id="crm-int-custom" placeholder="Ou descreva manualmente..." style="flex:1;font-size:12px">
-        <button class="crm-btn main" style="font-size:12px" onclick="crmAddIntCustom(${l.id})">Adicionar</button>
-      </div>
-      <div class="crm-acts">
-        ${nxtC?`<button class="crm-btn main" onclick="crmAdvance(${l.id})">→ ${nxtC.name}</button>`:''}
-        <button class="crm-btn" onclick="crmDeleteLead(${l.id})" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover lead</button>
-      </div>
-    </div>`;
+    if(!crmSel){el.innerHTML='';return;}
+    var l=crmLeads.find(function(x){return x.id===crmSel;});
+    if(!l){el.innerHTML='';return;}
+    var c=crmCol(l.col);
+    var nxtIdx=CRM_COLS.findIndex(function(x){return x.id===l.col;})+1;
+    var nxtC=nxtIdx<CRM_COLS.length?CRM_COLS[nxtIdx]:null;
+    var av=crmAniv(l.aniversario);
+    var prox=l.proxAcao||'';
+    var proxDate=l.proxData||'';
+    var proxDateFmt=proxDate?proxDate.split('-').reverse().join('/'):'';
+
+    // timeline rows
+    var tlHtml='';
+    (l.timeline||[]).forEach(function(t,i){
+      tlHtml+='<div class="crm-tl-row" style="align-items:center;display:flex;gap:9px">';
+      tlHtml+='<div class="crm-tl-dot" style="background:'+t.c+';width:8px;height:8px;border-radius:50%;flex-shrink:0"></div>';
+      tlHtml+='<div style="flex:1"><div class="crm-tl-main">'+t.t+'</div><div class="crm-tl-dt">'+t.d+'</div></div>';
+      tlHtml+='<button onclick="crmDelInt('+l.id+','+i+')" style="border:none;background:none;color:#c0392b;cursor:pointer;font-size:18px;line-height:1;padding:0 4px;opacity:.45;flex-shrink:0" title="Remover interação">&times;</button>';
+      tlHtml+='</div>';
+    });
+
+    // ações rápidas
+    var acoesHtml='';
+    (CRM_ACTIONS[l.col]||[]).forEach(function(a){
+      var esc=a.replace(/'/g,"\\'");
+      acoesHtml+='<button class="crm-btn" style="font-size:11px;padding:5px 10px" onclick="crmQuickInt('+l.id+',\''+esc+'\')">&plus; '+a+'</button>';
+    });
+
+    // select options
+    var optsHtml='<option value="">Selecionar ação...</option>';
+    (CRM_ACTIONS[l.col]||[]).forEach(function(a){
+      optsHtml+='<option value="'+a+'"'+(a===prox?' selected':'')+'>'+a+'</option>';
+    });
+    optsHtml+='<option value="__custom">Outra ação...</option>';
+
+    var proxPin=prox?('<div style="margin-top:6px;font-size:12px;color:#b5623e;font-weight:500">&#128204; '+prox+(proxDateFmt?' &mdash; '+proxDateFmt:'')+'</div>'):'';
+    var avHtml=av?(' <span class="crm-aniv">'+av+'</span>'):'';
+    var nxtBtn=nxtC?('<button class="crm-btn main" onclick="crmAdvance('+l.id+')">&#8594; '+nxtC.name+'</button>'):'';
+
+    el.innerHTML=
+      '<div class="crm-panel">'+
+        '<div class="crm-p-hd">'+
+          '<div class="crm-p-av" style="background:'+c.pb+';color:'+c.pc+'">'+crmIni(l.name)+'</div>'+
+          '<div>'+
+            '<div class="crm-p-name">'+l.name+avHtml+'</div>'+
+            '<div class="crm-p-role">'+l.profissao+' &middot; '+l.empresa+'</div>'+
+          '</div>'+
+          '<span class="crm-p-phase" style="background:'+c.pb+';color:'+c.pc+'">'+c.name+'</span>'+
+        '</div>'+
+        '<div class="crm-next" style="background:'+c.pb+';border-left-color:'+c.pc+'">'+
+          '<div class="crm-next-lbl" style="color:'+c.nm+'">Pr&oacute;xima a&ccedil;&atilde;o sugerida</div>'+
+          '<div class="crm-next-txt">'+c.next+'</div>'+
+        '</div>'+
+        '<div class="crm-fld" style="margin-bottom:10px">'+
+          '<div class="crm-fld-lbl" style="margin-bottom:6px">Pr&oacute;xima a&ccedil;&atilde;o programada</div>'+
+          '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+
+            '<select class="crm-form-sel" id="prox-sel" style="flex:1;min-width:160px;font-size:12px">'+optsHtml+'</select>'+
+            '<input type="date" class="crm-form-inp" id="prox-date" value="'+proxDate+'" style="width:130px;font-size:12px">'+
+            '<button class="crm-btn main" style="padding:6px 12px;font-size:12px" onclick="crmSaveProx('+l.id+')">Salvar</button>'+
+          '</div>'+
+          proxPin+
+        '</div>'+
+        '<div class="crm-p-fields">'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">'+(l.whatsapp||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">E-mail</div><div class="crm-fld-val">'+(l.email||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">LinkedIn</div><div class="crm-fld-val accent">'+(l.linkedin||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Empresa</div><div class="crm-fld-val">'+(l.empresa||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Profiss&atilde;o</div><div class="crm-fld-val">'+(l.profissao||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Anivers&aacute;rio</div><div class="crm-fld-val">'+(l.aniversario||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Origem</div><div class="crm-fld-val">'+(l.origem||'&mdash;')+'</div></div>'+
+          '<div class="crm-fld"><div class="crm-fld-lbl">Valor potencial</div><div class="crm-fld-val">R$ 15.000</div></div>'+
+        '</div>'+
+        '<div class="crm-fld" style="margin-bottom:10px">'+
+          '<div class="crm-fld-lbl" style="margin-bottom:6px">Score &mdash; '+(l.score||0)+'%</div>'+
+          '<div style="height:5px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden">'+
+            '<div style="height:100%;width:'+(l.score||0)+'%;background:'+crmSc(l.score||0)+';border-radius:3px"></div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="crm-sec">Notas</div>'+
+        '<div class="crm-notes" id="crm-notes-edit" contenteditable="true" oninput="crmEditNotes('+l.id+',this.innerText)">'+(l.notas||'')+'</div>'+
+        '<div class="crm-sec">Hist&oacute;rico</div>'+
+        '<div class="crm-tl" id="crm-tl-list">'+tlHtml+'</div>'+
+        '<div class="crm-sec" style="margin-top:12px">Adicionar intera&ccedil;&atilde;o</div>'+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+acoesHtml+'</div>'+
+        '<div style="display:flex;gap:6px">'+
+          '<input class="crm-form-inp" id="crm-int-custom" placeholder="Ou descreva manualmente..." style="flex:1;font-size:12px">'+
+          '<button class="crm-btn main" style="font-size:12px" onclick="crmAddIntCustom('+l.id+')">Adicionar</button>'+
+        '</div>'+
+        '<div class="crm-acts">'+
+          nxtBtn+
+          '<button class="crm-btn" onclick="crmDeleteLead('+l.id+')" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover lead</button>'+
+        '</div>'+
+      '</div>';
   }
 
   function crmSaveProx(id){
