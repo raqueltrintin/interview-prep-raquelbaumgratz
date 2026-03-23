@@ -7083,7 +7083,7 @@
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
-    if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 0);
+    if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -7572,19 +7572,37 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   async function crmLoad(){
     if(!currentUser)return;
-    // Tenta do localStorage primeiro (já carregado pelo loadNotesFromSupabase)
-    const saved=localStorage.getItem('crm_leads');
+    try{
+      // Buscar diretamente do Supabase para garantir dados atualizados
+      var result=await sb.from('notes')
+        .select('content')
+        .eq('user_id',currentUser.id)
+        .eq('note_key','crm_leads')
+        .single();
+      if(result.data&&result.data.content){
+        var parsed=JSON.parse(result.data.content);
+        if(Array.isArray(parsed)&&parsed.length>0){
+          crmLeads=parsed.map(function(l){l.id=Number(l.id);return l;});
+          crmNextId=Math.max.apply(null,crmLeads.map(function(l){return l.id;}))+1;
+          localStorage.setItem('crm_leads',result.data.content);
+          crmRenderAll();
+          return;
+        }
+      }
+    }catch(e){}
+    // Fallback: tentar localStorage
+    var saved=localStorage.getItem('crm_leads');
     if(saved){
       try{
-        const parsed=JSON.parse(saved);
+        var parsed=JSON.parse(saved);
         if(Array.isArray(parsed)&&parsed.length>0){
-          crmLeads=parsed.map(l=>{l.id=Number(l.id);return l;});
-          crmNextId=Math.max(...crmLeads.map(l=>l.id))+1;
-          crmRenderAll();return;
+          crmLeads=parsed.map(function(l){l.id=Number(l.id);return l;});
+          crmNextId=Math.max.apply(null,crmLeads.map(function(l){return l.id;}))+1;
+          crmRenderAll();
+          return;
         }
       }catch(e){}
     }
-    // Se não tem nada salvo, começa vazio
     crmLeads=[];
     crmNextId=1;
     crmRenderAll();
@@ -7595,7 +7613,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     crmRenderKanban();
     crmRenderPanel();
     crmRenderDiaria();
-    const dd=document.getElementById('crm-diaria-date');if(dd)dd.textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+    var dd=document.getElementById('crm-diaria-date');
+    if(dd)dd.textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
   }
 
   function crmRenderMetrics(){
