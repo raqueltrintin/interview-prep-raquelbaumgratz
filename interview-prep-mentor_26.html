@@ -7618,19 +7618,21 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmRenderMetrics(){
-    const el=document.getElementById('crm-metrics');
+    var el=document.getElementById('crm-metrics');
     if(!el)return;
-    const t=crmLeads.length;
-    const f=crmLeads.filter(l=>l.col==='fechado').length;
-    const pip=crmLeads.filter(l=>['qualif','reuniao','proposta'].includes(l.col)).length;
-    const li=crmLeads.filter(l=>l.col==='linkedin').length;
-    el.innerHTML=`
-      <div class="crm-mc g"><div class="crm-mc-lbl">Total leads</div><div class="crm-mc-val">${t}</div><div class="crm-mc-sub">no funil</div></div>
-      <div class="crm-mc p"><div class="crm-mc-lbl">LinkedIn</div><div class="crm-mc-val">${li}</div><div class="crm-mc-sub">prospecção</div></div>
-      <div class="crm-mc c"><div class="crm-mc-lbl">Negociação</div><div class="crm-mc-val">${pip}</div><div class="crm-mc-sub">call+reunião+proposta</div></div>
-      <div class="crm-mc t"><div class="crm-mc-lbl">Fechados</div><div class="crm-mc-val">${f} · R$${f*15}k</div><div class="crm-mc-sub">receita gerada</div></div>`;
+    var ativos=crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa';});
+    var t=ativos.length;
+    var f=crmLeads.filter(function(l){return l.col==='fechado';}).length;
+    var pip=crmLeads.filter(function(l){return ['qualif','reuniao','proposta'].includes(l.col);}).length;
+    var origens={LinkedIn:0,'Indicação':0,Instagram:0,Evento:0,Outro:0};
+    ativos.forEach(function(l){if(origens[l.origem]!==undefined)origens[l.origem]++;else origens['Outro']++;});
+    var origStr=Object.keys(origens).filter(function(k){return origens[k]>0;}).map(function(k){return origens[k]+' '+k;}).join(' · ')||'—';
+    el.innerHTML=
+      '<div class="crm-mc g"><div class="crm-mc-lbl">Total leads</div><div class="crm-mc-val">'+t+'</div><div class="crm-mc-sub">ativos no funil</div></div>'+
+      '<div class="crm-mc p" style="grid-column:span 1"><div class="crm-mc-lbl">Por origem</div><div class="crm-mc-val" style="font-size:13px;margin-top:4px;line-height:1.5">'+origStr+'</div></div>'+
+      '<div class="crm-mc c"><div class="crm-mc-lbl">Negociação</div><div class="crm-mc-val">'+pip+'</div><div class="crm-mc-sub">call+reunião+proposta</div></div>'+
+      '<div class="crm-mc t"><div class="crm-mc-lbl">Fechados</div><div class="crm-mc-val">'+f+' · R$'+(f*15)+'k</div><div class="crm-mc-sub">receita gerada</div></div>';
   }
-
   function crmRenderKanban(){
     const el=document.getElementById('crm-kanban');
     if(!el)return;
@@ -8047,8 +8049,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       <div class="crm-form-row"><label class="crm-form-lbl">LinkedIn</label><input class="crm-form-inp" id="cf-li" placeholder="linkedin.com/in/..."></div>
       <div class="crm-form-row"><label class="crm-form-lbl">Aniversário</label><input class="crm-form-inp" id="cf-aniv" placeholder="DD/MM"></div>
       <div class="crm-form-row"><label class="crm-form-lbl">Origem</label>
-        <select class="crm-form-sel" id="cf-orig"><option>LinkedIn</option><option>Indicação</option><option>Instagram</option><option>Evento</option><option>Outro</option></select>
+        <select class="crm-form-sel" id="cf-orig" onchange="crmToggleIndicadoPor(this.value,'cf-indicado')"><option>LinkedIn</option><option>Indicação</option><option>Instagram</option><option>Evento</option><option>Outro</option></select>
       </div>
+      <div class="crm-form-row" id="cf-indicado-row" style="display:none"><label class="crm-form-lbl">Indicado por</label><input class="crm-form-inp" id="cf-indicado" placeholder="Nome de quem indicou"></div>
       <div class="crm-form-row full"><label class="crm-form-lbl">Notas iniciais</label><input class="crm-form-inp" id="cf-notes" placeholder="Contexto do lead..."></div>`;
     document.getElementById('crm-modal-bg').classList.add('open');
   }
