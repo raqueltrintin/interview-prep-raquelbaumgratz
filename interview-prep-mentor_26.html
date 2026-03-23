@@ -2791,38 +2791,38 @@
             <tbody>
               <tr>
                 <td><strong>Score geral</strong></td>
-                <td><input class="ssi-input" type="number" min="0" max="100" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="100" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="100" placeholder="—"></td>
-                <td><input class="ssi-input ssi-final" type="number" min="0" max="100" placeholder="—"></td>
+                <td><input class="ssi-input" id="ssi-geral-s1" type="number" min="0" max="100" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-geral-s2" type="number" min="0" max="100" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-geral-s3" type="number" min="0" max="100" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input ssi-final" id="ssi-geral-final" type="number" min="0" max="100" placeholder="—" oninput="ssiScoreSave()"></td>
               </tr>
               <tr>
                 <td>Estabelecer sua marca profissional</td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input ssi-final" type="number" min="0" max="25" placeholder="—"></td>
+                <td><input class="ssi-input" id="ssi-marca-s1" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-marca-s2" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-marca-s3" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input ssi-final" id="ssi-marca-final" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
               </tr>
               <tr>
                 <td>Localizar as pessoas certas</td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input ssi-final" type="number" min="0" max="25" placeholder="—"></td>
+                <td><input class="ssi-input" id="ssi-localizar-s1" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-localizar-s2" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-localizar-s3" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input ssi-final" id="ssi-localizar-final" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
               </tr>
               <tr>
                 <td>Interagir oferecendo insights</td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input ssi-final" type="number" min="0" max="25" placeholder="—"></td>
+                <td><input class="ssi-input" id="ssi-interagir-s1" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-interagir-s2" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-interagir-s3" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input ssi-final" id="ssi-interagir-final" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
               </tr>
               <tr>
                 <td>Criar relacionamentos</td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input" type="number" min="0" max="25" placeholder="—"></td>
-                <td><input class="ssi-input ssi-final" type="number" min="0" max="25" placeholder="—"></td>
+                <td><input class="ssi-input" id="ssi-relacionamentos-s1" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-relacionamentos-s2" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input" id="ssi-relacionamentos-s3" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
+                <td><input class="ssi-input ssi-final" id="ssi-relacionamentos-final" type="number" min="0" max="25" placeholder="—" oninput="ssiScoreSave()"></td>
               </tr>
             </tbody>
           </table>
@@ -7199,6 +7199,7 @@
       requestAnimationFrame(syncDockSpacer);
       setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 400);
       setTimeout(ssiRestoreChecks, 300);
+      setTimeout(ssiScoreRestore, 350);
       setTimeout(ngRestorePhoto, 200);
 
     } catch (e) {
@@ -7256,7 +7257,7 @@
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
-    if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
+    if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -8496,6 +8497,53 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     }
   }
   // ── END TROCAR SENHA ────────────────────────────────────────────────────────
+
+
+  // ── SSI SCORE TABLE ──────────────────────────────────────────────────────────
+  var ssiScoreTimer = null;
+  var SSI_SCORE_IDS = [
+    'ssi-geral-s1','ssi-geral-s2','ssi-geral-s3','ssi-geral-final',
+    'ssi-marca-s1','ssi-marca-s2','ssi-marca-s3','ssi-marca-final',
+    'ssi-localizar-s1','ssi-localizar-s2','ssi-localizar-s3','ssi-localizar-final',
+    'ssi-interagir-s1','ssi-interagir-s2','ssi-interagir-s3','ssi-interagir-final',
+    'ssi-relacionamentos-s1','ssi-relacionamentos-s2','ssi-relacionamentos-s3','ssi-relacionamentos-final'
+  ];
+
+  function ssiScoreSave() {
+    if (!currentUser) return;
+    clearTimeout(ssiScoreTimer);
+    ssiScoreTimer = setTimeout(async function() {
+      var data = {};
+      SSI_SCORE_IDS.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      try {
+        await sb.from('notes').upsert({
+          user_id: currentUser.id,
+          note_key: 'ssi_scores',
+          content: JSON.stringify(data),
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id,note_key' });
+      } catch(e) { console.warn('Erro ao salvar scores SSI:', e); }
+    }, 800);
+  }
+
+  async function ssiScoreRestore() {
+    if (!currentUser) return;
+    try {
+      var r = await sb.from('notes').select('content')
+        .eq('user_id', currentUser.id).eq('note_key', 'ssi_scores').single();
+      if (r.data && r.data.content) {
+        var data = JSON.parse(r.data.content);
+        SSI_SCORE_IDS.forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el && data[id] !== undefined) el.value = data[id];
+        });
+      }
+    } catch(e) {}
+  }
+  // ── END SSI SCORE TABLE ──────────────────────────────────────────────────────
 
 </script>
 </body>
