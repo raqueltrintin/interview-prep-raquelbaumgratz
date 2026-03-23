@@ -7037,6 +7037,8 @@
       document.getElementById('app').style.display = 'flex';
       applyRole(currentRole);
       requestAnimationFrame(syncDockSpacer);
+      setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 400);
+      setTimeout(ssiRestoreChecks, 300);
 
     } catch (e) {
       err.textContent = e.message || 'Erro ao conectar. Tente novamente.';
