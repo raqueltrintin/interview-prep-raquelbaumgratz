@@ -3862,6 +3862,17 @@
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
+        .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ar .crm-col-nm{color:#5a4e46}
+        .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
+        .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
+        .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
+        .crm-tab-btn{padding:5px 14px;font-size:12px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#8a7a6e;transition:all .15s}
+        .crm-tab-btn.active{background:#fff;color:#1c1410;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+        .crm-edit-modal{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-edit-modal.open{display:flex}
       </style>
       <div style="background:#fff;border:1px solid rgba(181,98,62,0.2);border-radius:12px;padding:12px 16px;margin-bottom:1rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
@@ -3871,7 +3882,11 @@
         <div id="crm-diaria"></div>
       </div>
       <div class="crm-hdr">
-        <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
+        <div class="crm-tab" id="crm-tabs">
+          <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+        </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
           <input class="crm-srch" id="crm-srch" placeholder="Buscar..." oninput="crmFilt(this.value)">
@@ -3881,6 +3896,16 @@
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
       <div id="crm-panel"></div>
+      <div class="crm-edit-modal" id="crm-edit-modal">
+        <div class="crm-modal">
+          <div class="crm-modal-title">Editar lead</div>
+          <div class="crm-form-grid" id="crm-edit-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseEdit()">Cancelar</button>
+            <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
+          </div>
+        </div>
+      </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
           <div class="crm-modal-title" id="crm-modal-title">Novo lead</div>
@@ -6212,6 +6237,17 @@
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
+        .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ar .crm-col-nm{color:#5a4e46}
+        .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
+        .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
+        .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
+        .crm-tab-btn{padding:5px 14px;font-size:12px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#8a7a6e;transition:all .15s}
+        .crm-tab-btn.active{background:#fff;color:#1c1410;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+        .crm-edit-modal{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-edit-modal.open{display:flex}
       </style>
       <div style="background:#fff;border:1px solid rgba(181,98,62,0.2);border-radius:12px;padding:12px 16px;margin-bottom:1rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
@@ -6221,7 +6257,11 @@
         <div id="crm-diaria"></div>
       </div>
       <div class="crm-hdr">
-        <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
+        <div class="crm-tab" id="crm-tabs">
+          <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+        </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
           <input class="crm-srch" id="crm-srch" placeholder="Buscar..." oninput="crmFilt(this.value)">
@@ -6231,6 +6271,16 @@
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
       <div id="crm-panel"></div>
+      <div class="crm-edit-modal" id="crm-edit-modal">
+        <div class="crm-modal">
+          <div class="crm-modal-title">Editar lead</div>
+          <div class="crm-form-grid" id="crm-edit-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseEdit()">Cancelar</button>
+            <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
+          </div>
+        </div>
+      </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
           <div class="crm-modal-title" id="crm-modal-title">Novo lead</div>
@@ -6338,6 +6388,17 @@
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
+        .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ar .crm-col-nm{color:#5a4e46}
+        .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
+        .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
+        .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
+        .crm-tab-btn{padding:5px 14px;font-size:12px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#8a7a6e;transition:all .15s}
+        .crm-tab-btn.active{background:#fff;color:#1c1410;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+        .crm-edit-modal{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-edit-modal.open{display:flex}
       </style>
       <div class="crm-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Active leads</span>
@@ -6350,6 +6411,16 @@
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
       <div id="crm-panel"></div>
+      <div class="crm-edit-modal" id="crm-edit-modal">
+        <div class="crm-modal">
+          <div class="crm-modal-title">Editar lead</div>
+          <div class="crm-form-grid" id="crm-edit-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseEdit()">Cancelar</button>
+            <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
+          </div>
+        </div>
+      </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
           <div class="crm-modal-title" id="crm-modal-title">New lead</div>
@@ -7440,16 +7511,22 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   // ── CRM ──────────────────────────────────────────────────────────────────────
   const CRM_COLS=[
-    {id:'linkedin',cls:'li',name:'LinkedIn',     pc:'#b5623e',pb:'#f8f2ee',nm:'#7a3a22',
+    {id:'linkedin', cls:'li', name:'LinkedIn',     pc:'#b5623e',pb:'#f8f2ee',nm:'#7a3a22',
      next:'Enviar mensagem de abertura ou follow-up'},
-    {id:'qualif',  cls:'qu',name:'Call qualif.', pc:'#c97a2a',pb:'#fdf6ec',nm:'#8a5010',
+    {id:'qualif',   cls:'qu', name:'Call qualif.', pc:'#c97a2a',pb:'#fdf6ec',nm:'#8a5010',
      next:'Ligar — abertura + credencial + 3 perguntas + agendar reunião'},
-    {id:'reuniao', cls:'re',name:'Reunião',      pc:'#4a7c5a',pb:'#f2f8f4',nm:'#2a5a38',
+    {id:'reuniao',  cls:'re', name:'Reunião',      pc:'#4a7c5a',pb:'#f2f8f4',nm:'#2a5a38',
      next:'Acordo sim/não → aprofundar dor → solução → proposta'},
-    {id:'proposta',cls:'pr',name:'Proposta',     pc:'#185FA5',pb:'#eef4fb',nm:'#0c447c',
+    {id:'proposta', cls:'pr', name:'Proposta',     pc:'#185FA5',pb:'#eef4fb',nm:'#0c447c',
      next:'Follow-up: confirmar decisão + contornar objeções'},
-    {id:'fechado', cls:'fe',name:'Fechado',      pc:'#6b5a4e',pb:'#f0ebe4',nm:'#3a2e25',
+    {id:'fechado',  cls:'fe', name:'Fechado',      pc:'#6b5a4e',pb:'#f0ebe4',nm:'#3a2e25',
      next:'Onboarding iniciado — agendar primeira sessão'},
+  ];
+  const CRM_COLS_ALL=[...CRM_COLS,
+    {id:'arquivado',cls:'ar',name:'Arquivado',    pc:'#8a7a6e',pb:'#f5f3f0',nm:'#5a4e46',
+     next:'Sem resposta — retomar em 3-6 meses se fizer sentido'},
+    {id:'negativa', cls:'ne',name:'Não contatar', pc:'#a32d2d',pb:'#fcebeb',nm:'#791f1f',
+     next:'Lead bloqueado — não contatar novamente'},
   ];
 
   let crmLeads=[];
@@ -7538,8 +7615,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function crmRenderKanban(){
     const el=document.getElementById('crm-kanban');
     if(!el)return;
-    const fl=crmQ?crmLeads.filter(l=>l.name.toLowerCase().includes(crmQ)||l.profissao.toLowerCase().includes(crmQ)||l.empresa.toLowerCase().includes(crmQ)):crmLeads;
-    el.innerHTML=CRM_COLS.map(c=>{
+    var activeCols = crmTab==='ativos' ? CRM_COLS :
+      CRM_COLS_ALL.filter(function(c){return c.id===crmTab;});
+    var pool = crmTab==='ativos'
+      ? crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa';})
+      : crmLeads.filter(function(l){return l.col===crmTab;});
+    const fl=crmQ?pool.filter(l=>l.name.toLowerCase().includes(crmQ)||l.profissao.toLowerCase().includes(crmQ)||(l.empresa||'').toLowerCase().includes(crmQ)):pool;
+    el.innerHTML=activeCols.map(c=>{
       const cards=fl.filter(l=>l.col===c.id);
       return`<div class="crm-col ${c.cls}">
         <div class="crm-col-hd"><span class="crm-col-nm">${c.name}</span><span class="crm-col-bdg">${cards.length}</span></div>
@@ -7671,7 +7753,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         '</div>'+
         '<div class="crm-acts">'+
           nxtBtn+
-          '<button class="crm-btn" onclick="crmDeleteLead('+l.id+')" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover lead</button>'+
+          '<button class="crm-btn" onclick="crmOpenEdit('+l.id+')" style="border-color:rgba(181,98,62,0.35);color:#7a3a22">Editar dados</button>'+
+          (l.col!=='arquivado'&&l.col!=='negativa'?'<button class="crm-btn" onclick="crmArchive('+l.id+')" style="color:#6b5a4e">Arquivar</button>':'')+''+
+          (l.col!=='negativa'?'<button class="crm-btn" onclick="crmNegativa('+l.id+')" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)">Não contatar</button>':'')+''+
+          (l.col==='arquivado'||l.col==='negativa'?'<button class="crm-btn main" onclick="crmReativar('+l.id+')">Reativar</button>':'')+''+
+          '<button class="crm-btn" onclick="crmDeleteLead('+l.id+')" style="color:#a32d2d;border-color:rgba(163,45,45,0.2)">Excluir</button>'+
         '</div>'+
       '</div>';
   }
@@ -7723,8 +7809,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     const todayFmt=crmToday();
     // Leads com ação programada para hoje ou atrasada
     const urgentes=crmLeads.filter(l=>{
+      if(l.col==='arquivado'||l.col==='negativa')return false;
       if(!l.proxData&&!l.proxAcao)return false;
-      if(!l.proxData)return true; // sem data = sempre aparece
+      if(!l.proxData)return true;
       return l.proxData<=today;
     }).sort((a,b)=>(a.proxData||'9999')>(b.proxData||'9999')?1:-1);
 
@@ -7817,6 +7904,109 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     if(!confirm('Remover este lead?'))return;
     crmLeads=crmLeads.filter(function(x){return x.id!==id;});
     crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
+
+  let crmTab='ativos';
+
+  function crmSetTab(tab){
+    crmTab=tab;
+    crmSel=null;
+    document.querySelectorAll('.crm-tab-btn').forEach(function(b){
+      b.classList.toggle('active', b.textContent.toLowerCase().includes(
+        tab==='ativos'?'ativo':tab==='arquivado'?'arquiv':'não'
+      ));
+    });
+    crmRenderKanban();
+    crmRenderPanel();
+  }
+
+  function crmArchive(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t:'Arquivado — sem resposta',d:crmToday(),c:'#8a7a6e'});
+    l.col='arquivado';
+    crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
+  function crmNegativa(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!confirm('Marcar como "Não contatar"? Este lead não aparecerá mais nas ações.'))return;
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t:'Marcado como não contatar',d:crmToday(),c:'#a32d2d'});
+    l.col='negativa';
+    crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
+  function crmReativar(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t:'Reativado para prospecção',d:crmToday(),c:'#b5623e'});
+    l.col='linkedin';
+    crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
+  function crmOpenEdit(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    var colOpts=CRM_COLS_ALL.map(function(c){
+      return '<option value="'+c.id+'"'+(c.id===l.col?' selected':'')+'>'+c.name+'</option>';
+    }).join('');
+    document.getElementById('crm-edit-grid').innerHTML=
+      '<div class="crm-form-row"><label class="crm-form-lbl">Nome completo *</label><input class="crm-form-inp" id="ef-name" value="'+(l.name||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">Profissão</label><input class="crm-form-inp" id="ef-prof" value="'+(l.profissao||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">Empresa</label><input class="crm-form-inp" id="ef-emp" value="'+(l.empresa||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">WhatsApp</label><input class="crm-form-inp" id="ef-wpp" value="'+(l.whatsapp||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">E-mail</label><input class="crm-form-inp" id="ef-email" value="'+(l.email||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">LinkedIn</label><input class="crm-form-inp" id="ef-li" value="'+(l.linkedin||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">Aniversário (DD/MM)</label><input class="crm-form-inp" id="ef-aniv" value="'+(l.aniversario||'')+'"></div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">Origem</label>'+
+        '<select class="crm-form-sel" id="ef-orig">'+
+          ['LinkedIn','Indicação','Instagram','Evento','Outro'].map(function(o){return '<option'+(o===l.origem?' selected':'')+'>'+o+'</option>';}).join('')+
+        '</select>'+
+      '</div>'+
+      '<div class="crm-form-row"><label class="crm-form-lbl">Fase</label>'+
+        '<select class="crm-form-sel" id="ef-col">'+colOpts+'</select>'+
+      '</div>'+
+      '<div class="crm-form-row full"><label class="crm-form-lbl">Notas</label>'+
+        '<input class="crm-form-inp" id="ef-notes" value="'+(l.notas||'').replace(/"/g,'&quot;')+'">'+
+      '</div>';
+    document.getElementById('crm-edit-modal').dataset.editId=id;
+    document.getElementById('crm-edit-modal').classList.add('open');
+  }
+
+  function crmCloseEdit(){
+    document.getElementById('crm-edit-modal').classList.remove('open');
+  }
+
+  function crmSaveEdit(){
+    var id=Number(document.getElementById('crm-edit-modal').dataset.editId);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    var name=(document.getElementById('ef-name').value||'').trim();
+    if(!name){alert('Nome é obrigatório.');return;}
+    l.name=name;
+    l.profissao=document.getElementById('ef-prof').value||l.profissao;
+    l.empresa=document.getElementById('ef-emp').value||l.empresa;
+    l.whatsapp=document.getElementById('ef-wpp').value||l.whatsapp;
+    l.email=document.getElementById('ef-email').value||l.email;
+    l.linkedin=document.getElementById('ef-li').value||l.linkedin;
+    l.aniversario=document.getElementById('ef-aniv').value||l.aniversario;
+    l.origem=document.getElementById('ef-orig').value||l.origem;
+    l.col=document.getElementById('ef-col').value||l.col;
+    l.notas=document.getElementById('ef-notes').value||l.notas;
+    crmCloseEdit();
     crmSave();crmRenderAll();
   }
 
