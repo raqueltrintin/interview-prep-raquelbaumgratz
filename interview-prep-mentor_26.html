@@ -1223,7 +1223,7 @@
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:10px;color:rgba(240,235,228,0.25);"><span class="app-role-dot" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:4px;vertical-align:middle;"></span><span id="header-eyebrow" data-i18n="app.eyebrow"></span></span>
-          <button class="logout-btn" onclick="doLogout()" data-i18n="app.logout" style="font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.4);cursor:pointer;">Sair</button>
+          <button id="btn-trocar-senha" onclick="mntOpenTrocarSenha()" style="display:none;font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;">Trocar senha</button> <button class="logout-btn" onclick="doLogout()" data-i18n="app.logout" style="font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.4);cursor:pointer;">Sair</button>
         </div>
       </div>
     </div>
@@ -3571,7 +3571,7 @@
     </div>`,
       'funil': `<div class="section mentor-only" id="funil">
       <div class="section-intro">
-        <div class="tag">Mentora · Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora · Exclusivo</div>
         <h2>Funil de Vendas</h2>
         <p>Roteiro completo de abordagem — do primeiro contato no LinkedIn até o fechamento. Clique em cada etapa para ver o script e as dicas.</p>
       </div>
@@ -3769,7 +3769,7 @@
     </div>`,
       'crm': `<div class="section mentor-only" id="crm">
       <div class="section-intro">
-        <div class="tag">Mentora · Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora · Exclusivo</div>
         <h2>CRM — Leads</h2>
       </div>
       <div id="crm-root"></div>
@@ -3920,7 +3920,7 @@
     </div>`,
       'mentorados': `<div class="section mentor-only" id="mentorados">
       <div class="section-intro">
-        <div class="tag">Mentora &middot; Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora &middot; Exclusivo</div>
         <h2>Gest&atilde;o de Mentorados</h2>
         <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
       </div>
@@ -6196,7 +6196,7 @@
     </div>`,
       'crm': `<div class="section mentor-only" id="crm">
       <div class="section-intro">
-        <div class="tag">Mentora · Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora · Exclusivo</div>
         <h2>CRM — Leads</h2>
       </div>
       <div id="crm-root"></div>
@@ -6487,7 +6487,7 @@
     </div>`,
       'mentorados': `<div class="section mentor-only" id="mentorados">
       <div class="section-intro">
-        <div class="tag">Mentora &middot; Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora &middot; Exclusivo</div>
         <h2>Gest&atilde;o de Mentorados</h2>
         <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
       </div>
@@ -6539,7 +6539,7 @@
     </div>`,
             'mentorados': `<div class="section mentor-only" id="mentorados">
       <div class="section-intro">
-        <div class="tag">Mentora &middot; Exclusivo</div>
+        <div class="tag mentor-only" style="display:none">Mentora &middot; Exclusivo</div>
         <h2>Gest&atilde;o de Mentorados</h2>
         <p>Cadastre, ative e gerencie os acessos dos seus mentorados.</p>
       </div>
@@ -7233,6 +7233,7 @@
     // Garantir que currentRole está sempre atualizado antes de qualquer chamada
     currentRole = role;
     const isMentor = role === 'mentor';
+    var _bs=document.getElementById('btn-trocar-senha'); if(_bs) _bs.style.display=isMentor?'none':'';
     applyRoleText();
     if (renderSections) {
       setLang(currentLang);
@@ -8446,6 +8447,55 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     } catch(e) { alert('Erro: '+e.message); }
   }
   // ── END MENTORADOS ──────────────────────────────────────────────────────────
+
+
+  // ── TROCAR SENHA ────────────────────────────────────────────────────────────
+  function mntOpenTrocarSenha() {
+    var existing = document.getElementById('modal-trocar-senha');
+    if (existing) { existing.style.display='flex'; return; }
+    var overlay = document.createElement('div');
+    overlay.id = 'modal-trocar-senha';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:380px';
+    box.innerHTML =
+      '<h3 style="font-size:15px;font-weight:500;color:#1c1410;margin-bottom:1rem">Trocar senha</h3>'+
+      '<div style="margin-bottom:10px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;display:block;margin-bottom:4px">Nova senha *</label>'+
+        '<input id="ts-pw1" type="password" placeholder="Mínimo 8 caracteres" style="padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;width:100%;box-sizing:border-box"></div>'+
+      '<div style="margin-bottom:1rem"><label style="font-size:11px;font-weight:500;color:#8a7a6e;display:block;margin-bottom:4px">Confirmar senha *</label>'+
+        '<input id="ts-pw2" type="password" placeholder="Repita a senha" style="padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;width:100%;box-sizing:border-box"></div>'+
+      '<div id="ts-msg" style="font-size:12px;color:#a32d2d;margin-bottom:10px;min-height:16px"></div>'+
+      '<div style="display:flex;gap:8px;justify-content:flex-end">'+
+        '<button id="ts-cancel" style="padding:7px 16px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#6b5a4e;cursor:pointer">Cancelar</button>'+
+        '<button onclick="mntSalvarSenha()" style="padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer">Salvar</button>'+
+      '</div>';
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    document.getElementById('ts-cancel').onclick = function(){ overlay.style.display='none'; };
+    setTimeout(function(){ var el=document.getElementById('ts-pw1'); if(el) el.focus(); }, 100);
+  }
+
+  async function mntSalvarSenha() {
+    var pw1 = (document.getElementById('ts-pw1')||{}).value || '';
+    var pw2 = (document.getElementById('ts-pw2')||{}).value || '';
+    var msg = document.getElementById('ts-msg');
+    if (!pw1 || pw1.length < 8) { msg.textContent = 'Senha deve ter no mínimo 8 caracteres.'; return; }
+    if (pw1 !== pw2) { msg.textContent = 'As senhas não coincidem.'; return; }
+    msg.style.color = '#8a7a6e'; msg.textContent = 'Salvando...';
+    try {
+      var result = await sb.auth.updateUser({ password: pw1 });
+      if (result.error) throw result.error;
+      msg.style.color = '#2a5a38'; msg.textContent = 'Senha alterada com sucesso!';
+      setTimeout(function(){
+        var m = document.getElementById('modal-trocar-senha');
+        if (m) m.style.display = 'none';
+      }, 1500);
+    } catch(e) {
+      msg.style.color = '#a32d2d';
+      msg.textContent = 'Erro: ' + (e.message || 'Tente novamente.');
+    }
+  }
+  // ── END TROCAR SENHA ────────────────────────────────────────────────────────
 
 </script>
 </body>
