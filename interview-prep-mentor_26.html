@@ -7306,15 +7306,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     ]},
     vendas: { icon: '🔽', label: 'Vendas', subs: [
       { id: 'funil', icon: '🔽', label: 'Funil de Vendas' },
-    ]},
-    crm_grupo: { icon: '👥', label: 'CRM', subs: [
-      { id: 'crm', icon: '👥', label: 'CRM de Leads' },
+      { id: 'crm',   icon: '👥', label: 'CRM de Leads' },
     ]},
   };
 
   const NG_MODES = {
     mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos'] },
-    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas','crm_grupo'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
   };
 
   let ngActiveGroup = null;
