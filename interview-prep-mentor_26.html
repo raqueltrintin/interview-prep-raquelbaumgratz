@@ -6829,6 +6829,10 @@
       // Restore active class
       if (sid === activeId) newNode.classList.add('active');
       el.replaceWith(newNode);
+      // Após re-renderizar o CRM, recarregar os dados
+      if (sid === 'crm' && typeof crmRenderAll === 'function') {
+        setTimeout(crmRenderAll, 0);
+      }
     });
 
     // Restore mentor-only visibility
@@ -7008,7 +7012,7 @@
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
-    if (id === 'crm' && typeof crmLoad === 'function') crmLoad();
+    if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
