@@ -7010,6 +7010,9 @@
     btn.disabled = true;
 
     try {
+      // Limpar sessão anterior antes de logar
+      await sb.auth.signOut();
+      currentUser = null;
       // Login via Supabase Auth
       const { data: authData, error: authError } = await sb.auth.signInWithPassword({
         email, password: pw
@@ -7055,6 +7058,12 @@
     await sb.auth.signOut();
     currentUser = null;
     currentRole = 'mentee';
+    crmLeads = []; crmSel = null;
+    localStorage.removeItem('crm_leads');
+    const _photo = document.getElementById('ng-photo');
+    if (_photo) { _photo.src=''; _photo.style.display='none'; }
+    const _ini = document.getElementById('ng-initials');
+    if (_ini) _ini.style.display='';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
     document.getElementById('email-input').value = '';
