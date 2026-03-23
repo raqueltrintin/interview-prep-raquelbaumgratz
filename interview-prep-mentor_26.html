@@ -7501,7 +7501,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       try{
         const parsed=JSON.parse(saved);
         if(Array.isArray(parsed)&&parsed.length>0){
-          crmLeads=parsed;
+          crmLeads=parsed.map(l=>{l.id=Number(l.id);return l;});
           crmNextId=Math.max(...crmLeads.map(l=>l.id))+1;
           crmRenderAll();return;
         }
@@ -7572,7 +7572,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function crmRenderPanel(){
     var el=document.getElementById('crm-panel');
-    if(!el)return;
+    if(!el){
+      // Tentar encontrar a section CRM e criar o panel
+      var sec=document.getElementById('crm');
+      if(sec){
+        el=document.createElement('div');
+        el.id='crm-panel';
+        sec.appendChild(el);
+      } else { return; }
+    }
     if(!crmSel){el.innerHTML='';return;}
     var l=crmLeads.find(function(x){return x.id===crmSel;});
     if(!l){el.innerHTML='';return;}
