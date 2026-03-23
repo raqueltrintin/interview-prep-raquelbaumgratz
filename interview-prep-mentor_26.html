@@ -7772,12 +7772,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
           '<button class="crm-btn main" style="font-size:12px" onclick="crmAddIntCustom('+l.id+')">Adicionar</button>'+
         '</div>'+
         '<div class="crm-acts">'+
+          '<button class="crm-btn" onclick="crmOpenEdit(\'+l.id+\')">Ed. dados</button>'+
           nxtBtn+
-          '<button class="crm-btn" onclick="crmOpenEdit('+l.id+')" style="border-color:rgba(181,98,62,0.35);color:#7a3a22">Editar dados</button>'+
-          (l.col!=='arquivado'&&l.col!=='negativa'?'<button class="crm-btn" onclick="crmArchive('+l.id+')" style="color:#6b5a4e">Arquivar</button>':'')+''+
-          (l.col!=='negativa'?'<button class="crm-btn" onclick="crmNegativa('+l.id+')" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)">Não contatar</button>':'')+''+
-          (l.col==='arquivado'||l.col==='negativa'?'<button class="crm-btn main" onclick="crmReativar('+l.id+')">Reativar</button>':'')+''+
-          '<button class="crm-btn" onclick="crmDeleteLead('+l.id+')" style="color:#a32d2d;border-color:rgba(163,45,45,0.2)">Excluir</button>'+
+          (l.col!=='arquivado'&&l.col!=='negativa'?'<button class="crm-btn" onclick="crmArchive(\'+l.id+\')">Arquivar</button>':'')+'\''+'+'+
+          (l.col!=='negativa'?'<button class="crm-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)" onclick="crmNegativa(\'+l.id+\')">N\u00e3o contatar</button>':'')+'\''+'+'+
+          (l.col==='arquivado'||l.col==='negativa'?'<button class="crm-btn main" onclick="crmReativar(\'+l.id+\')">Reativar</button>':'')+'\''+'+'+
+          '<button class="crm-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.2)" onclick="crmDeleteLead(\'+l.id+\')">Excluir</button>'+
+          '<button class="crm-btn" style="margin-left:auto;color:#8a7a6e" onclick="crmPick(\'+l.id+\')">Recolher &#8593;</button>'+
         '</div>'+
       '</div>';
   }
