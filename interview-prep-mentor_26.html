@@ -1187,6 +1187,7 @@
       <div class="section" id="biblioteca"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="funil"></div>
+      <div class="section mentor-only" id="crm"></div>
     </main>
   </div>
 
@@ -3765,6 +3766,124 @@
 </div>
       </div>
     </div>`,
+      'crm': `<div class="section mentor-only" id="crm">
+      <div class="section-intro">
+        <div class="tag">Mentora · Exclusivo</div>
+        <h2>CRM — Leads</h2>
+      </div>
+      <div id="crm-root"></div>
+      <style>
+        #crm-root *{box-sizing:border-box;margin:0;padding:0}
+        #crm-root{font-family:'DM Sans',sans-serif;color:#1c1410}
+        .crm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:8px;flex-wrap:wrap}
+        .crm-srch{padding:6px 12px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#fff;color:#1c1410;width:160px;outline:none}
+        .crm-srch:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-btn-new{padding:6px 14px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .crm-btn-new:hover{background:rgba(181,98,62,0.18)}
+        .crm-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem}
+        .crm-mc{border-radius:10px;padding:10px 14px}
+        .crm-mc.p{background:#f8f2ee;border:1px solid rgba(181,98,62,0.2)}
+        .crm-mc.c{background:#fdf6ec;border:1px solid rgba(201,122,42,0.2)}
+        .crm-mc.t{background:#f2f8f4;border:1px solid rgba(74,124,90,0.2)}
+        .crm-mc.g{background:#f0ebe4;border:1px solid rgba(107,90,78,0.15)}
+        .crm-mc-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+        .crm-mc.p .crm-mc-lbl{color:#7a3a22}.crm-mc.c .crm-mc-lbl{color:#8a5010}.crm-mc.t .crm-mc-lbl{color:#2a5a38}.crm-mc.g .crm-mc-lbl{color:#3a2e25}
+        .crm-mc-val{font-size:20px;font-weight:500;color:#1c1410}
+        .crm-mc-sub{font-size:11px;color:#8a7a6e;margin-top:2px}
+        .crm-kanban{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:start}
+        .crm-col{border-radius:12px;padding:10px;border:1px solid rgba(0,0,0,0.07)}
+        .crm-col.li{background:#f8f2ee;border-color:rgba(181,98,62,0.15)}
+        .crm-col.qu{background:#fdf6ec;border-color:rgba(201,122,42,0.15)}
+        .crm-col.re{background:#f2f8f4;border-color:rgba(74,124,90,0.15)}
+        .crm-col.pr{background:#eef4fb;border-color:rgba(55,138,221,0.15)}
+        .crm-col.fe{background:#f0ebe4;border-color:rgba(107,90,78,0.15)}
+        .crm-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .crm-col-nm{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em}
+        .crm-col.li .crm-col-nm{color:#7a3a22}.crm-col.qu .crm-col-nm{color:#8a5010}.crm-col.re .crm-col-nm{color:#2a5a38}.crm-col.pr .crm-col-nm{color:#0c447c}.crm-col.fe .crm-col-nm{color:#3a2e25}
+        .crm-col-bdg{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+        .crm-col.li .crm-col-bdg{background:rgba(181,98,62,0.12);color:#b5623e}
+        .crm-col.qu .crm-col-bdg{background:rgba(201,122,42,0.12);color:#8a5010}
+        .crm-col.re .crm-col-bdg{background:rgba(74,124,90,0.12);color:#2a5a38}
+        .crm-col.pr .crm-col-bdg{background:rgba(24,95,165,0.1);color:#0c447c}
+        .crm-col.fe .crm-col-bdg{background:rgba(107,90,78,0.12);color:#3a2e25}
+        .crm-card{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);transition:border-color .15s,transform .12s}
+        .crm-card:hover{transform:translateY(-1px);border-color:rgba(0,0,0,0.15)}
+        .crm-card.sel{border-color:#b5623e;border-width:1.5px}
+        .crm-c-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+        .crm-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+        .crm-c-name{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-c-role{font-size:10.5px;color:#8a7a6e;margin-top:1px}
+        .crm-c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+        .crm-otag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px}
+        .crm-c-dt{font-size:10px;color:#8a7a6e}
+        .crm-sw{display:flex;align-items:center;gap:5px;margin-top:5px}
+        .crm-sw-txt{font-size:10px;color:#8a7a6e;min-width:48px}
+        .crm-sw-tr{flex:1;height:3px;background:rgba(0,0,0,0.07);border-radius:2px;overflow:hidden}
+        .crm-sw-fi{height:100%;border-radius:2px}
+        .crm-aniv{font-size:9.5px;padding:2px 6px;border-radius:4px;background:#fdf6ec;color:#c97a2a;border:1px solid rgba(201,122,42,0.2);margin-top:4px;display:inline-block}
+        .crm-empty{font-size:11px;color:#8a7a6e;text-align:center;padding:14px 0;opacity:.7}
+        .crm-panel{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:1rem 1.25rem;margin-top:.75rem}
+        .crm-p-hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .crm-p-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
+        .crm-p-name{font-size:16px;font-weight:500;color:#1c1410}
+        .crm-p-role{font-size:12px;color:#8a7a6e;margin-top:2px}
+        .crm-p-phase{margin-left:auto;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;white-space:nowrap}
+        .crm-p-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+        .crm-fld{padding:8px 10px;background:#faf7f4;border-radius:8px}
+        .crm-fld-lbl{font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+        .crm-fld-val{font-size:12.5px;color:#1c1410}
+        .crm-fld-val.accent{color:#b5623e}
+        .crm-next{padding:10px 12px;border-radius:8px;margin-bottom:10px;border-left:3px solid}
+        .crm-next-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+        .crm-next-txt{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-sec{font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin:12px 0 6px}
+        .crm-notes{padding:10px 12px;background:#faf7f4;border-radius:8px;font-size:12.5px;color:#8a7a6e;line-height:1.6}
+        .crm-tl{display:flex;flex-direction:column;gap:6px}
+        .crm-tl-row{display:flex;gap:9px;align-items:flex-start}
+        .crm-tl-dot{width:8px;height:8px;border-radius:50%;margin-top:3px;flex-shrink:0}
+        .crm-tl-main{font-size:12px;color:#1c1410}
+        .crm-tl-dt{font-size:11px;color:#8a7a6e;margin-top:1px}
+        .crm-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .crm-btn{padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#1c1410;cursor:pointer}
+        .crm-btn:hover{background:#faf7f4}
+        .crm-btn.main{border-color:rgba(181,98,62,0.45);color:#b5623e;background:rgba(181,98,62,0.07)}
+        .crm-btn.main:hover{background:rgba(181,98,62,0.14)}
+        .crm-modal-bg{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-modal-bg.open{display:flex}
+        .crm-modal{background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:500px;border:1px solid rgba(0,0,0,0.1)}
+        .crm-modal-title{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .crm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .crm-form-row{display:flex;flex-direction:column;gap:4px}
+        .crm-form-row.full{grid-column:1/-1}
+        .crm-form-lbl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .crm-form-inp{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif}
+        .crm-form-inp:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
+        .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
+        .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+      </style>
+      <div class="crm-hdr">
+        <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="crm-saving" id="crm-saving"></div>
+          <input class="crm-srch" id="crm-srch" placeholder="Buscar..." oninput="crmFilt(this.value)">
+          <button class="crm-btn-new" onclick="crmOpenForm()">+ Novo lead</button>
+        </div>
+      </div>
+      <div class="crm-metrics" id="crm-metrics"></div>
+      <div class="crm-kanban" id="crm-kanban"></div>
+      <div id="crm-panel"></div>
+      <div class="crm-modal-bg" id="crm-modal-bg">
+        <div class="crm-modal">
+          <div class="crm-modal-title" id="crm-modal-title">Novo lead</div>
+          <div class="crm-form-grid" id="crm-form-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseForm()">Cancelar</button>
+            <button class="crm-btn main" onclick="crmSaveForm()">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Visão da Mentora</div>
@@ -5989,6 +6108,242 @@
 </div>
       </div>
     </div>`,
+      'crm': `<div class="section mentor-only" id="crm">
+      <div class="section-intro">
+        <div class="tag">Mentora · Exclusivo</div>
+        <h2>CRM — Leads</h2>
+      </div>
+      <div id="crm-root"></div>
+      <style>
+        #crm-root *{box-sizing:border-box;margin:0;padding:0}
+        #crm-root{font-family:'DM Sans',sans-serif;color:#1c1410}
+        .crm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:8px;flex-wrap:wrap}
+        .crm-srch{padding:6px 12px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#fff;color:#1c1410;width:160px;outline:none}
+        .crm-srch:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-btn-new{padding:6px 14px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .crm-btn-new:hover{background:rgba(181,98,62,0.18)}
+        .crm-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem}
+        .crm-mc{border-radius:10px;padding:10px 14px}
+        .crm-mc.p{background:#f8f2ee;border:1px solid rgba(181,98,62,0.2)}
+        .crm-mc.c{background:#fdf6ec;border:1px solid rgba(201,122,42,0.2)}
+        .crm-mc.t{background:#f2f8f4;border:1px solid rgba(74,124,90,0.2)}
+        .crm-mc.g{background:#f0ebe4;border:1px solid rgba(107,90,78,0.15)}
+        .crm-mc-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+        .crm-mc.p .crm-mc-lbl{color:#7a3a22}.crm-mc.c .crm-mc-lbl{color:#8a5010}.crm-mc.t .crm-mc-lbl{color:#2a5a38}.crm-mc.g .crm-mc-lbl{color:#3a2e25}
+        .crm-mc-val{font-size:20px;font-weight:500;color:#1c1410}
+        .crm-mc-sub{font-size:11px;color:#8a7a6e;margin-top:2px}
+        .crm-kanban{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:start}
+        .crm-col{border-radius:12px;padding:10px;border:1px solid rgba(0,0,0,0.07)}
+        .crm-col.li{background:#f8f2ee;border-color:rgba(181,98,62,0.15)}
+        .crm-col.qu{background:#fdf6ec;border-color:rgba(201,122,42,0.15)}
+        .crm-col.re{background:#f2f8f4;border-color:rgba(74,124,90,0.15)}
+        .crm-col.pr{background:#eef4fb;border-color:rgba(55,138,221,0.15)}
+        .crm-col.fe{background:#f0ebe4;border-color:rgba(107,90,78,0.15)}
+        .crm-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .crm-col-nm{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em}
+        .crm-col.li .crm-col-nm{color:#7a3a22}.crm-col.qu .crm-col-nm{color:#8a5010}.crm-col.re .crm-col-nm{color:#2a5a38}.crm-col.pr .crm-col-nm{color:#0c447c}.crm-col.fe .crm-col-nm{color:#3a2e25}
+        .crm-col-bdg{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+        .crm-col.li .crm-col-bdg{background:rgba(181,98,62,0.12);color:#b5623e}
+        .crm-col.qu .crm-col-bdg{background:rgba(201,122,42,0.12);color:#8a5010}
+        .crm-col.re .crm-col-bdg{background:rgba(74,124,90,0.12);color:#2a5a38}
+        .crm-col.pr .crm-col-bdg{background:rgba(24,95,165,0.1);color:#0c447c}
+        .crm-col.fe .crm-col-bdg{background:rgba(107,90,78,0.12);color:#3a2e25}
+        .crm-card{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);transition:border-color .15s,transform .12s}
+        .crm-card:hover{transform:translateY(-1px);border-color:rgba(0,0,0,0.15)}
+        .crm-card.sel{border-color:#b5623e;border-width:1.5px}
+        .crm-c-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+        .crm-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+        .crm-c-name{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-c-role{font-size:10.5px;color:#8a7a6e;margin-top:1px}
+        .crm-c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+        .crm-otag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px}
+        .crm-c-dt{font-size:10px;color:#8a7a6e}
+        .crm-sw{display:flex;align-items:center;gap:5px;margin-top:5px}
+        .crm-sw-txt{font-size:10px;color:#8a7a6e;min-width:48px}
+        .crm-sw-tr{flex:1;height:3px;background:rgba(0,0,0,0.07);border-radius:2px;overflow:hidden}
+        .crm-sw-fi{height:100%;border-radius:2px}
+        .crm-aniv{font-size:9.5px;padding:2px 6px;border-radius:4px;background:#fdf6ec;color:#c97a2a;border:1px solid rgba(201,122,42,0.2);margin-top:4px;display:inline-block}
+        .crm-empty{font-size:11px;color:#8a7a6e;text-align:center;padding:14px 0;opacity:.7}
+        .crm-panel{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:1rem 1.25rem;margin-top:.75rem}
+        .crm-p-hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .crm-p-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
+        .crm-p-name{font-size:16px;font-weight:500;color:#1c1410}
+        .crm-p-role{font-size:12px;color:#8a7a6e;margin-top:2px}
+        .crm-p-phase{margin-left:auto;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;white-space:nowrap}
+        .crm-p-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+        .crm-fld{padding:8px 10px;background:#faf7f4;border-radius:8px}
+        .crm-fld-lbl{font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+        .crm-fld-val{font-size:12.5px;color:#1c1410}
+        .crm-fld-val.accent{color:#b5623e}
+        .crm-next{padding:10px 12px;border-radius:8px;margin-bottom:10px;border-left:3px solid}
+        .crm-next-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+        .crm-next-txt{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-sec{font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin:12px 0 6px}
+        .crm-notes{padding:10px 12px;background:#faf7f4;border-radius:8px;font-size:12.5px;color:#8a7a6e;line-height:1.6}
+        .crm-tl{display:flex;flex-direction:column;gap:6px}
+        .crm-tl-row{display:flex;gap:9px;align-items:flex-start}
+        .crm-tl-dot{width:8px;height:8px;border-radius:50%;margin-top:3px;flex-shrink:0}
+        .crm-tl-main{font-size:12px;color:#1c1410}
+        .crm-tl-dt{font-size:11px;color:#8a7a6e;margin-top:1px}
+        .crm-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .crm-btn{padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#1c1410;cursor:pointer}
+        .crm-btn:hover{background:#faf7f4}
+        .crm-btn.main{border-color:rgba(181,98,62,0.45);color:#b5623e;background:rgba(181,98,62,0.07)}
+        .crm-btn.main:hover{background:rgba(181,98,62,0.14)}
+        .crm-modal-bg{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-modal-bg.open{display:flex}
+        .crm-modal{background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:500px;border:1px solid rgba(0,0,0,0.1)}
+        .crm-modal-title{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .crm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .crm-form-row{display:flex;flex-direction:column;gap:4px}
+        .crm-form-row.full{grid-column:1/-1}
+        .crm-form-lbl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .crm-form-inp{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif}
+        .crm-form-inp:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
+        .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
+        .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+      </style>
+      <div class="crm-hdr">
+        <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="crm-saving" id="crm-saving"></div>
+          <input class="crm-srch" id="crm-srch" placeholder="Buscar..." oninput="crmFilt(this.value)">
+          <button class="crm-btn-new" onclick="crmOpenForm()">+ Novo lead</button>
+        </div>
+      </div>
+      <div class="crm-metrics" id="crm-metrics"></div>
+      <div class="crm-kanban" id="crm-kanban"></div>
+      <div id="crm-panel"></div>
+      <div class="crm-modal-bg" id="crm-modal-bg">
+        <div class="crm-modal">
+          <div class="crm-modal-title" id="crm-modal-title">Novo lead</div>
+          <div class="crm-form-grid" id="crm-form-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseForm()">Cancelar</button>
+            <button class="crm-btn main" onclick="crmSaveForm()">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
+            'crm': `<div class="section mentor-only" id="crm">
+      <div class="section-intro">
+        <div class="tag">Mentor · Exclusive</div>
+        <h2>CRM — Leads</h2>
+      </div>
+      <div id="crm-root"></div>
+      <style>
+        #crm-root *{box-sizing:border-box;margin:0;padding:0}
+        #crm-root{font-family:'DM Sans',sans-serif;color:#1c1410}
+        .crm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:8px;flex-wrap:wrap}
+        .crm-srch{padding:6px 12px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#fff;color:#1c1410;width:160px;outline:none}
+        .crm-srch:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-btn-new{padding:6px 14px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .crm-btn-new:hover{background:rgba(181,98,62,0.18)}
+        .crm-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem}
+        .crm-mc{border-radius:10px;padding:10px 14px}
+        .crm-mc.p{background:#f8f2ee;border:1px solid rgba(181,98,62,0.2)}
+        .crm-mc.c{background:#fdf6ec;border:1px solid rgba(201,122,42,0.2)}
+        .crm-mc.t{background:#f2f8f4;border:1px solid rgba(74,124,90,0.2)}
+        .crm-mc.g{background:#f0ebe4;border:1px solid rgba(107,90,78,0.15)}
+        .crm-mc-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+        .crm-mc.p .crm-mc-lbl{color:#7a3a22}.crm-mc.c .crm-mc-lbl{color:#8a5010}.crm-mc.t .crm-mc-lbl{color:#2a5a38}.crm-mc.g .crm-mc-lbl{color:#3a2e25}
+        .crm-mc-val{font-size:20px;font-weight:500;color:#1c1410}
+        .crm-mc-sub{font-size:11px;color:#8a7a6e;margin-top:2px}
+        .crm-kanban{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:start}
+        .crm-col{border-radius:12px;padding:10px;border:1px solid rgba(0,0,0,0.07)}
+        .crm-col.li{background:#f8f2ee;border-color:rgba(181,98,62,0.15)}
+        .crm-col.qu{background:#fdf6ec;border-color:rgba(201,122,42,0.15)}
+        .crm-col.re{background:#f2f8f4;border-color:rgba(74,124,90,0.15)}
+        .crm-col.pr{background:#eef4fb;border-color:rgba(55,138,221,0.15)}
+        .crm-col.fe{background:#f0ebe4;border-color:rgba(107,90,78,0.15)}
+        .crm-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .crm-col-nm{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em}
+        .crm-col.li .crm-col-nm{color:#7a3a22}.crm-col.qu .crm-col-nm{color:#8a5010}.crm-col.re .crm-col-nm{color:#2a5a38}.crm-col.pr .crm-col-nm{color:#0c447c}.crm-col.fe .crm-col-nm{color:#3a2e25}
+        .crm-col-bdg{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+        .crm-col.li .crm-col-bdg{background:rgba(181,98,62,0.12);color:#b5623e}
+        .crm-col.qu .crm-col-bdg{background:rgba(201,122,42,0.12);color:#8a5010}
+        .crm-col.re .crm-col-bdg{background:rgba(74,124,90,0.12);color:#2a5a38}
+        .crm-col.pr .crm-col-bdg{background:rgba(24,95,165,0.1);color:#0c447c}
+        .crm-col.fe .crm-col-bdg{background:rgba(107,90,78,0.12);color:#3a2e25}
+        .crm-card{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);transition:border-color .15s,transform .12s}
+        .crm-card:hover{transform:translateY(-1px);border-color:rgba(0,0,0,0.15)}
+        .crm-card.sel{border-color:#b5623e;border-width:1.5px}
+        .crm-c-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+        .crm-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+        .crm-c-name{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-c-role{font-size:10.5px;color:#8a7a6e;margin-top:1px}
+        .crm-c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+        .crm-otag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px}
+        .crm-c-dt{font-size:10px;color:#8a7a6e}
+        .crm-sw{display:flex;align-items:center;gap:5px;margin-top:5px}
+        .crm-sw-txt{font-size:10px;color:#8a7a6e;min-width:48px}
+        .crm-sw-tr{flex:1;height:3px;background:rgba(0,0,0,0.07);border-radius:2px;overflow:hidden}
+        .crm-sw-fi{height:100%;border-radius:2px}
+        .crm-aniv{font-size:9.5px;padding:2px 6px;border-radius:4px;background:#fdf6ec;color:#c97a2a;border:1px solid rgba(201,122,42,0.2);margin-top:4px;display:inline-block}
+        .crm-empty{font-size:11px;color:#8a7a6e;text-align:center;padding:14px 0;opacity:.7}
+        .crm-panel{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:1rem 1.25rem;margin-top:.75rem}
+        .crm-p-hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .crm-p-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex-shrink:0}
+        .crm-p-name{font-size:16px;font-weight:500;color:#1c1410}
+        .crm-p-role{font-size:12px;color:#8a7a6e;margin-top:2px}
+        .crm-p-phase{margin-left:auto;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;white-space:nowrap}
+        .crm-p-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+        .crm-fld{padding:8px 10px;background:#faf7f4;border-radius:8px}
+        .crm-fld-lbl{font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+        .crm-fld-val{font-size:12.5px;color:#1c1410}
+        .crm-fld-val.accent{color:#b5623e}
+        .crm-next{padding:10px 12px;border-radius:8px;margin-bottom:10px;border-left:3px solid}
+        .crm-next-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+        .crm-next-txt{font-size:12.5px;font-weight:500;color:#1c1410}
+        .crm-sec{font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin:12px 0 6px}
+        .crm-notes{padding:10px 12px;background:#faf7f4;border-radius:8px;font-size:12.5px;color:#8a7a6e;line-height:1.6}
+        .crm-tl{display:flex;flex-direction:column;gap:6px}
+        .crm-tl-row{display:flex;gap:9px;align-items:flex-start}
+        .crm-tl-dot{width:8px;height:8px;border-radius:50%;margin-top:3px;flex-shrink:0}
+        .crm-tl-main{font-size:12px;color:#1c1410}
+        .crm-tl-dt{font-size:11px;color:#8a7a6e;margin-top:1px}
+        .crm-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .crm-btn{padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#1c1410;cursor:pointer}
+        .crm-btn:hover{background:#faf7f4}
+        .crm-btn.main{border-color:rgba(181,98,62,0.45);color:#b5623e;background:rgba(181,98,62,0.07)}
+        .crm-btn.main:hover{background:rgba(181,98,62,0.14)}
+        .crm-modal-bg{display:none;position:relative;min-height:480px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .crm-modal-bg.open{display:flex}
+        .crm-modal{background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:500px;border:1px solid rgba(0,0,0,0.1)}
+        .crm-modal-title{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .crm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .crm-form-row{display:flex;flex-direction:column;gap:4px}
+        .crm-form-row.full{grid-column:1/-1}
+        .crm-form-lbl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .crm-form-inp{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif}
+        .crm-form-inp:focus{border-color:rgba(181,98,62,0.4)}
+        .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
+        .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
+        .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+      </style>
+      <div class="crm-hdr">
+        <span style="font-size:14px;font-weight:500;color:#1c1410">Active leads</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="crm-saving" id="crm-saving"></div>
+          <input class="crm-srch" id="crm-srch" placeholder="Search..." oninput="crmFilt(this.value)">
+          <button class="crm-btn-new" onclick="crmOpenForm()">+ New lead</button>
+        </div>
+      </div>
+      <div class="crm-metrics" id="crm-metrics"></div>
+      <div class="crm-kanban" id="crm-kanban"></div>
+      <div id="crm-panel"></div>
+      <div class="crm-modal-bg" id="crm-modal-bg">
+        <div class="crm-modal">
+          <div class="crm-modal-title" id="crm-modal-title">New lead</div>
+          <div class="crm-form-grid" id="crm-form-grid"></div>
+          <div class="crm-form-acts">
+            <button class="crm-btn" onclick="crmCloseForm()">Cancel</button>
+            <button class="crm-btn main" onclick="crmSaveForm()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Mentor View</div>
@@ -6445,7 +6800,7 @@
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -6636,6 +6991,7 @@
     const section = document.getElementById(id);
     if (section) section.classList.add('active');
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') ssiRestoreChecks();
+    if (id === 'crm' && typeof crmLoad === 'function') crmLoad();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -6855,11 +7211,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     vendas: { icon: '🔽', label: 'Vendas', subs: [
       { id: 'funil', icon: '🔽', label: 'Funil de Vendas' },
     ]},
+    crm_grupo: { icon: '👥', label: 'CRM', subs: [
+      { id: 'crm', icon: '👥', label: 'CRM de Leads' },
+    ]},
   };
 
   const NG_MODES = {
     mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos'] },
-    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas','crm_grupo'] },
   };
 
   let ngActiveGroup = null;
@@ -7056,6 +7415,255 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   // Restore on section load
   document.addEventListener('DOMContentLoaded', ssiRestoreChecks);
+
+
+  // ── CRM ──────────────────────────────────────────────────────────────────────
+  const CRM_COLS=[
+    {id:'linkedin',cls:'li',name:'LinkedIn',     pc:'#b5623e',pb:'#f8f2ee',nm:'#7a3a22',
+     next:'Enviar mensagem de abertura ou follow-up'},
+    {id:'qualif',  cls:'qu',name:'Call qualif.', pc:'#c97a2a',pb:'#fdf6ec',nm:'#8a5010',
+     next:'Ligar — abertura + credencial + 3 perguntas + agendar reunião'},
+    {id:'reuniao', cls:'re',name:'Reunião',      pc:'#4a7c5a',pb:'#f2f8f4',nm:'#2a5a38',
+     next:'Acordo sim/não → aprofundar dor → solução → proposta'},
+    {id:'proposta',cls:'pr',name:'Proposta',     pc:'#185FA5',pb:'#eef4fb',nm:'#0c447c',
+     next:'Follow-up: confirmar decisão + contornar objeções'},
+    {id:'fechado', cls:'fe',name:'Fechado',      pc:'#6b5a4e',pb:'#f0ebe4',nm:'#3a2e25',
+     next:'Onboarding iniciado — agendar primeira sessão'},
+  ];
+
+  let crmLeads=[];
+  let crmSel=null, crmQ='', crmNextId=1, crmSaveTimer=null;
+
+  function crmCol(id){return CRM_COLS.find(c=>c.id===id)}
+  function crmIni(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
+  function crmSc(s){return s>=80?'#4a7c5a':s>=50?'#c97a2a':'#b5623e'}
+  function crmToday(){return new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}
+
+  const CRM_MONTHS=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  function crmAniv(aniv){
+    if(!aniv)return null;
+    const [d,m]=aniv.split('/').map(Number);
+    if(!d||!m)return null;
+    const now=new Date();
+    let next=new Date(now.getFullYear(),m-1,d);
+    if(next<now)next=new Date(now.getFullYear()+1,m-1,d);
+    const diff=Math.round((next-now)/(1000*60*60*24));
+    if(diff<=7)return'🎂 Aniv. em '+(diff===0?'hoje':diff+'d');
+    if(diff<=30)return'🎂 '+d+'/'+CRM_MONTHS[m-1];
+    return null;
+  }
+
+  // Persistência via tabela notes (chave: crm_leads)
+  async function crmSave(){
+    if(!currentUser)return;
+    document.getElementById('crm-saving').textContent='Salvando...';
+    clearTimeout(crmSaveTimer);
+    crmSaveTimer=setTimeout(async()=>{
+      try{
+        await sb.from('notes').upsert({
+          user_id:currentUser.id,
+          note_key:'crm_leads',
+          content:JSON.stringify(crmLeads),
+          updated_at:new Date().toISOString()
+        },{onConflict:'user_id,note_key'});
+        document.getElementById('crm-saving').textContent='Salvo';
+        setTimeout(()=>{const el=document.getElementById('crm-saving');if(el)el.textContent=''},2000);
+      }catch(e){document.getElementById('crm-saving').textContent='Erro ao salvar';}
+    },800);
+  }
+
+  async function crmLoad(){
+    if(!currentUser)return;
+    // Tenta do localStorage primeiro (já carregado pelo loadNotesFromSupabase)
+    const saved=localStorage.getItem('crm_leads');
+    if(saved){
+      try{
+        const parsed=JSON.parse(saved);
+        if(Array.isArray(parsed)&&parsed.length>0){
+          crmLeads=parsed;
+          crmNextId=Math.max(...crmLeads.map(l=>l.id))+1;
+          crmRenderAll();return;
+        }
+      }catch(e){}
+    }
+    // Se não tem nada salvo, começa vazio
+    crmLeads=[];
+    crmNextId=1;
+    crmRenderAll();
+  }
+
+  function crmRenderAll(){
+    crmRenderMetrics();
+    crmRenderKanban();
+    crmRenderPanel();
+  }
+
+  function crmRenderMetrics(){
+    const el=document.getElementById('crm-metrics');
+    if(!el)return;
+    const t=crmLeads.length;
+    const f=crmLeads.filter(l=>l.col==='fechado').length;
+    const pip=crmLeads.filter(l=>['qualif','reuniao','proposta'].includes(l.col)).length;
+    const li=crmLeads.filter(l=>l.col==='linkedin').length;
+    el.innerHTML=`
+      <div class="crm-mc g"><div class="crm-mc-lbl">Total leads</div><div class="crm-mc-val">${t}</div><div class="crm-mc-sub">no funil</div></div>
+      <div class="crm-mc p"><div class="crm-mc-lbl">LinkedIn</div><div class="crm-mc-val">${li}</div><div class="crm-mc-sub">prospecção</div></div>
+      <div class="crm-mc c"><div class="crm-mc-lbl">Negociação</div><div class="crm-mc-val">${pip}</div><div class="crm-mc-sub">call+reunião+proposta</div></div>
+      <div class="crm-mc t"><div class="crm-mc-lbl">Fechados</div><div class="crm-mc-val">${f} · R$${f*15}k</div><div class="crm-mc-sub">receita gerada</div></div>`;
+  }
+
+  function crmRenderKanban(){
+    const el=document.getElementById('crm-kanban');
+    if(!el)return;
+    const fl=crmQ?crmLeads.filter(l=>l.name.toLowerCase().includes(crmQ)||l.profissao.toLowerCase().includes(crmQ)||l.empresa.toLowerCase().includes(crmQ)):crmLeads;
+    el.innerHTML=CRM_COLS.map(c=>{
+      const cards=fl.filter(l=>l.col===c.id);
+      return`<div class="crm-col ${c.cls}">
+        <div class="crm-col-hd"><span class="crm-col-nm">${c.name}</span><span class="crm-col-bdg">${cards.length}</span></div>
+        ${cards.length===0?'<div class="crm-empty">Vazio</div>':cards.map(l=>{
+          const av=crmAniv(l.aniversario);
+          return`<div class="crm-card${l.id===crmSel?' sel':''}" onclick="crmPick(${l.id})">
+            <div class="crm-c-top">
+              <div class="crm-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
+              <div><div class="crm-c-name">${l.name}</div><div class="crm-c-role">${l.profissao} · ${l.empresa}</div></div>
+            </div>
+            <div class="crm-c-foot">
+              <span class="crm-otag" style="background:${c.pb};color:${c.pc}">${l.origem}</span>
+              <span class="crm-c-dt">${l.timeline&&l.timeline.length?l.timeline[l.timeline.length-1].d:''}</span>
+            </div>
+            <div class="crm-sw"><span class="crm-sw-txt">Score ${l.score||0}%</span><div class="crm-sw-tr"><div class="crm-sw-fi" style="width:${l.score||0}%;background:${crmSc(l.score||0)}"></div></div></div>
+            ${av?`<div class="crm-aniv">${av}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>`;
+    }).join('');
+  }
+
+  function crmRenderPanel(){
+    const el=document.getElementById('crm-panel');
+    if(!el)return;
+    if(!crmSel){el.innerHTML='';return}
+    const l=crmLeads.find(x=>x.id===crmSel);
+    if(!l){el.innerHTML='';return}
+    const c=crmCol(l.col);
+    const nxtIdx=CRM_COLS.findIndex(x=>x.id===l.col)+1;
+    const nxtC=nxtIdx<CRM_COLS.length?CRM_COLS[nxtIdx]:null;
+    const av=crmAniv(l.aniversario);
+    el.innerHTML=`<div class="crm-panel">
+      <div class="crm-p-hd">
+        <div class="crm-p-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
+        <div>
+          <div class="crm-p-name">${l.name}${av?` <span class="crm-aniv">${av}</span>`:''}</div>
+          <div class="crm-p-role">${l.profissao} · ${l.empresa}</div>
+        </div>
+        <span class="crm-p-phase" style="background:${c.pb};color:${c.pc}">${c.name}</span>
+      </div>
+      <div class="crm-next" style="background:${c.pb};border-left-color:${c.pc}">
+        <div class="crm-next-lbl" style="color:${c.nm}">Próxima ação</div>
+        <div class="crm-next-txt">${c.next}</div>
+      </div>
+      <div class="crm-p-fields">
+        <div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">${l.whatsapp||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">E-mail</div><div class="crm-fld-val">${l.email||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">LinkedIn</div><div class="crm-fld-val accent">${l.linkedin||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">Empresa</div><div class="crm-fld-val">${l.empresa||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">Profissão</div><div class="crm-fld-val">${l.profissao||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">Aniversário</div><div class="crm-fld-val">${l.aniversario||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">Origem</div><div class="crm-fld-val">${l.origem||'—'}</div></div>
+        <div class="crm-fld"><div class="crm-fld-lbl">Valor potencial</div><div class="crm-fld-val">R$ 15.000</div></div>
+      </div>
+      <div class="crm-fld" style="margin-bottom:10px">
+        <div class="crm-fld-lbl" style="margin-bottom:6px">Score — ${l.score||0}%</div>
+        <div style="height:5px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${l.score||0}%;background:${crmSc(l.score||0)};border-radius:3px"></div>
+        </div>
+      </div>
+      <div class="crm-sec">Notas</div>
+      <div class="crm-notes" id="crm-notes-edit" contenteditable="true" oninput="crmEditNotes(${l.id},this.innerText)">${l.notas||''}</div>
+      <div class="crm-sec">Histórico</div>
+      <div class="crm-tl">${(l.timeline||[]).map(t=>`<div class="crm-tl-row"><div class="crm-tl-dot" style="background:${t.c}"></div><div><div class="crm-tl-main">${t.t}</div><div class="crm-tl-dt">${t.d}</div></div></div>`).join('')}</div>
+      <div class="crm-acts">
+        ${nxtC?`<button class="crm-btn main" onclick="crmAdvance(${l.id})">→ ${nxtC.name}</button>`:''}
+        <button class="crm-btn" onclick="crmAddInt(${l.id})">+ Interação</button>
+        <button class="crm-btn" onclick="crmDeleteLead(${l.id})" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover</button>
+      </div>
+    </div>`;
+  }
+
+  function crmPick(id){crmSel=crmSel===id?null:id;crmRenderKanban();crmRenderPanel()}
+  function crmFilt(v){crmQ=v.toLowerCase();crmRenderKanban()}
+
+  function crmAdvance(id){
+    const l=crmLeads.find(x=>x.id===id);
+    const idx=CRM_COLS.findIndex(c=>c.id===l.col);
+    if(idx<CRM_COLS.length-1){
+      l.col=CRM_COLS[idx+1].id;
+      l.score=Math.min(100,(l.score||0)+15);
+      if(!l.timeline)l.timeline=[];
+      l.timeline.push({t:'Avançou para '+CRM_COLS[idx+1].name,d:crmToday(),c:CRM_COLS[idx+1].pc});
+    }
+    crmSave();crmRenderAll();
+  }
+
+  function crmEditNotes(id,txt){
+    const l=crmLeads.find(x=>x.id===id);
+    if(l){l.notas=txt;crmSave();}
+  }
+
+  function crmAddInt(id){
+    const t=prompt('Descreva a interação:');
+    if(!t)return;
+    const l=crmLeads.find(x=>x.id===id);
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t,d:crmToday(),c:'#6b5a4e'});
+    crmSave();crmRenderPanel();
+  }
+
+  function crmDeleteLead(id){
+    if(!confirm('Remover este lead?'))return;
+    crmLeads=crmLeads.filter(x=>x.id!==id);
+    crmSel=null;
+    crmSave();crmRenderAll();
+  }
+
+  function crmOpenForm(){
+    document.getElementById('crm-modal-title').textContent='Novo lead';
+    document.getElementById('crm-form-grid').innerHTML=`
+      <div class="crm-form-row"><label class="crm-form-lbl">Nome completo *</label><input class="crm-form-inp" id="cf-name" placeholder="Ana Silva"></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">Profissão *</label><input class="crm-form-inp" id="cf-prof" placeholder="UX Designer Sr."></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">Empresa</label><input class="crm-form-inp" id="cf-emp" placeholder="Empresa atual"></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">WhatsApp</label><input class="crm-form-inp" id="cf-wpp" placeholder="(11) 99999-0000"></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">E-mail</label><input class="crm-form-inp" id="cf-email" placeholder="email@exemplo.com"></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">LinkedIn</label><input class="crm-form-inp" id="cf-li" placeholder="linkedin.com/in/..."></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">Aniversário</label><input class="crm-form-inp" id="cf-aniv" placeholder="DD/MM"></div>
+      <div class="crm-form-row"><label class="crm-form-lbl">Origem</label>
+        <select class="crm-form-sel" id="cf-orig"><option>LinkedIn</option><option>Indicação</option><option>Instagram</option><option>Evento</option><option>Outro</option></select>
+      </div>
+      <div class="crm-form-row full"><label class="crm-form-lbl">Notas iniciais</label><input class="crm-form-inp" id="cf-notes" placeholder="Contexto do lead..."></div>`;
+    document.getElementById('crm-modal-bg').classList.add('open');
+  }
+
+  function crmCloseForm(){document.getElementById('crm-modal-bg').classList.remove('open')}
+
+  function crmSaveForm(){
+    const name=(document.getElementById('cf-name').value||'').trim();
+    const prof=(document.getElementById('cf-prof').value||'').trim();
+    if(!name||!prof){alert('Nome e profissão são obrigatórios.');return}
+    crmLeads.push({
+      id:crmNextId++,name,profissao:prof,
+      empresa:document.getElementById('cf-emp').value||'—',
+      whatsapp:document.getElementById('cf-wpp').value||'—',
+      email:document.getElementById('cf-email').value||'—',
+      linkedin:document.getElementById('cf-li').value||'—',
+      aniversario:document.getElementById('cf-aniv').value||'',
+      origem:document.getElementById('cf-orig').value,
+      col:'linkedin',score:10,
+      notas:document.getElementById('cf-notes').value||'Lead recém-adicionado.',
+      timeline:[{t:'Lead criado',d:crmToday(),c:'#b5623e'}]
+    });
+    crmCloseForm();crmSave();crmRenderAll();
+  }
+  // ── END CRM ───────────────────────────────────────────────────────────────────
 
 </script>
 </body>
