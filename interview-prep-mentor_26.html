@@ -1187,6 +1187,7 @@
       <div class="section" id="biblioteca"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
+      <div class="section" id="apps"></div>
       <div class="section mentor-only" id="funil"></div>
       <div class="section mentor-only" id="crm"></div>
     </main>
@@ -3966,6 +3967,188 @@
           <div class="mnt-acts">
             <button class="mnt-btn sec" onclick="mntCloseForm()">Cancelar</button>
             <button class="mnt-btn" id="mnt-save-btn" onclick="mntSave()">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
+            'apps': `<div class="section" id="apps">
+      <div class="section-intro">
+        <div class="tag">Minhas Candidaturas</div>
+        <h2>Application Management</h2>
+        <p>Acompanhe suas candidaturas, entrevistas e contatos em cada processo seletivo.</p>
+      </div>
+      <style>
+        .ap-today{background:#fff;border:1px solid rgba(181,98,62,0.18);border-radius:12px;padding:12px 16px;margin-bottom:1rem}
+        .ap-today-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#b5623e;margin-bottom:8px}
+        .ap-today-item{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .12s;border-bottom:1px solid rgba(0,0,0,0.05)}
+        .ap-today-item:last-child{border-bottom:none}
+        .ap-today-item:hover{background:rgba(181,98,62,0.05)}
+        .ap-today-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .ap-today-time{font-size:12px;font-weight:600;color:#b5623e;min-width:44px}
+        .ap-today-co{font-size:13px;font-weight:500;color:#1c1410}
+        .ap-today-role{font-size:11px;color:#8a7a6e}
+        .ap-today-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:auto;white-space:nowrap}
+        .ap-today-empty{font-size:13px;color:#8a7a6e}
+        .ap-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px}
+        .ap-btn-new{padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .ap-btn-new:hover{background:rgba(181,98,62,0.18)}
+        .ap-kanban{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;align-items:start}
+        .ap-col{border-radius:12px;padding:10px;border:1px solid transparent}
+        .ap-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .ap-col-nm{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em}
+        .ap-col-cnt{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,0.7)}
+        .ap-card{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);transition:transform .12s,border-color .12s}
+        .ap-card:hover{transform:translateY(-1px);border-color:rgba(0,0,0,0.15)}
+        .ap-card-co{font-size:13px;font-weight:500;color:#1c1410;margin-bottom:2px}
+        .ap-card-role{font-size:11px;color:#8a7a6e;margin-bottom:4px}
+        .ap-card-loc{font-size:10px;color:#8a7a6e}
+        .ap-card-date{font-size:10px;margin-top:3px}
+        .ap-col-add{width:100%;padding:6px;font-size:11px;border-radius:7px;border:1px dashed rgba(0,0,0,0.12);background:transparent;color:#8a7a6e;cursor:pointer;margin-top:4px}
+        .ap-col-add:hover{background:rgba(255,255,255,0.7)}
+        .ap-empty{font-size:11px;color:#8a7a6e;text-align:center;padding:14px 0;opacity:.7}
+        .ap-panel{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.25rem;margin-top:.75rem}
+        .ap-p-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+        .ap-p-co{font-size:18px;font-weight:500;color:#1c1410}
+        .ap-p-role{font-size:13px;color:#8a7a6e;margin-top:2px}
+        .ap-p-close{font-size:20px;color:#8a7a6e;cursor:pointer;background:none;border:none;line-height:1}
+        .ap-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+        .ap-fld{padding:8px 10px;background:#faf7f4;border-radius:8px}
+        .ap-fld-lbl{font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+        .ap-fld-val{font-size:12.5px;color:#1c1410}
+        .ap-sec{font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin:12px 0 6px}
+        .ap-tbl{width:100%;border-collapse:collapse;font-size:12px}
+        .ap-tbl th{text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e;border-bottom:1px solid rgba(0,0,0,0.07)}
+        .ap-tbl td{padding:8px;border-bottom:1px solid rgba(0,0,0,0.05);color:#1c1410}
+        .ap-tbl tr:last-child td{border-bottom:none}
+        .ap-strat{background:#faf7f4;border-radius:8px;padding:10px 12px;font-size:13px;color:#8a7a6e;line-height:1.7;border-left:3px solid #b5623e}
+        .ap-strat li{margin-left:1rem;margin-bottom:2px}
+        .ap-notes{background:#faf7f4;border-radius:8px;padding:10px 12px;font-size:13px;color:#8a7a6e;line-height:1.6;min-height:50px}
+        .ap-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .ap-btn{padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#1c1410;cursor:pointer}
+        .ap-btn:hover{background:#faf7f4}
+        .ap-btn.adv{border-color:rgba(181,98,62,0.45);color:#b5623e;background:rgba(181,98,62,0.07)}
+        .ap-btn.adv:hover{background:rgba(181,98,62,0.14)}
+        .ap-btn.del{color:#a32d2d;border-color:rgba(163,45,45,0.3)}
+        .ap-modal-bg{display:none;min-height:520px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .ap-modal-bg.open{display:flex}
+        .ap-modal{background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:480px;border:1px solid rgba(0,0,0,0.08)}
+        .ap-modal h3{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .ap-fg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .ap-fr{display:flex;flex-direction:column;gap:4px}
+        .ap-fr.full{grid-column:1/-1}
+        .ap-fl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .ap-fi{padding:7px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;font-family:inherit;width:100%;outline:none}
+        .ap-fi:focus{border-color:rgba(181,98,62,0.4)}
+        .ap-fa{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+      </style>
+      <div class="ap-today">
+        <div class="ap-today-lbl">Entrevistas de hoje</div>
+        <div id="ap-today-list"><div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div></div>
+      </div>
+      <div class="ap-hdr">
+        <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
+        <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
+      </div>
+      <div class="ap-kanban" id="ap-kanban"></div>
+      <div id="ap-panel"></div>
+      <div class="ap-modal-bg" id="ap-modal-bg">
+        <div class="ap-modal">
+          <h3 id="ap-modal-title">Nova candidatura</h3>
+          <div class="ap-fg" id="ap-form-grid"></div>
+          <div class="ap-fa">
+            <button class="ap-btn" onclick="apCloseForm()">Cancelar</button>
+            <button class="ap-btn adv" onclick="apSaveForm()">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>`,
+            'apps': `<div class="section" id="apps">
+      <div class="section-intro">
+        <div class="tag">Minhas Candidaturas</div>
+        <h2>Application Management</h2>
+        <p>Acompanhe suas candidaturas, entrevistas e contatos em cada processo seletivo.</p>
+      </div>
+      <style>
+        .ap-today{background:#fff;border:1px solid rgba(181,98,62,0.18);border-radius:12px;padding:12px 16px;margin-bottom:1rem}
+        .ap-today-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#b5623e;margin-bottom:8px}
+        .ap-today-item{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .12s;border-bottom:1px solid rgba(0,0,0,0.05)}
+        .ap-today-item:last-child{border-bottom:none}
+        .ap-today-item:hover{background:rgba(181,98,62,0.05)}
+        .ap-today-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .ap-today-time{font-size:12px;font-weight:600;color:#b5623e;min-width:44px}
+        .ap-today-co{font-size:13px;font-weight:500;color:#1c1410}
+        .ap-today-role{font-size:11px;color:#8a7a6e}
+        .ap-today-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:auto;white-space:nowrap}
+        .ap-today-empty{font-size:13px;color:#8a7a6e}
+        .ap-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px}
+        .ap-btn-new{padding:7px 16px;font-size:12px;font-weight:500;border-radius:8px;border:1px solid rgba(181,98,62,0.45);background:rgba(181,98,62,0.1);color:#b5623e;cursor:pointer}
+        .ap-btn-new:hover{background:rgba(181,98,62,0.18)}
+        .ap-kanban{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;align-items:start}
+        .ap-col{border-radius:12px;padding:10px;border:1px solid transparent}
+        .ap-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+        .ap-col-nm{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em}
+        .ap-col-cnt{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,0.7)}
+        .ap-card{background:#fff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);transition:transform .12s,border-color .12s}
+        .ap-card:hover{transform:translateY(-1px);border-color:rgba(0,0,0,0.15)}
+        .ap-card-co{font-size:13px;font-weight:500;color:#1c1410;margin-bottom:2px}
+        .ap-card-role{font-size:11px;color:#8a7a6e;margin-bottom:4px}
+        .ap-card-loc{font-size:10px;color:#8a7a6e}
+        .ap-card-date{font-size:10px;margin-top:3px}
+        .ap-col-add{width:100%;padding:6px;font-size:11px;border-radius:7px;border:1px dashed rgba(0,0,0,0.12);background:transparent;color:#8a7a6e;cursor:pointer;margin-top:4px}
+        .ap-col-add:hover{background:rgba(255,255,255,0.7)}
+        .ap-empty{font-size:11px;color:#8a7a6e;text-align:center;padding:14px 0;opacity:.7}
+        .ap-panel{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:1.25rem;margin-top:.75rem}
+        .ap-p-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+        .ap-p-co{font-size:18px;font-weight:500;color:#1c1410}
+        .ap-p-role{font-size:13px;color:#8a7a6e;margin-top:2px}
+        .ap-p-close{font-size:20px;color:#8a7a6e;cursor:pointer;background:none;border:none;line-height:1}
+        .ap-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+        .ap-fld{padding:8px 10px;background:#faf7f4;border-radius:8px}
+        .ap-fld-lbl{font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+        .ap-fld-val{font-size:12.5px;color:#1c1410}
+        .ap-sec{font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin:12px 0 6px}
+        .ap-tbl{width:100%;border-collapse:collapse;font-size:12px}
+        .ap-tbl th{text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e;border-bottom:1px solid rgba(0,0,0,0.07)}
+        .ap-tbl td{padding:8px;border-bottom:1px solid rgba(0,0,0,0.05);color:#1c1410}
+        .ap-tbl tr:last-child td{border-bottom:none}
+        .ap-strat{background:#faf7f4;border-radius:8px;padding:10px 12px;font-size:13px;color:#8a7a6e;line-height:1.7;border-left:3px solid #b5623e}
+        .ap-strat li{margin-left:1rem;margin-bottom:2px}
+        .ap-notes{background:#faf7f4;border-radius:8px;padding:10px 12px;font-size:13px;color:#8a7a6e;line-height:1.6;min-height:50px}
+        .ap-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+        .ap-btn{padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;color:#1c1410;cursor:pointer}
+        .ap-btn:hover{background:#faf7f4}
+        .ap-btn.adv{border-color:rgba(181,98,62,0.45);color:#b5623e;background:rgba(181,98,62,0.07)}
+        .ap-btn.adv:hover{background:rgba(181,98,62,0.14)}
+        .ap-btn.del{color:#a32d2d;border-color:rgba(163,45,45,0.3)}
+        .ap-modal-bg{display:none;min-height:520px;background:rgba(0,0,0,0.3);border-radius:12px;align-items:center;justify-content:center;margin-top:.75rem}
+        .ap-modal-bg.open{display:flex}
+        .ap-modal{background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:480px;border:1px solid rgba(0,0,0,0.08)}
+        .ap-modal h3{font-size:15px;font-weight:500;margin-bottom:1rem;color:#1c1410}
+        .ap-fg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .ap-fr{display:flex;flex-direction:column;gap:4px}
+        .ap-fr.full{grid-column:1/-1}
+        .ap-fl{font-size:11px;font-weight:500;color:#8a7a6e}
+        .ap-fi{padding:7px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;font-family:inherit;width:100%;outline:none}
+        .ap-fi:focus{border-color:rgba(181,98,62,0.4)}
+        .ap-fa{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+      </style>
+      <div class="ap-today">
+        <div class="ap-today-lbl">Entrevistas de hoje</div>
+        <div id="ap-today-list"><div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div></div>
+      </div>
+      <div class="ap-hdr">
+        <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
+        <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
+      </div>
+      <div class="ap-kanban" id="ap-kanban"></div>
+      <div id="ap-panel"></div>
+      <div class="ap-modal-bg" id="ap-modal-bg">
+        <div class="ap-modal">
+          <h3 id="ap-modal-title">Nova candidatura</h3>
+          <div class="ap-fg" id="ap-form-grid"></div>
+          <div class="ap-fa">
+            <button class="ap-btn" onclick="apCloseForm()">Cancelar</button>
+            <button class="ap-btn adv" onclick="apSaveForm()">Salvar</button>
           </div>
         </div>
       </div>
@@ -7045,7 +7228,7 @@
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','mentorados'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','mentorados','apps'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -7198,6 +7381,7 @@
       applyRole(currentRole);
       requestAnimationFrame(syncDockSpacer);
       setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 400);
+      setTimeout(async function(){ if(typeof apLoad==='function') await apLoad(); }, 450);
       setTimeout(ssiRestoreChecks, 300);
       setTimeout(ssiScoreRestore, 350);
       setTimeout(ngRestorePhoto, 200);
@@ -7260,6 +7444,7 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
+    if (id === 'apps' && typeof apLoad === 'function') setTimeout(apLoad, 50);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -7487,7 +7672,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
   const NG_MODES = {
-    mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos'] },
+    mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos','apps_grupo'] },
     mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
   };
 
@@ -8545,6 +8730,226 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
   // ── END SSI SCORE TABLE ──────────────────────────────────────────────────────
 
+
+  // ── CRM MENTORADO ────────────────────────────────────────────────────────────
+  var AP_COLS=[
+    {id:'interested', name:'Interested',   c:'#b5623e',b:'#f8f2ee',t:'#7a3a22'},
+    {id:'applied',    name:'Applied',      c:'#c97a2a',b:'#fdf6ec',t:'#8a5010'},
+    {id:'preparing',  name:'Preparing',    c:'#185FA5',b:'#eef4fb',t:'#0c447c'},
+    {id:'interview',  name:'Interviewing', c:'#4a7c5a',b:'#f2f8f4',t:'#2a5a38'},
+    {id:'negotiating',name:'Negotiating',  c:'#6b5a4e',b:'#f0ebe4',t:'#3a2e25'},
+    {id:'accepted',   name:'Accepted',     c:'#2a5a38',b:'#e1f5ee',t:'#085041'},
+  ];
+  var apApps=[], apSel=null, apNextId=1, apSaveTimer=null, _apFid=null;
+
+  function apColObj(id){return AP_COLS.find(function(c){return c.id===id;})||AP_COLS[0];}
+  function apFmt(v){return v||'\u2014';}
+  function apToday(){var d=new Date();return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();}
+
+  async function apSave(){
+    if(!currentUser)return;
+    clearTimeout(apSaveTimer);
+    apSaveTimer=setTimeout(async function(){
+      try{
+        await sb.from('notes').upsert({user_id:currentUser.id,note_key:'apps_crm',content:JSON.stringify(apApps),updated_at:new Date().toISOString()},{onConflict:'user_id,note_key'});
+      }catch(e){console.warn('Erro ao salvar apps:',e);}
+    },800);
+  }
+
+  async function apLoad(){
+    if(!currentUser)return;
+    try{
+      var r=await sb.from('notes').select('content').eq('user_id',currentUser.id).eq('note_key','apps_crm').single();
+      if(r.data&&r.data.content){
+        var parsed=JSON.parse(r.data.content);
+        if(Array.isArray(parsed)&&parsed.length>0){
+          apApps=parsed.map(function(a){a.id=Number(a.id);return a;});
+          apNextId=Math.max.apply(null,apApps.map(function(a){return a.id;}))+1;
+          apRenderAll();return;
+        }
+      }
+    }catch(e){}
+    apApps=[];apNextId=1;apRenderAll();
+  }
+
+  function apRenderAll(){apRenderToday();apRenderKanban();apRenderPanel();}
+
+  function apRenderToday(){
+    var el=document.getElementById('ap-today-list');
+    if(!el)return;
+    var today=apToday();
+    var list=apApps.filter(function(a){return a.meetings&&a.meetings.some(function(m){return m.date&&m.date.startsWith(today);});});
+    if(!list.length){el.innerHTML='<div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div>';return;}
+    el.innerHTML=list.map(function(a){
+      var m=a.meetings.find(function(m){return m.date&&m.date.startsWith(today);});
+      var time=m.date.includes(' ')?m.date.split(' ')[1]:'';
+      var c=apColObj(a.status);
+      return '<div class="ap-today-item" onclick="apPickFromToday('+a.id+')" title="Abrir candidatura">'+
+        '<div class="ap-today-dot" style="background:'+c.c+'"></div>'+
+        '<span class="ap-today-time">'+time+'</span>'+
+        '<div style="flex:1"><div class="ap-today-co">'+a.company+'</div><div class="ap-today-role">'+a.role+' &middot; '+m.type+'</div></div>'+
+        '<span class="ap-today-badge" style="background:'+c.b+';color:'+c.t+'">'+c.name+'</span>'+
+        '<span style="font-size:11px;color:#b5623e;margin-left:6px">&rarr;</span>'+
+      '</div>';
+    }).join('');
+  }
+
+  function apPickFromToday(id){
+    apSel=Number(id);apRenderKanban();apRenderPanel();
+    var p=document.getElementById('ap-panel');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function apRenderKanban(){
+    var el=document.getElementById('ap-kanban');if(!el)return;
+    el.innerHTML=AP_COLS.map(function(c){
+      var cards=apApps.filter(function(a){return a.status===c.id;});
+      return '<div class="ap-col" style="background:'+c.b+';border-color:'+c.c+'30">'+
+        '<div class="ap-col-hd"><span class="ap-col-nm" style="color:'+c.t+'">'+c.name+'</span>'+
+        '<span class="ap-col-cnt" style="color:'+c.t+'">'+cards.length+'</span></div>'+
+        (cards.length?cards.map(function(a){
+          var sel=a.id===apSel;
+          return '<div class="ap-card" onclick="apPick('+a.id+')" style="'+(sel?'border-color:'+c.c+';border-width:1.5px;background:'+c.b+'30':'')+'">'+
+            '<div class="ap-card-co" style="'+(sel?'color:'+c.t:'')+'">'+a.company+'</div>'+
+            '<div class="ap-card-role">'+a.role+'</div>'+
+            '<div class="ap-card-loc">'+a.location+'</div>'+
+            (a.dateApplied?'<div class="ap-card-date" style="color:'+c.t+'">Applied '+a.dateApplied+'</div>':'')+
+            (a.interviewDate?'<div class="ap-card-date" style="color:'+c.t+';font-weight:500">Interview '+a.interviewDate+'</div>':'')+
+          '</div>';
+        }).join(''):'<div class="ap-empty">Vazio</div>')+
+        '<button class="ap-col-add" data-col="'+c.id+'" onclick="apOpenForm(null,this.dataset.col)">+ Add</button>'+
+      '</div>';
+    }).join('');
+  }
+
+  function apRenderPanel(){
+    var el=document.getElementById('ap-panel');if(!el)return;
+    if(!apSel){el.innerHTML='';return;}
+    var a=apApps.find(function(x){return x.id===apSel;});
+    if(!a){el.innerHTML='';return;}
+    var c=apColObj(a.status);
+    var nxtIdx=AP_COLS.findIndex(function(x){return x.id===a.status;})+1;
+    var nxt=nxtIdx<AP_COLS.length?AP_COLS[nxtIdx]:null;
+    var strat=(a.posStrategy||'').split('\n').filter(Boolean).map(function(l){return '<li>'+l+'</li>';}).join('');
+    var meetRows=(a.meetings||[]).map(function(m){return '<tr><td>'+apFmt(m.type)+'</td><td>'+apFmt(m.date)+'</td></tr>';}).join('');
+    var ctRows=(a.contacts||[]).map(function(ct){return '<tr><td>'+apFmt(ct.name)+'</td><td>'+apFmt(ct.role)+'</td><td>'+(ct.email?'<a href="mailto:'+ct.email+'" style="color:'+c.c+'">'+ct.email+'</a>':apFmt(''))+'</td></tr>';}).join('');
+    el.innerHTML='<div class="ap-panel" style="border-top:3px solid '+c.c+'">'+
+      '<div class="ap-p-hd">'+
+        '<div><div class="ap-p-co">'+a.company+'</div><div class="ap-p-role">'+a.role+' &middot; '+a.location+'</div></div>'+
+        '<div style="display:flex;align-items:center;gap:8px">'+
+          '<span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;background:'+c.b+';color:'+c.t+'">'+c.name+'</span>'+
+          '<button class="ap-p-close" onclick="apPick('+a.id+')">&times;</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="ap-fields">'+
+        '<div class="ap-fld"><div class="ap-fld-lbl">Job link</div><div class="ap-fld-val">'+(a.link?'<a href="https://'+a.link+'" target="_blank" style="color:'+c.c+'">'+a.link+'</a>':apFmt(''))+'</div></div>'+
+        '<div class="ap-fld"><div class="ap-fld-lbl">Data candidatura</div><div class="ap-fld-val">'+apFmt(a.dateApplied)+'</div></div>'+
+        '<div class="ap-fld"><div class="ap-fld-lbl">Recruiter</div><div class="ap-fld-val">'+apFmt(a.recruiterName)+'</div></div>'+
+        '<div class="ap-fld"><div class="ap-fld-lbl">E-mail recruiter</div><div class="ap-fld-val">'+(a.recruiterEmail?'<a href="mailto:'+a.recruiterEmail+'" style="color:'+c.c+'">'+a.recruiterEmail+'</a>':apFmt(''))+'</div></div>'+
+        '<div class="ap-fld" style="border-left:3px solid #4a7c5a;border-radius:0 8px 8px 0"><div class="ap-fld-lbl">Pros</div><div class="ap-fld-val" style="color:#2a5a38">'+apFmt(a.pros)+'</div></div>'+
+        '<div class="ap-fld" style="border-left:3px solid #a32d2d;border-radius:0 8px 8px 0"><div class="ap-fld-lbl">Cons</div><div class="ap-fld-val" style="color:#a32d2d">'+apFmt(a.cons)+'</div></div>'+
+      '</div>'+
+      '<div class="ap-sec">Positioning strategy</div>'+
+      '<div class="ap-strat">'+(strat?'<ul>'+strat+'</ul>':'<span style="opacity:.5">Empty</span>')+'</div>'+
+      '<div class="ap-sec">Interview schedule</div>'+
+      '<table class="ap-tbl"><thead><tr><th>Meeting type</th><th>Date</th></tr></thead><tbody>'+meetRows+'</tbody></table>'+
+      '<div class="ap-sec">Contacts</div>'+
+      '<table class="ap-tbl"><thead><tr><th>Name</th><th>Role</th><th>Email</th></tr></thead><tbody>'+ctRows+'</tbody></table>'+
+      '<div class="ap-sec">Notes</div>'+
+      '<div class="ap-notes">'+(a.notes||'<span style="opacity:.5">Empty</span>')+'</div>'+
+      '<div class="ap-acts">'+
+        (nxt?'<button class="ap-btn adv" onclick="apAdvance('+a.id+')" style="border-color:'+nxt.c+'50;color:'+nxt.t+';background:'+nxt.b+'">&rarr; '+nxt.name+'</button>':'')+
+        '<button class="ap-btn" onclick="apOpenForm('+a.id+')">Editar</button>'+
+        '<button class="ap-btn del" onclick="apDel('+a.id+')">Excluir</button>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function apPick(id){apSel=apSel===Number(id)?null:Number(id);apRenderKanban();apRenderPanel();}
+
+  function apAdvance(id){
+    var a=apApps.find(function(x){return x.id===Number(id);});
+    var idx=AP_COLS.findIndex(function(c){return c.id===a.status;});
+    if(idx<AP_COLS.length-1)a.status=AP_COLS[idx+1].id;
+    apSave();apRenderAll();
+  }
+
+  function apDel(id){
+    if(!confirm('Excluir esta candidatura?'))return;
+    apApps=apApps.filter(function(x){return x.id!==Number(id);});
+    apSel=null;apSave();apRenderAll();
+  }
+
+  function apOpenForm(id,colId){
+    _apFid=id?Number(id):null;
+    var col=colId||'interested';
+    var a=_apFid?apApps.find(function(x){return x.id===_apFid;}):null;
+    document.getElementById('ap-modal-title').textContent=a?'Editar candidatura':'Nova candidatura';
+    var colOpts=AP_COLS.map(function(c){return '<option value="'+c.id+'"'+((a?a.status:col)===c.id?' selected':'')+'>'+c.name+'</option>';}).join('');
+    document.getElementById('ap-form-grid').innerHTML=
+      '<div class="ap-fr"><label class="ap-fl">Empresa *</label><input class="ap-fi" id="apf-co" value="'+(a?a.company:'')+'" placeholder="Pinterest"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Cargo *</label><input class="ap-fi" id="apf-role" value="'+(a?a.role:'')+'" placeholder="Sr. Product Designer"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Localiza\u00e7\u00e3o</label><input class="ap-fi" id="apf-loc" value="'+(a?a.location:'')+'" placeholder="Remote"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Status</label><select class="ap-fi" id="apf-status">'+colOpts+'</select></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Link da vaga</label><input class="ap-fi" id="apf-link" value="'+(a?a.link:'')+'" placeholder="careers.empresa.com"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Data candidatura</label><input class="ap-fi" id="apf-date" value="'+(a?a.dateApplied:'')+'" placeholder="DD/MM/AAAA"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Nome recruiter</label><input class="ap-fi" id="apf-rn" value="'+(a?a.recruiterName:'')+'" placeholder="Nome"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">E-mail recruiter</label><input class="ap-fi" id="apf-re" value="'+(a?a.recruiterEmail:'')+'" placeholder="recruiter@empresa.com"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Data entrevista</label><input class="ap-fi" id="apf-id" value="'+(a?a.interviewDate:'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Tipo de reuni\u00e3o</label><input class="ap-fi" id="apf-mt" value="'+(a&&a.meetings&&a.meetings[0]?a.meetings[0].type:'')+'" placeholder="Intro call"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Pros</label><input class="ap-fi" id="apf-pros" value="'+(a?a.pros:'')+'" placeholder="Pontos positivos"></div>'+
+      '<div class="ap-fr"><label class="ap-fl">Cons</label><input class="ap-fi" id="apf-cons" value="'+(a?a.cons:'')+'" placeholder="Pontos negativos"></div>'+
+      '<div class="ap-fr full"><label class="ap-fl">Positioning strategy</label><textarea class="ap-fi" id="apf-strat" rows="3" placeholder="Uma linha por ponto...">'+(a?a.posStrategy||'':'')+'</textarea></div>'+
+      '<div class="ap-fr full"><label class="ap-fl">Notas</label><input class="ap-fi" id="apf-notes" value="'+(a?a.notes:'')+'" placeholder="Anota\u00e7\u00f5es..."></div>';
+    document.getElementById('ap-modal-bg').classList.add('open');
+  }
+
+  function apCloseForm(){document.getElementById('ap-modal-bg').classList.remove('open');}
+
+  function apSaveForm(){
+    var co=(document.getElementById('apf-co').value||'').trim();
+    var role=(document.getElementById('apf-role').value||'').trim();
+    if(!co||!role){alert('Empresa e cargo s\u00e3o obrigat\u00f3rios.');return;}
+    var idate=document.getElementById('apf-id').value||'';
+    var mtype=document.getElementById('apf-mt').value||'Interview';
+    if(_apFid){
+      var a=apApps.find(function(x){return x.id===_apFid;});
+      a.company=co;a.role=role;
+      a.location=document.getElementById('apf-loc').value||'';
+      a.status=document.getElementById('apf-status').value;
+      a.link=document.getElementById('apf-link').value||'';
+      a.dateApplied=document.getElementById('apf-date').value||'';
+      a.recruiterName=document.getElementById('apf-rn').value||'';
+      a.recruiterEmail=document.getElementById('apf-re').value||'';
+      a.interviewDate=idate;
+      a.pros=document.getElementById('apf-pros').value||'';
+      a.cons=document.getElementById('apf-cons').value||'';
+      a.posStrategy=document.getElementById('apf-strat').value||'';
+      a.notes=document.getElementById('apf-notes').value||'';
+      if(idate&&a.meetings&&a.meetings[0])a.meetings[0]={type:mtype,date:idate};
+    } else {
+      apApps.push({id:apNextId++,company:co,role:role,
+        location:document.getElementById('apf-loc').value||'',
+        status:document.getElementById('apf-status').value,
+        link:document.getElementById('apf-link').value||'',
+        dateApplied:document.getElementById('apf-date').value||'',
+        interviewDate:idate,
+        recruiterName:document.getElementById('apf-rn').value||'',
+        recruiterEmail:document.getElementById('apf-re').value||'',
+        pros:document.getElementById('apf-pros').value||'',
+        cons:document.getElementById('apf-cons').value||'',
+        posStrategy:document.getElementById('apf-strat').value||'Qual \u00e9 a narrativa principal?\nQuais 3 experi\u00eancias destacar?\nQual o diferencial competitivo?\nPoss\u00edveis red flags?',
+        meetings:[{type:mtype,date:idate},{type:'',date:''}],
+        contacts:[{name:'',role:'',email:''}],
+        notes:document.getElementById('apf-notes').value||''
+      });
+    }
+    apCloseForm();apSave();apRenderAll();
+  }
+  // ── END CRM MENTORADO ────────────────────────────────────────────────────────
+
 </script>
 </body>
-</html>
+</html>    apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
+      { id: 'apps', icon: '📋', label: 'Minhas Candidaturas' },
+    ]},
+    
