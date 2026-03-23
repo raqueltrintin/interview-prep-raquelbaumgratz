@@ -3861,7 +3861,15 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-tl-row button:hover{opacity:1!important}
       </style>
+      <div style="background:#fff;border:1px solid rgba(181,98,62,0.2);border-radius:12px;padding:12px 16px;margin-bottom:1rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:600;color:#b5623e;text-transform:uppercase;letter-spacing:.08em">📋 Ações do dia</div>
+          <span id="crm-diaria-date" style="font-size:11px;color:#8a7a6e"></span>
+        </div>
+        <div id="crm-diaria"></div>
+      </div>
       <div class="crm-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
         <div style="display:flex;gap:8px;align-items:center">
@@ -6203,7 +6211,15 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-tl-row button:hover{opacity:1!important}
       </style>
+      <div style="background:#fff;border:1px solid rgba(181,98,62,0.2);border-radius:12px;padding:12px 16px;margin-bottom:1rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:600;color:#b5623e;text-transform:uppercase;letter-spacing:.08em">📋 Ações do dia</div>
+          <span id="crm-diaria-date" style="font-size:11px;color:#8a7a6e"></span>
+        </div>
+        <div id="crm-diaria"></div>
+      </div>
       <div class="crm-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Leads ativos</span>
         <div style="display:flex;gap:8px;align-items:center">
@@ -6321,6 +6337,7 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-tl-row button:hover{opacity:1!important}
       </style>
       <div class="crm-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Active leads</span>
@@ -7496,6 +7513,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     crmRenderMetrics();
     crmRenderKanban();
     crmRenderPanel();
+    crmRenderDiaria();
+    const dd=document.getElementById('crm-diaria-date');if(dd)dd.textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
   }
 
   function crmRenderMetrics(){
@@ -7539,6 +7558,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     }).join('');
   }
 
+  const CRM_ACTIONS = {
+    linkedin: ['Mensagem de abertura enviada','Follow-up enviado','Sem resposta — arquivar temporariamente','WhatsApp obtido','Conexão enviada no LinkedIn','Curtiu post','Comentou em post'],
+    qualif:   ['Call agendada','Call realizada','Call não atendida — tentar novamente','3 perguntas respondidas','Reunião de vendas agendada','Sem interesse — encerrar'],
+    reuniao:  ['Reunião realizada','Dor aprofundada','Solução apresentada','Objeção contornada','Proposta enviada','Reagendou — nova data definida'],
+    proposta: ['Follow-up enviado','Decisão pendente — aguardar','Objeção: preço','Objeção: timing','Contrato enviado','Negociação em andamento'],
+    fechado:  ['Contrato assinado','Pagamento recebido','Onboarding agendado','Primeira sessão realizada','Indicação solicitada'],
+  };
+
   function crmRenderPanel(){
     const el=document.getElementById('crm-panel');
     if(!el)return;
@@ -7549,6 +7576,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     const nxtIdx=CRM_COLS.findIndex(x=>x.id===l.col)+1;
     const nxtC=nxtIdx<CRM_COLS.length?CRM_COLS[nxtIdx]:null;
     const av=crmAniv(l.aniversario);
+    const prox=l.proxAcao||'';
+    const proxDate=l.proxData||'';
     el.innerHTML=`<div class="crm-panel">
       <div class="crm-p-hd">
         <div class="crm-p-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
@@ -7559,8 +7588,21 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         <span class="crm-p-phase" style="background:${c.pb};color:${c.pc}">${c.name}</span>
       </div>
       <div class="crm-next" style="background:${c.pb};border-left-color:${c.pc}">
-        <div class="crm-next-lbl" style="color:${c.nm}">Próxima ação</div>
+        <div class="crm-next-lbl" style="color:${c.nm}">Próxima ação sugerida</div>
         <div class="crm-next-txt">${c.next}</div>
+      </div>
+      <div class="crm-fld" style="margin-bottom:10px">
+        <div class="crm-fld-lbl" style="margin-bottom:6px">Próxima ação programada</div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <select class="crm-form-sel" id="prox-sel" style="flex:1;min-width:160px;font-size:12px">
+            <option value="">Selecionar ação...</option>
+            ${(CRM_ACTIONS[l.col]||[]).map(a=>`<option value="${a}"${a===prox?' selected':''}>${a}</option>`).join('')}
+            <option value="__custom">Outra ação...</option>
+          </select>
+          <input type="date" class="crm-form-inp" id="prox-date" value="${proxDate}" style="width:130px;font-size:12px">
+          <button class="crm-btn main" style="padding:6px 12px;font-size:12px" onclick="crmSaveProx(${l.id})">Salvar</button>
+        </div>
+        ${prox?`<div style="margin-top:6px;font-size:12px;color:#b5623e;font-weight:500">📌 ${prox}${proxDate?' — '+proxDate.split('-').reverse().join('/')':''}</div>`:''}
       </div>
       <div class="crm-p-fields">
         <div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">${l.whatsapp||'—'}</div></div>
@@ -7581,49 +7623,127 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       <div class="crm-sec">Notas</div>
       <div class="crm-notes" id="crm-notes-edit" contenteditable="true" oninput="crmEditNotes(${l.id},this.innerText)">${l.notas||''}</div>
       <div class="crm-sec">Histórico</div>
-      <div class="crm-tl">${(l.timeline||[]).map(t=>`<div class="crm-tl-row"><div class="crm-tl-dot" style="background:${t.c}"></div><div><div class="crm-tl-main">${t.t}</div><div class="crm-tl-dt">${t.d}</div></div></div>`).join('')}</div>
+      <div class="crm-tl" id="crm-tl-list">
+        ${(l.timeline||[]).map((t,i)=>`<div class="crm-tl-row" style="align-items:center">
+          <div class="crm-tl-dot" style="background:${t.c};flex-shrink:0"></div>
+          <div style="flex:1"><div class="crm-tl-main">${t.t}</div><div class="crm-tl-dt">${t.d}</div></div>
+          <button onclick="crmDelInt(${l.id},${i})" style="border:none;background:none;color:#c0392b;cursor:pointer;font-size:16px;padding:0 4px;opacity:.5;flex-shrink:0" title="Remover">×</button>
+        </div>`).join('')}
+      </div>
+      <div class="crm-sec" style="margin-top:12px">Adicionar interação</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+        ${(CRM_ACTIONS[l.col]||[]).map(a=>`<button class="crm-btn" style="font-size:11px;padding:5px 10px" onclick="crmQuickInt(${l.id},'${a.replace(/'/g,"\\'")}')">+ ${a}</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:6px">
+        <input class="crm-form-inp" id="crm-int-custom" placeholder="Ou descreva manualmente..." style="flex:1;font-size:12px">
+        <button class="crm-btn main" style="font-size:12px" onclick="crmAddIntCustom(${l.id})">Adicionar</button>
+      </div>
       <div class="crm-acts">
         ${nxtC?`<button class="crm-btn main" onclick="crmAdvance(${l.id})">→ ${nxtC.name}</button>`:''}
-        <button class="crm-btn" onclick="crmAddInt(${l.id})">+ Interação</button>
-        <button class="crm-btn" onclick="crmDeleteLead(${l.id})" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover</button>
+        <button class="crm-btn" onclick="crmDeleteLead(${l.id})" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">Remover lead</button>
       </div>
     </div>`;
   }
 
-  function crmPick(id){crmSel=crmSel===id?null:id;crmRenderKanban();crmRenderPanel()}
-  function crmFilt(v){crmQ=v.toLowerCase();crmRenderKanban()}
-
-  function crmAdvance(id){
+  function crmSaveProx(id){
     const l=crmLeads.find(x=>x.id===id);
-    const idx=CRM_COLS.findIndex(c=>c.id===l.col);
-    if(idx<CRM_COLS.length-1){
-      l.col=CRM_COLS[idx+1].id;
-      l.score=Math.min(100,(l.score||0)+15);
-      if(!l.timeline)l.timeline=[];
-      l.timeline.push({t:'Avançou para '+CRM_COLS[idx+1].name,d:crmToday(),c:CRM_COLS[idx+1].pc});
-    }
-    crmSave();crmRenderAll();
+    if(!l)return;
+    let val=document.getElementById('prox-sel').value;
+    if(val==='__custom'){val=prompt('Descreva a ação:');if(!val)return;}
+    const date=document.getElementById('prox-date').value;
+    l.proxAcao=val;l.proxData=date;
+    crmSave();crmRenderPanel();crmRenderDiaria();
   }
 
-  function crmEditNotes(id,txt){
+  function crmQuickInt(id,txt){
     const l=crmLeads.find(x=>x.id===id);
-    if(l){l.notas=txt;crmSave();}
-  }
-
-  function crmAddInt(id){
-    const t=prompt('Descreva a interação:');
-    if(!t)return;
-    const l=crmLeads.find(x=>x.id===id);
+    if(!l){return;}
     if(!l.timeline)l.timeline=[];
-    l.timeline.push({t,d:crmToday(),c:'#6b5a4e'});
+    l.timeline.push({t:txt,d:crmToday(),c:crmCol(l.col).pc});
     crmSave();crmRenderPanel();
   }
 
-  function crmDeleteLead(id){
-    if(!confirm('Remover este lead?'))return;
-    crmLeads=crmLeads.filter(x=>x.id!==id);
-    crmSel=null;
-    crmSave();crmRenderAll();
+  function crmAddIntCustom(id){
+    const inp=document.getElementById('crm-int-custom');
+    const txt=(inp&&inp.value||'').trim();
+    if(!txt)return;
+    const l=crmLeads.find(x=>x.id===id);
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t:txt,d:crmToday(),c:'#6b5a4e'});
+    inp.value='';
+    crmSave();crmRenderPanel();
+  }
+
+  function crmDelInt(id,idx){
+    const l=crmLeads.find(x=>x.id===id);
+    if(!l||!l.timeline)return;
+    l.timeline.splice(idx,1);
+    crmSave();crmRenderPanel();
+  }
+
+  function crmRenderDiaria(){
+    const el=document.getElementById('crm-diaria');
+    if(!el)return;
+    const today=new Date().toISOString().slice(0,10);
+    const todayFmt=crmToday();
+    // Leads com ação programada para hoje ou atrasada
+    const urgentes=crmLeads.filter(l=>{
+      if(!l.proxData&&!l.proxAcao)return false;
+      if(!l.proxData)return true; // sem data = sempre aparece
+      return l.proxData<=today;
+    }).sort((a,b)=>(a.proxData||'9999')>(b.proxData||'9999')?1:-1);
+
+    if(urgentes.length===0){
+      el.innerHTML=`<div style="font-size:12px;color:#8a7a6e;padding:10px 0">Nenhuma ação programada para hoje.</div>`;
+      return;
+    }
+    el.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <thead>
+        <tr style="border-bottom:1px solid rgba(0,0,0,0.08)">
+          <th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Lead</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Fase</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Ação programada</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Data</th>
+          <th style="padding:6px 8px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${urgentes.map(l=>{
+          const c=crmCol(l.col);
+          const atrasado=l.proxData&&l.proxData<today;
+          const dateFmt=l.proxData?l.proxData.split('-').reverse().join('/'):'—';
+          return`<tr style="border-bottom:1px solid rgba(0,0,0,0.05);cursor:pointer" onclick="crmPick(${l.id})">
+            <td style="padding:8px">
+              <div style="display:flex;align-items:center;gap:7px">
+                <div style="width:26px;height:26px;border-radius:50%;background:${c.pb};color:${c.pc};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">${crmIni(l.name)}</div>
+                <div>
+                  <div style="font-weight:500;color:#1c1410">${l.name}</div>
+                  <div style="font-size:11px;color:#8a7a6e">${l.profissao}</div>
+                </div>
+              </div>
+            </td>
+            <td style="padding:8px"><span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;background:${c.pb};color:${c.pc}">${c.name}</span></td>
+            <td style="padding:8px;color:#1c1410">${l.proxAcao||'—'}</td>
+            <td style="padding:8px"><span style="font-size:11px;font-weight:500;color:${atrasado?'#c0392b':'#4a7c5a'}">${atrasado?'⚠ ':''}<b>${dateFmt}</b></span></td>
+            <td style="padding:8px">
+              <button onclick="event.stopPropagation();crmConcluirAcao(${l.id})" style="font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(74,124,90,0.4);background:rgba(74,124,90,0.07);color:#2a5a38;cursor:pointer">✓ Feito</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+  }
+
+  function crmConcluirAcao(id){
+    const l=crmLeads.find(x=>x.id===id);
+    if(!l)return;
+    if(l.proxAcao){
+      if(!l.timeline)l.timeline=[];
+      l.timeline.push({t:'✓ '+l.proxAcao,d:crmToday(),c:'#4a7c5a'});
+    }
+    l.proxAcao='';l.proxData='';
+    crmSave();crmRenderDiaria();crmRenderKanban();
+    if(crmSel===id)crmRenderPanel();
   }
 
   function crmOpenForm(){
