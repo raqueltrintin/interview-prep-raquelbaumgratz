@@ -7602,7 +7602,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
           <input type="date" class="crm-form-inp" id="prox-date" value="${proxDate}" style="width:130px;font-size:12px">
           <button class="crm-btn main" style="padding:6px 12px;font-size:12px" onclick="crmSaveProx(${l.id})">Salvar</button>
         </div>
-        ${prox?`<div style="margin-top:6px;font-size:12px;color:#b5623e;font-weight:500">📌 ${prox}${proxDate?' — '+proxDate.split('-').reverse().join('/')':''}</div>`:''}
+        ${prox?`<div style="margin-top:6px;font-size:12px;color:#b5623e;font-weight:500">📌 ${prox}${proxDate?' — '+proxDate.split('-').reverse().join('/'):''}</div>`:''}
       </div>
       <div class="crm-p-fields">
         <div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">${l.whatsapp||'—'}</div></div>
