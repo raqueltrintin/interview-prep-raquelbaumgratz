@@ -7039,6 +7039,7 @@
       requestAnimationFrame(syncDockSpacer);
       setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 400);
       setTimeout(ssiRestoreChecks, 300);
+      setTimeout(ngRestorePhoto, 200);
 
     } catch (e) {
       err.textContent = e.message || 'Erro ao conectar. Tente novamente.';
@@ -7247,8 +7248,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('app').style.display = 'flex';
     applyRole(currentRole);
     requestAnimationFrame(syncDockSpacer);
-    // Carregar CRM após a sessão ser restaurada
+    // Carregar CRM e foto após a sessão ser restaurada
     setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 300);
+    setTimeout(ngRestorePhoto, 200);
   })();
 
   // ── Carregar notas do Supabase ────────────────────────────────────────────
@@ -7451,14 +7453,57 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function ngHandlePhoto(e) {
     const file = e.target.files[0];
     if (!file) return;
+    // Redimensionar para max 200x200 antes de salvar
     const reader = new FileReader();
     reader.onload = ev => {
-      const img = document.getElementById('ng-photo');
-      img.src = ev.target.result;
-      img.style.display = 'block';
-      document.getElementById('ng-initials').style.display = 'none';
+      const original = ev.target.result;
+      const canvas = document.createElement('canvas');
+      const image = new Image();
+      image.onload = async function() {
+        const MAX = 200;
+        let w = image.width, h = image.height;
+        if (w > h) { if (w > MAX) { h = h * MAX / w; w = MAX; } }
+        else        { if (h > MAX) { w = w * MAX / h; h = MAX; } }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(image, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        // Aplicar na UI
+        const img = document.getElementById('ng-photo');
+        if (img) { img.src = dataUrl; img.style.display = 'block'; }
+        const ini = document.getElementById('ng-initials');
+        if (ini) ini.style.display = 'none';
+        // Salvar no Supabase
+        if (currentUser) {
+          try {
+            await sb.from('notes').upsert({
+              user_id: currentUser.id,
+              note_key: 'avatar_photo',
+              content: dataUrl,
+              updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id,note_key' });
+          } catch(err) { console.warn('Erro ao salvar foto:', err); }
+        }
+      };
+      image.src = original;
     };
     reader.readAsDataURL(file);
+  }
+
+  async function ngRestorePhoto() {
+    if (!currentUser) return;
+    try {
+      const { data } = await sb.from('notes')
+        .select('content')
+        .eq('user_id', currentUser.id)
+        .eq('note_key', 'avatar_photo')
+        .single();
+      if (data && data.content) {
+        const img = document.getElementById('ng-photo');
+        if (img) { img.src = data.content; img.style.display = 'block'; }
+        const ini = document.getElementById('ng-initials');
+        if (ini) ini.style.display = 'none';
+      }
+    } catch(e) {}
   }
 
   window.addEventListener('resize', () => {
