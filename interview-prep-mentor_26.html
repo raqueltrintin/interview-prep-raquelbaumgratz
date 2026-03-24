@@ -8494,9 +8494,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmSaveEdit(){
-    var id=Number(document.getElementById('crm-edit-modal').dataset.editId);
+    var ov=document.getElementById('crm-edit-fixed');
+    var id=Number(ov?ov.dataset.editId:0);
+    if(!id){alert('Erro: lead não encontrado.');return;}
     var l=crmLeads.find(function(x){return x.id===id;});
-    if(!l)return;
+    if(!l){alert('Lead não encontrado.');return;}
     var name=(document.getElementById('ef-name').value||'').trim();
     if(!name){alert('Nome é obrigatório.');return;}
     l.name=name;
@@ -8507,13 +8509,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     l.linkedin=document.getElementById('ef-li').value||l.linkedin;
     l.aniversario=document.getElementById('ef-aniv').value||l.aniversario;
     l.origem=document.getElementById('ef-orig').value||l.origem;
-    l.indicadoPor=document.getElementById('ef-indicado')&&l.origem==='Indicação'?document.getElementById('ef-indicado').value:'';
+    var indEl=document.getElementById('ef-indicado');
+    l.indicadoPor=indEl&&l.origem==='Indicação'?indEl.value:'';
     l.col=document.getElementById('ef-col').value||l.col;
     l.notas=document.getElementById('ef-notes').value||l.notas;
-    crmCloseEdit();
+    if(ov) ov.remove();
     crmSave();crmRenderAll();
+    // Reabrir painel com dados atualizados
+    crmSel=id;crmRenderPanel();
   }
-
 
   function crmToggleIndicadoPor(val, inputId){
     var rowId = inputId + '-row';
