@@ -3872,10 +3872,13 @@
         .crm-side-close-btn:hover{background:#faf7f4}
         .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ht{background:#fdf0e8;border-color:rgba(122,58,34,0.15)}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ht .crm-col-nm{color:#5a2810}
         .crm-col.ar .crm-col-nm{color:#5a4e46}
         .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ht .crm-col-bdg{background:rgba(122,58,34,0.12);color:#7a3a22}
         .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
         .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
         .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
@@ -3896,6 +3899,7 @@
           <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
           <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
           <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
@@ -6497,10 +6501,13 @@
         .crm-side-close-btn:hover{background:#faf7f4}
         .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ht{background:#fdf0e8;border-color:rgba(122,58,34,0.15)}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ht .crm-col-nm{color:#5a2810}
         .crm-col.ar .crm-col-nm{color:#5a4e46}
         .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ht .crm-col-bdg{background:rgba(122,58,34,0.12);color:#7a3a22}
         .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
         .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
         .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
@@ -6521,6 +6528,7 @@
           <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
           <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
           <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+          <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
@@ -6664,10 +6672,13 @@
         .crm-side-close-btn:hover{background:#faf7f4}
         .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
+        .crm-col.ht{background:#fdf0e8;border-color:rgba(122,58,34,0.15)}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
+        .crm-col.ht .crm-col-nm{color:#5a2810}
         .crm-col.ar .crm-col-nm{color:#5a4e46}
         .crm-col.ne .crm-col-nm{color:#791f1f}
+        .crm-col.ht .crm-col-bdg{background:rgba(122,58,34,0.12);color:#7a3a22}
         .crm-col.ar .crm-col-bdg{background:rgba(138,122,110,0.12);color:#8a7a6e}
         .crm-col.ne .crm-col-bdg{background:rgba(163,45,45,0.12);color:#a32d2d}
         .crm-tab{display:inline-flex;gap:2px;background:#f5f3f0;border-radius:8px;padding:3px;margin-bottom:1rem}
@@ -7968,7 +7979,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   // ── CRM ──────────────────────────────────────────────────────────────────────
   const CRM_COLS=[
-    {id:'linkedin', cls:'li', name:'LinkedIn',     pc:'#b5623e',pb:'#f8f2ee',nm:'#7a3a22',
+    {id:'linkedin', cls:'li', name:'Leads',     pc:'#b5623e',pb:'#f8f2ee',nm:'#7a3a22',
      next:'Enviar mensagem de abertura ou follow-up'},
     {id:'qualif',   cls:'qu', name:'Call qualif.', pc:'#c97a2a',pb:'#fdf6ec',nm:'#8a5010',
      next:'Ligar — abertura + credencial + 3 perguntas + agendar reunião'},
@@ -7980,6 +7991,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
      next:'Onboarding iniciado — agendar primeira sessão'},
   ];
   const CRM_COLS_ALL=[...CRM_COLS,
+    {id:'heating',  cls:'ht',name:'Monthly Heating',pc:'#7a3a22',pb:'#fdf0e8',nm:'#5a2810',
+     next:'Enviar material de aquecimento'},
     {id:'arquivado',cls:'ar',name:'Arquivado',    pc:'#8a7a6e',pb:'#f5f3f0',nm:'#5a4e46',
      next:'Sem resposta — retomar em 3-6 meses se fizer sentido'},
     {id:'negativa', cls:'ne',name:'Não contatar', pc:'#a32d2d',pb:'#fcebeb',nm:'#791f1f',
@@ -8096,7 +8109,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var activeCols = crmTab==='ativos' ? CRM_COLS :
       CRM_COLS_ALL.filter(function(c){return c.id===crmTab;});
     var pool = crmTab==='ativos'
-      ? crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa';})
+      ? crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa'&&l.col!=='heating';})
       : crmLeads.filter(function(l){return l.col===crmTab;});
     const fl=crmQ?pool.filter(l=>l.name.toLowerCase().includes(crmQ)||l.profissao.toLowerCase().includes(crmQ)||(l.empresa||'').toLowerCase().includes(crmQ)):pool;
     el.innerHTML=activeCols.map(c=>{
@@ -8228,9 +8241,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="crm-acts" style="margin-top:12px">'+
         '<button class="crm-btn" onclick="crmOpenEdit('+l.id+')">Ed. dados</button>'+
         nxtBtn+
+        (l.col!=='arquivado'&&l.col!=='negativa'&&l.col!=='heating'?'<button class="crm-btn" style="color:#7a3a22;border-color:rgba(122,58,34,0.3)" onclick="crmHeating('+l.id+')">Monthly Heating</button>':'')+
         (l.col!=='arquivado'&&l.col!=='negativa'?'<button class="crm-btn" onclick="crmArchive('+l.id+')">Arquivar</button>':'')+
         (l.col!=='negativa'?'<button class="crm-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)" onclick="crmNegativa('+l.id+')">N\u00e3o contatar</button>':'')+
-        (l.col==='arquivado'||l.col==='negativa'?'<button class="crm-btn main" onclick="crmReativar('+l.id+')">Reativar</button>':'')+
+        (l.col==='arquivado'||l.col==='negativa'||l.col==='heating'?'<button class="crm-btn main" onclick="crmReativar('+l.id+')">Reativar</button>':'')+
         '<button class="crm-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.2)" onclick="crmDeleteLead('+l.id+')">Excluir</button>'+
       '</div>';
 
@@ -8401,6 +8415,17 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     crmRenderPanel();
   }
 
+  function crmHeating(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    l.timeline.unshift({t:'Enviado para Monthly Heating',d:crmToday(),c:'#7a3a22'});
+    l.col='heating';
+    crmClosePanel();
+    crmSave();crmRenderAll();
+  }
+
   function crmArchive(id){
     id=Number(id);
     var l=crmLeads.find(function(x){return x.id===id;});
@@ -8495,27 +8520,29 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function crmSaveEdit(){
     var ov=document.getElementById('crm-edit-fixed');
-    var id=Number(ov?ov.dataset.editId:0);
-    if(!id){alert('Erro: lead não encontrado.');return;}
+    if(!ov){alert('Formulário não encontrado.');return;}
+    var id=Number(ov.dataset.editId||0);
+    if(!id){alert('Erro: ID não encontrado.');return;}
     var l=crmLeads.find(function(x){return x.id===id;});
     if(!l){alert('Lead não encontrado.');return;}
-    var name=(document.getElementById('ef-name').value||'').trim();
+    function gv(sel){var el=ov.querySelector(sel);return el?el.value:'';}
+    var name=(gv('#ef-name')||'').trim();
     if(!name){alert('Nome é obrigatório.');return;}
     l.name=name;
-    l.profissao=document.getElementById('ef-prof').value;
-    l.empresa=document.getElementById('ef-emp').value;
-    l.whatsapp=document.getElementById('ef-wpp').value||'—';
-    l.email=document.getElementById('ef-email').value||'—';
-    l.linkedin=document.getElementById('ef-li').value||'—';
-    l.aniversario=document.getElementById('ef-aniv').value;
-    l.origem=document.getElementById('ef-orig').value||l.origem;
-    var indEl=document.getElementById('ef-indicado');
+    l.profissao=gv('#ef-prof');
+    l.empresa=gv('#ef-emp');
+    l.whatsapp=gv('#ef-wpp')||'—';
+    l.email=gv('#ef-email')||'—';
+    l.linkedin=gv('#ef-li')||'—';
+    l.aniversario=gv('#ef-aniv');
+    l.origem=gv('#ef-orig')||l.origem;
+    var indEl=ov.querySelector('#ef-indicado');
     l.indicadoPor=indEl&&l.origem==='Indicação'?indEl.value:'';
-    l.col=document.getElementById('ef-col').value||l.col;
-    l.notas=document.getElementById('ef-notes').value||l.notas;
-    if(ov) ov.remove();
+    l.notas=gv('#ef-notes');
+    var newCol=gv('#ef-col');
+    if(newCol) l.col=newCol;
+    ov.remove();
     crmSave();crmRenderAll();
-    // Reabrir painel com dados atualizados
     crmSel=id;crmRenderPanel();
   }
 
