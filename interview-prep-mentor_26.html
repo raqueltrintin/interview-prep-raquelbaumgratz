@@ -8462,8 +8462,31 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="crm-form-row full"><label class="crm-form-lbl">Notas</label>'+
         '<input class="crm-form-inp" id="ef-notes" value="'+(l.notas||'').replace(/"/g,'&quot;')+'">'+
       '</div>';
-    document.getElementById('crm-edit-modal').dataset.editId=id;
-    document.getElementById('crm-edit-modal').classList.add('open');
+    // Criar overlay fixo acima de tudo
+    var old=document.getElementById('crm-edit-fixed');
+    if(old) old.remove();
+    var overlay=document.createElement('div');
+    overlay.id='crm-edit-fixed';
+    overlay.dataset.editId=String(id);
+    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:1rem';
+    var box=document.createElement('div');
+    box.style.cssText='background:#fff;border-radius:12px;padding:1.25rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;border:1px solid rgba(0,0,0,0.08)';
+    var grid=document.getElementById('crm-edit-grid');
+    var gridHtml=grid?grid.innerHTML:'';
+    box.innerHTML=
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">'+
+        '<div style="font-size:15px;font-weight:500;color:#1c1410">Editar lead</div>'+
+        '<button id="crm-edit-close-btn" style="border:none;background:none;font-size:22px;cursor:pointer;color:#8a7a6e;line-height:1">&times;</button>'+
+      '</div>'+
+      '<div id="crm-edit-grid-fixed" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+gridHtml+'</div>'+
+      '<div style="display:flex;gap:8px;margin-top:1rem;justify-content:flex-end">'+
+        '<button id="crm-edit-cancel-btn" class="crm-btn">Cancelar</button>'+
+        '<button onclick="crmSaveEdit()" class="crm-btn main">Salvar</button>'+
+      '</div>';
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    document.getElementById('crm-edit-close-btn').onclick=function(){overlay.remove();};
+    document.getElementById('crm-edit-cancel-btn').onclick=function(){overlay.remove();};
   }
 
   function crmCloseEdit(){
