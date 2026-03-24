@@ -8202,7 +8202,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="crm-p-fields">'+
         '<div class="crm-fld"><div class="crm-fld-lbl">WhatsApp</div><div class="crm-fld-val">'+(l.whatsapp||'&mdash;')+'</div></div>'+
         '<div class="crm-fld"><div class="crm-fld-lbl">E-mail</div><div class="crm-fld-val">'+(l.email||'&mdash;')+'</div></div>'+
-        '<div class="crm-fld"><div class="crm-fld-lbl">LinkedIn</div><div class="crm-fld-val accent">'+(l.linkedin||'&mdash;')+'</div></div>'+
+        '<div class="crm-fld"><div class="crm-fld-lbl">LinkedIn</div><div class="crm-fld-val">'+(l.linkedin&&l.linkedin!=='—'?'<a href="'+(l.linkedin.startsWith('http')?l.linkedin:'https://'+l.linkedin)+'" target="_blank" style="color:#b5623e;word-break:break-all">'+l.linkedin+'</a>':'&mdash;')+'</div></div>'+
         '<div class="crm-fld"><div class="crm-fld-lbl">Empresa</div><div class="crm-fld-val">'+(l.empresa||'&mdash;')+'</div></div>'+
         '<div class="crm-fld"><div class="crm-fld-lbl">Profiss&atilde;o</div><div class="crm-fld-val">'+(l.profissao||'&mdash;')+'</div></div>'+
         '<div class="crm-fld"><div class="crm-fld-lbl">Anivers&aacute;rio</div><div class="crm-fld-val">'+(l.aniversario||'&mdash;')+'</div></div>'+
@@ -8502,12 +8502,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var name=(document.getElementById('ef-name').value||'').trim();
     if(!name){alert('Nome é obrigatório.');return;}
     l.name=name;
-    l.profissao=document.getElementById('ef-prof').value||l.profissao;
-    l.empresa=document.getElementById('ef-emp').value||l.empresa;
-    l.whatsapp=document.getElementById('ef-wpp').value||l.whatsapp;
-    l.email=document.getElementById('ef-email').value||l.email;
-    l.linkedin=document.getElementById('ef-li').value||l.linkedin;
-    l.aniversario=document.getElementById('ef-aniv').value||l.aniversario;
+    l.profissao=document.getElementById('ef-prof').value;
+    l.empresa=document.getElementById('ef-emp').value;
+    l.whatsapp=document.getElementById('ef-wpp').value||'—';
+    l.email=document.getElementById('ef-email').value||'—';
+    l.linkedin=document.getElementById('ef-li').value||'—';
+    l.aniversario=document.getElementById('ef-aniv').value;
     l.origem=document.getElementById('ef-orig').value||l.origem;
     var indEl=document.getElementById('ef-indicado');
     l.indicadoPor=indEl&&l.origem==='Indicação'?indEl.value:'';
