@@ -8118,7 +8118,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         <div class="crm-col-hd"><span class="crm-col-nm">${c.name}</span><span class="crm-col-bdg">${cards.length}</span></div>
         ${cards.length===0?'<div class="crm-empty">Vazio</div>':cards.map(l=>{
           const av=crmAniv(l.aniversario);
-          return`<div class="crm-card${l.id===crmSel?' sel':''}" onclick="crmPick(${l.id})">
+          var compact=crmTab!=='ativos';
+          if(compact)return'<div class="crm-card'+(l.id===crmSel?' sel':'')+
+            '" onclick="crmPick('+l.id+')"><div class="crm-c-name">'+l.name+'</div></div>';
+return`<div class="crm-card${l.id===crmSel?' sel':''}" onclick="crmPick(${l.id})">
             <div class="crm-c-top">
               <div class="crm-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
               <div><div class="crm-c-name">${l.name}</div><div class="crm-c-role">${l.profissao} · ${l.empresa}</div></div>
