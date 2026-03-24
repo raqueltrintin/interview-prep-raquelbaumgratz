@@ -8118,21 +8118,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         <div class="crm-col-hd"><span class="crm-col-nm">${c.name}</span><span class="crm-col-bdg">${cards.length}</span></div>
         ${cards.length===0?'<div class="crm-empty">Vazio</div>':cards.map(l=>{
           const av=crmAniv(l.aniversario);
-          var compact=crmTab!=='ativos';
-          if(compact)return'<div class="crm-card'+(l.id===crmSel?' sel':'')+
-            '" onclick="crmPick('+l.id+')"><div class="crm-c-name">'+l.name+'</div></div>';
-return`<div class="crm-card${l.id===crmSel?' sel':''}" onclick="crmPick(${l.id})">
-            <div class="crm-c-top">
-              <div class="crm-av" style="background:${c.pb};color:${c.pc}">${crmIni(l.name)}</div>
-              <div><div class="crm-c-name">${l.name}</div><div class="crm-c-role">${l.profissao} · ${l.empresa}</div></div>
-            </div>
-            <div class="crm-c-foot">
-              <span class="crm-otag" style="background:${c.pb};color:${c.pc}">${l.origem}</span>
-              <span class="crm-c-dt">${l.timeline&&l.timeline.length?l.timeline[l.timeline.length-1].d:''}</span>
-            </div>
-            <div class="crm-sw"><span class="crm-sw-txt">Score ${l.score||0}%</span><div class="crm-sw-tr"><div class="crm-sw-fi" style="width:${l.score||0}%;background:${crmSc(l.score||0)}"></div></div></div>
-            ${av?`<div class="crm-aniv">${av}</div>`:''}
-          </div>`;
+          return '<div class="crm-card'+(l.id===crmSel?' sel':'')+
+            '" onclick="crmPick('+l.id+')" style="display:flex;align-items:center;gap:8px;padding:8px 10px">'+
+            '<div class="crm-av" style="background:'+c.pb+';color:'+c.pc+';width:26px;height:26px;font-size:10px;flex-shrink:0">'+crmIni(l.name)+'</div>'+
+            '<div style="font-size:13px;font-weight:500;color:#1c1410;line-height:1.3">'+l.name+'</div>'+
+          '</div>';
         }).join('')}
       </div>`;
     }).join('');
