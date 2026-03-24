@@ -3863,6 +3863,14 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1000;backdrop-filter:blur(2px)}
+        .crm-overlay-bg.open{display:block}
+        .crm-side-panel{position:fixed;top:0;right:-520px;width:520px;max-width:95vw;height:100vh;background:#fff;z-index:1001;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,0.12)}
+        .crm-side-panel.open{right:0}
+        .crm-side-close{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);z-index:2}
+        .crm-side-close-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6b5a4e;flex-shrink:0}
+        .crm-side-close-btn:hover{background:#faf7f4}
+        .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
@@ -3897,7 +3905,7 @@
       </div>
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
-      <div id="crm-panel"></div>
+      <div id="crm-panel" style="display:none"></div>
       <div class="crm-edit-modal" id="crm-edit-modal">
         <div class="crm-modal">
           <div class="crm-modal-title">Editar lead</div>
@@ -3907,6 +3915,14 @@
             <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
           </div>
         </div>
+      </div>
+      <div class="crm-overlay-bg" id="crm-overlay-bg" onclick="crmClosePanel()"></div>
+      <div class="crm-side-panel" id="crm-side-panel">
+        <div class="crm-side-close">
+          <span id="crm-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
+          <button class="crm-side-close-btn" onclick="crmClosePanel()" title="Fechar">&times;</button>
+        </div>
+        <div class="crm-side-body" id="crm-side-body"></div>
       </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
@@ -6472,6 +6488,14 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1000;backdrop-filter:blur(2px)}
+        .crm-overlay-bg.open{display:block}
+        .crm-side-panel{position:fixed;top:0;right:-520px;width:520px;max-width:95vw;height:100vh;background:#fff;z-index:1001;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,0.12)}
+        .crm-side-panel.open{right:0}
+        .crm-side-close{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);z-index:2}
+        .crm-side-close-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6b5a4e;flex-shrink:0}
+        .crm-side-close-btn:hover{background:#faf7f4}
+        .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
@@ -6506,7 +6530,7 @@
       </div>
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
-      <div id="crm-panel"></div>
+      <div id="crm-panel" style="display:none"></div>
       <div class="crm-edit-modal" id="crm-edit-modal">
         <div class="crm-modal">
           <div class="crm-modal-title">Editar lead</div>
@@ -6516,6 +6540,14 @@
             <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
           </div>
         </div>
+      </div>
+      <div class="crm-overlay-bg" id="crm-overlay-bg" onclick="crmClosePanel()"></div>
+      <div class="crm-side-panel" id="crm-side-panel">
+        <div class="crm-side-close">
+          <span id="crm-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
+          <button class="crm-side-close-btn" onclick="crmClosePanel()" title="Fechar">&times;</button>
+        </div>
+        <div class="crm-side-body" id="crm-side-body"></div>
       </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
@@ -6623,6 +6655,14 @@
         .crm-form-sel{padding:7px 10px;font-size:13px;border-radius:7px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
         .crm-form-acts{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
         .crm-saving{font-size:11px;color:#8a7a6e;text-align:right;margin-bottom:6px;min-height:16px}
+        .crm-overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1000;backdrop-filter:blur(2px)}
+        .crm-overlay-bg.open{display:block}
+        .crm-side-panel{position:fixed;top:0;right:-520px;width:520px;max-width:95vw;height:100vh;background:#fff;z-index:1001;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,0.12)}
+        .crm-side-panel.open{right:0}
+        .crm-side-close{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);z-index:2}
+        .crm-side-close-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6b5a4e;flex-shrink:0}
+        .crm-side-close-btn:hover{background:#faf7f4}
+        .crm-side-body{padding:1.25rem}
         .crm-tl-row button:hover{opacity:1!important}
         .crm-col.ar{background:#f5f3f0;border-color:rgba(138,122,110,0.15)}
         .crm-col.ne{background:#fcebeb;border-color:rgba(163,45,45,0.15)}
@@ -6646,7 +6686,7 @@
       </div>
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
-      <div id="crm-panel"></div>
+      <div id="crm-panel" style="display:none"></div>
       <div class="crm-edit-modal" id="crm-edit-modal">
         <div class="crm-modal">
           <div class="crm-modal-title">Editar lead</div>
@@ -6656,6 +6696,14 @@
             <button class="crm-btn main" onclick="crmSaveEdit()">Salvar alterações</button>
           </div>
         </div>
+      </div>
+      <div class="crm-overlay-bg" id="crm-overlay-bg" onclick="crmClosePanel()"></div>
+      <div class="crm-side-panel" id="crm-side-panel">
+        <div class="crm-side-close">
+          <span id="crm-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
+          <button class="crm-side-close-btn" onclick="crmClosePanel()" title="Fechar">&times;</button>
+        </div>
+        <div class="crm-side-body" id="crm-side-body"></div>
       </div>
       <div class="crm-modal-bg" id="crm-modal-bg">
         <div class="crm-modal">
@@ -8132,8 +8180,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var avHtml=av?(' <span class="crm-aniv">'+av+'</span>'):'';
     var nxtBtn=nxtC?('<button class="crm-btn main" onclick="crmAdvance('+l.id+')">&#8594; '+nxtC.name+'</button>'):'';
 
+    // Abrir painel lateral
+    var titleEl=document.getElementById('crm-side-title');
+    var panel=document.getElementById('crm-side-panel');
+    var overlay=document.getElementById('crm-overlay-bg');
+    var l2=crmLeads.find(function(x){return x.id===crmSel;});
+    if(titleEl&&l2) titleEl.textContent=l2.name;
     el.innerHTML=
-      '<div class="crm-panel">'+
+      '<div style="padding-bottom:2rem">'+
         '<div class="crm-p-hd">'+
           '<div class="crm-p-av" style="background:'+c.pb+';color:'+c.pc+'">'+crmIni(l.name)+'</div>'+
           '<div>'+
@@ -8190,6 +8244,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
           '<button class="crm-btn" style="margin-left:auto;color:#8a7a6e" onclick="crmPick('+l.id+')">Recolher ↑</button>'+
         '</div>'+
       '</div>';
+    if(panel) panel.classList.add('open');
+    if(overlay) overlay.classList.add('open');
+    document.body.style.overflow='hidden';
   }
 
   function crmSaveProx(id){
