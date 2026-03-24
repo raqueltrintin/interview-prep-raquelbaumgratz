@@ -8002,7 +8002,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   let crmLeads=[];
   let crmSel=null, crmQ='', crmNextId=1, crmSaveTimer=null;
 
-  function crmCol(id){return CRM_COLS.find(c=>c.id===id)}
+  function crmCol(id){return CRM_COLS_ALL.find(c=>c.id===id)||CRM_COLS[0]}
   function crmIni(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
   function crmSc(s){return s>=80?'#4a7c5a':s>=50?'#c97a2a':'#b5623e'}
   function crmToday(){return new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}
