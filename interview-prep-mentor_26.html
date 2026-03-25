@@ -7336,8 +7336,8 @@
         setTimeout(crmRenderAll, 0);
       }
       // Após re-renderizar apps, recarregar kanban do mentorado
-      if (sid === 'apps' && typeof apRenderKanban === 'function') {
-        setTimeout(apRenderKanban, 50);
+      if (sid === 'apps' && typeof apRenderAll === 'function') {
+        setTimeout(apRenderAll, 0);
       }
     });
 
@@ -7539,11 +7539,7 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
-    if (id === 'apps') {
-      _apRkRetry=0;
-      if(typeof apRenderKanban==='function') setTimeout(apRenderKanban,100);
-      if(typeof apLoad==='function') setTimeout(apLoad,300);
-    }
+    if (id === 'apps') { if(typeof apLoad==='function') setTimeout(apLoad,100); }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -8880,7 +8876,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     {id:'accepted',   name:'Accepted',     c:'#2a5a38',b:'#e1f5ee',t:'#085041'},
     {id:'archived',   name:'Arquivado',    c:'#8a7a6e',b:'#f5f3f0',t:'#5a4e46'},
   ];
-  var apApps=[], apSel=null, apNextId=1, apSaveTimer=null, _apFid=null;
+  var apApps=[], apSel=null, apNextId=1, apSaveTimer=null, apTab='ativas';
 
   function apColObj(id){return AP_COLS.find(function(c){return c.id===id;})||AP_COLS[0];}
   function apFmt(v){return v||'\u2014';}
@@ -8891,33 +8887,72 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     clearTimeout(apSaveTimer);
     apSaveTimer=setTimeout(async function(){
       try{
-        await sb.from('notes').upsert({user_id:currentUser.id,note_key:'apps_crm',content:JSON.stringify(apApps),updated_at:new Date().toISOString()},{onConflict:'user_id,note_key'});
-      }catch(e){console.warn('Erro ao salvar apps:',e);}
-    },800);
+        await sb.from('notes').upsert({
+          user_id:currentUser.id, note_key:'apps_crm',
+          content:JSON.stringify(apApps), updated_at:new Date().toISOString()
+        },{onConflict:'user_id,note_key'});
+      }catch(e){console.warn('apSave erro:',e);}
+    },600);
   }
 
   async function apLoad(){
     if(!currentUser)return;
     try{
-      var r=await sb.from('notes').select('content').eq('user_id',currentUser.id).eq('note_key','apps_crm').single();
+      var r=await sb.from('notes').select('content')
+        .eq('user_id',currentUser.id).eq('note_key','apps_crm').single();
       if(r.data&&r.data.content){
         var parsed=JSON.parse(r.data.content);
         if(Array.isArray(parsed)&&parsed.length>0){
           apApps=parsed.map(function(a){a.id=Number(a.id);return a;});
           apNextId=Math.max.apply(null,apApps.map(function(a){return a.id;}))+1;
-          _apRkRetry=0;apRenderAll();return;
         }
       }
     }catch(e){}
-    apApps=[];apNextId=1;_apRkRetry=0;apRenderAll();
+    apRenderAll();
   }
 
+  function apRenderAll(){
+    apRenderToday();
+    apRenderKanban();
+    if(apSel) apRenderPanel();
+  }
+
+  function apRenderKanban(){
+    var el=document.getElementById('ap-kanban');
+    if(!el) return;
+    var activeCols=apTab==='ativas'
+      ? AP_COLS.filter(function(c){return c.id!=='archived';})
+      : AP_COLS.filter(function(c){return c.id==='archived';});
+    var pool=apTab==='ativas'
+      ? apApps.filter(function(a){return a.status!=='archived';})
+      : apApps.filter(function(a){return a.status==='archived';});
+    el.innerHTML=activeCols.map(function(c){
+      var cards=pool.filter(function(a){return a.status===c.id;});
+      return '<div class="ap-col" style="background:'+c.b+';border-color:'+c.c+'30">'+
+        '<div class="ap-col-hd"><span class="ap-col-nm" style="color:'+c.t+'">'+c.name+'</span>'+
+        '<span class="ap-col-cnt" style="color:'+c.t+'">'+cards.length+'</span></div>'+
+        (cards.length ? cards.map(function(a){
+          var sel=a.id===apSel;
+          return '<div class="ap-card" onclick="apPick('+a.id+')" style="'+(sel?'border-color:'+c.c+';border-width:1.5px;background:'+c.b+'30':'')+'">'+
+            '<div class="ap-card-co" style="'+(sel?'color:'+c.t:'')+'">'+a.company+'</div>'+
+            '<div class="ap-card-role">'+a.role+'</div>'+
+            '<div class="ap-card-loc">'+a.location+'</div>'+
+            (a.dateApplied?'<div class="ap-card-date" style="color:'+c.t+'">Applied '+a.dateApplied+'</div>':'')+
+            (a.interviewDate?'<div class="ap-card-date" style="color:'+c.t+';font-weight:500">Interview '+a.interviewDate+'</div>':'')+
+          '</div>';
+        }).join('') : '<div class="ap-empty">Vazio</div>')+
+        (apTab==='ativas'?'<button class="ap-col-add" data-col="'+c.id+'" onclick="apNewInPanel(this.dataset.col)">+ Add</button>':'')+
+      '</div>';
+    }).join('');
+  }
 
   function apRenderToday(){
     var el=document.getElementById('ap-today-list');
     if(!el)return;
     var today=apToday();
-    var list=apApps.filter(function(a){return a.meetings&&a.meetings.some(function(m){return m.date&&m.date.startsWith(today);});});
+    var list=apApps.filter(function(a){
+      return a.meetings&&a.meetings.some(function(m){return m.date&&m.date.startsWith(today);});
+    });
     if(!list.length){el.innerHTML='<div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div>';return;}
     el.innerHTML=list.map(function(a){
       var m=a.meetings.find(function(m){return m.date&&m.date.startsWith(today);});
@@ -8926,18 +8961,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       return '<div class="ap-today-item" onclick="apPickFromToday('+a.id+')" title="Abrir candidatura">'+
         '<div class="ap-today-dot" style="background:'+c.c+'"></div>'+
         '<span class="ap-today-time">'+time+'</span>'+
-        '<div style="flex:1"><div class="ap-today-co">'+a.company+'</div><div class="ap-today-role">'+a.role+' &middot; '+m.type+'</div></div>'+
+        '<div style="flex:1"><div class="ap-today-co">'+a.company+'</div>'+
+        '<div class="ap-today-role">'+a.role+' &middot; '+m.type+'</div></div>'+
         '<span class="ap-today-badge" style="background:'+c.b+';color:'+c.t+'">'+c.name+'</span>'+
         '<span style="font-size:11px;color:#b5623e;margin-left:6px">&rarr;</span>'+
       '</div>';
     }).join('');
   }
 
-  function apPickFromToday(id){
-    apSel=Number(id);apRenderAll();
-  }
-
-
+  function apPickFromToday(id){apSel=Number(id);apRenderAll();}
 
   function apSetTab(tab){
     apTab=tab;apSel=null;
@@ -8958,52 +8990,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function apPick(id){apSel=Number(id);apRenderKanban();apRenderPanel();}
 
-  function apRenderAll(){
-    apRenderToday();
-    apRenderKanban();
-    if(apSel) apRenderPanel();
-  }
-
-  var _apRkRetry=0;
-  function apRenderKanban(){
-    var el=document.getElementById('ap-kanban');
-    if(!el){
-      if(_apRkRetry++<10) setTimeout(apRenderKanban,100);
-      else _apRkRetry=0;
-      return;
-    }
-    _apRkRetry=0;
-    var cols=apTab==='ativas'?AP_COLS.filter(function(c){return c.id!=='archived';}):AP_COLS.filter(function(c){return c.id==='archived';});
-    var pool=apTab==='ativas'?apApps.filter(function(a){return a.status!=='archived';}):apApps.filter(function(a){return a.status==='archived';});
-    el.innerHTML=cols.map(function(c){
-      var cards=pool.filter(function(a){return a.status===c.id;});
-      return '<div class="ap-col" style="background:'+c.b+';border-color:'+c.c+'30">'+
-        '<div class="ap-col-hd"><span class="ap-col-nm" style="color:'+c.t+'">'+c.name+'</span>'+
-        '<span class="ap-col-cnt" style="color:'+c.t+'">'+cards.length+'</span></div>'+
-        (cards.length?cards.map(function(a){
-          var sel=a.id===apSel;
-          return '<div class="ap-card" onclick="apPick('+a.id+')" style="'+(sel?'border-color:'+c.c+';border-width:1.5px;background:'+c.b+'30':'')+'">'+
-            '<div class="ap-card-co" style="'+(sel?'color:'+c.t:'')+'">'+a.company+'</div>'+
-            '<div class="ap-card-role">'+a.role+'</div>'+
-            '<div class="ap-card-loc">'+a.location+'</div>'+
-            (a.dateApplied?'<div class="ap-card-date" style="color:'+c.t+'">Applied '+a.dateApplied+'</div>':'')+
-            (a.interviewDate?'<div class="ap-card-date" style="color:'+c.t+';font-weight:500">Interview '+a.interviewDate+'</div>':'')+
-          '</div>';
-        }).join(''):'<div class="ap-empty">Vazio</div>')+
-        (apTab==='ativas'?'<button class="ap-col-add" data-col="'+c.id+'" onclick="apNewInPanel(this.dataset.col)">+ Add</button>':'')+
-      '</div>';
-    }).join('');
-  }
-
   function apRenderPanel(){
-    if(!apSel){
-      var panel=document.getElementById('ap-side-panel');
-      var overlay=document.getElementById('ap-overlay-bg');
-      if(panel)panel.classList.remove('open');
-      if(overlay)overlay.classList.remove('open');
-      document.body.style.overflow='';
-      return;
-    }
+    if(!apSel){apClosePanel();return;}
     var a=apApps.find(function(x){return x.id===apSel;});
     if(!a){apClosePanel();return;}
     var el=document.getElementById('ap-side-body');
@@ -9014,16 +9002,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var strat=(a.posStrategy||'').split('\n').filter(Boolean).map(function(l){return '<li>'+l+'</li>';}).join('');
     var meetRows=(a.meetings||[]).map(function(m){return '<tr><td>'+apFmt(m.type)+'</td><td>'+apFmt(m.date)+'</td></tr>';}).join('');
     var ctRows=(a.contacts||[]).map(function(ct){return '<tr><td>'+apFmt(ct.name)+'</td><td>'+apFmt(ct.role)+'</td><td>'+(ct.email?'<a href="mailto:'+ct.email+'" style="color:'+c.c+'">'+ct.email+'</a>':apFmt(''))+'</td></tr>';}).join('');
-
     var titleEl=document.getElementById('ap-side-title');
     if(titleEl)titleEl.textContent=a.company;
-
     el.innerHTML=
       '<div style="margin-bottom:14px">'+
         '<div style="font-size:18px;font-weight:500;color:#1c1410">'+a.company+'</div>'+
         '<div style="font-size:13px;color:#8a7a6e;margin-top:2px">'+a.role+' &middot; '+a.location+
-          '<span style="margin-left:8px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+c.b+';color:'+c.t+'">'+c.name+'</span>'+
-        '</div>'+
+          '<span style="margin-left:8px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+c.b+';color:'+c.t+'">'+c.name+'</span></div>'+
       '</div>'+
       '<div class="ap-fields">'+
         '<div class="ap-fld"><div class="ap-fld-lbl">Job link</div><div class="ap-fld-val">'+(a.link?'<a href="https://'+a.link+'" target="_blank" style="color:'+c.c+'">'+a.link+'</a>':apFmt(''))+'</div></div>'+
@@ -9044,11 +9029,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="ap-acts" style="margin-top:12px">'+
         (nxt?'<button class="ap-btn adv" onclick="apAdvance('+a.id+')" style="border-color:'+nxt.c+'50;color:'+nxt.t+';background:'+nxt.b+'">&rarr; '+nxt.name+'</button>':'')+
         '<button class="ap-btn" onclick="apEditInPanel('+a.id+')">Editar</button>'+
-        (a.status!=='archived'?'<button class="ap-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)" onclick="apArchive('+a.id+')">Arquivar</button>':
-         '<button class="ap-btn adv" onclick="apUnarchive('+a.id+')">Reativar</button>')+
+        (a.status!=='archived'?'<button class="ap-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)" onclick="apArchive('+a.id+')">Arquivar</button>':'<button class="ap-btn adv" onclick="apUnarchive('+a.id+')">Reativar</button>')+
         '<button class="ap-btn del" onclick="apDel('+a.id+')">Excluir</button>'+
       '</div>';
-
     var panel=document.getElementById('ap-side-panel');
     var overlay=document.getElementById('ap-overlay-bg');
     if(panel)panel.classList.add('open');
@@ -9056,207 +9039,64 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.body.style.overflow='hidden';
   }
 
-
   function apAdvance(id){
     var a=apApps.find(function(x){return x.id===Number(id);});
     var idx=AP_COLS.findIndex(function(c){return c.id===a.status;});
-    if(idx<AP_COLS.length-1)a.status=AP_COLS[idx+1].id;
-    apSave();apRenderAll();
+    if(idx<AP_COLS.length-1&&AP_COLS[idx+1].id!=='archived') a.status=AP_COLS[idx+1].id;
+    apSave();apRenderAll();apSel=Number(id);apRenderPanel();
   }
 
   function apArchive(id){
     var a=apApps.find(function(x){return x.id===Number(id);});
     if(!a)return;
     a.status='archived';
-    apSel=null;apClosePanel();apSave();apRenderAll();
+    apSave();apClosePanel();apRenderAll();
   }
+
   function apUnarchive(id){
     var a=apApps.find(function(x){return x.id===Number(id);});
     if(!a)return;
     a.status='interested';
-    apSel=null;apClosePanel();apSave();apRenderAll();
+    apSave();apClosePanel();apRenderAll();
   }
+
   function apDel(id){
     if(!confirm('Excluir esta candidatura?'))return;
     apApps=apApps.filter(function(x){return x.id!==Number(id);});
-    apSel=null;apSave();apRenderAll();
+    apSave();apClosePanel();apRenderAll();
   }
 
-  function apOpenForm(id,colId){
-    // Fechar painel lateral se estiver aberto
-    if(!id){ apClosePanel(); }
-    _apFid=id?Number(id):null;
-    var col=colId||'interested';
-    var a=_apFid?apApps.find(function(x){return x.id===_apFid;}):null;
-    document.getElementById('ap-modal-title').textContent=a?'Editar candidatura':'Nova candidatura';
-    var colOpts=AP_COLS.map(function(c){return '<option value="'+c.id+'"'+((a?a.status:col)===c.id?' selected':'')+'>'+c.name+'</option>';}).join('');
-    document.getElementById('ap-form-grid').innerHTML=
-      '<div class="ap-fr"><label class="ap-fl">Empresa *</label><input class="ap-fi" id="apf-co" value="'+(a?a.company:'')+'" placeholder="Pinterest"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Cargo *</label><input class="ap-fi" id="apf-role" value="'+(a?a.role:'')+'" placeholder="Sr. Product Designer"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Localiza\u00e7\u00e3o</label><input class="ap-fi" id="apf-loc" value="'+(a?a.location:'')+'" placeholder="Remote"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Status</label><select class="ap-fi" id="apf-status">'+colOpts+'</select></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Link da vaga</label><input class="ap-fi" id="apf-link" value="'+(a?a.link:'')+'" placeholder="careers.empresa.com"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Data candidatura</label><input class="ap-fi" id="apf-date" value="'+(a?a.dateApplied:'')+'" placeholder="DD/MM/AAAA"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Nome recruiter</label><input class="ap-fi" id="apf-rn" value="'+(a?a.recruiterName:'')+'" placeholder="Nome"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">E-mail recruiter</label><input class="ap-fi" id="apf-re" value="'+(a?a.recruiterEmail:'')+'" placeholder="recruiter@empresa.com"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Data entrevista</label><input class="ap-fi" id="apf-id" value="'+(a?a.interviewDate:'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Tipo de reuni\u00e3o</label><input class="ap-fi" id="apf-mt" value="'+(a&&a.meetings&&a.meetings[0]?a.meetings[0].type:'')+'" placeholder="Intro call"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Pros</label><input class="ap-fi" id="apf-pros" value="'+(a?a.pros:'')+'" placeholder="Pontos positivos"></div>'+
-      '<div class="ap-fr"><label class="ap-fl">Cons</label><input class="ap-fi" id="apf-cons" value="'+(a?a.cons:'')+'" placeholder="Pontos negativos"></div>'+
-      '<div class="ap-fr full"><label class="ap-fl">Positioning strategy</label><textarea class="ap-fi" id="apf-strat" rows="3" placeholder="Uma linha por ponto...">'+(a?a.posStrategy||'':'')+'</textarea></div>'+
-      '<div class="ap-fr full"><label class="ap-fl">Notas</label><input class="ap-fi" id="apf-notes" value="'+(a?a.notes:'')+'" placeholder="Anota\u00e7\u00f5es..."></div>';
-    document.getElementById('ap-modal-bg').classList.add('open');
-  }
-
-
-  function apEditInPanel(id){
-    id=Number(id);
-    var a=apApps.find(function(x){return x.id===id;});
-    if(!a)return;
-    var el=document.getElementById('ap-side-body');
-    if(!el)return;
-    var c=apColObj(a.status);
-    var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
-      return '<option value="'+c.id+'"'+(c.id===a.status?' selected':'')+'>'+c.name+'</option>';
-    }).join('');
-    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none';
-    var fib=fi+';border-color:rgba(181,98,62,0.4)';
-    el.innerHTML=
-      '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Editar candidatura</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Empresa *</div>'+
-          '<input id="ape-co" style="'+fi+'" value="'+a.company+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Cargo *</div>'+
-          '<input id="ape-role" style="'+fi+'" value="'+(a.role||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Localização</div>'+
-          '<input id="ape-loc" style="'+fi+'" value="'+(a.location||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Status</div>'+
-          '<select id="ape-status" style="'+fi+'">'+colOpts+'</select></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Link da vaga</div>'+
-          '<input id="ape-link" style="'+fi+'" value="'+(a.link||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Data candidatura</div>'+
-          '<input id="ape-date" style="'+fi+'" value="'+(a.dateApplied||'')+'" placeholder="DD/MM/AAAA"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Nome recruiter</div>'+
-          '<input id="ape-rn" style="'+fi+'" value="'+(a.recruiterName||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">E-mail recruiter</div>'+
-          '<input id="ape-re" style="'+fi+'" value="'+(a.recruiterEmail||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Data entrevista</div>'+
-          '<input id="ape-id" style="'+fi+'" value="'+(a.interviewDate||'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Tipo reunião</div>'+
-          '<input id="ape-mt" style="'+fi+'" value="'+(a.meetings&&a.meetings[0]?a.meetings[0].type||'':'')+'" placeholder="Intro call"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Pros</div>'+
-          '<input id="ape-pros" style="'+fi+'" value="'+(a.pros||'')+'"></div>'+
-        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Cons</div>'+
-          '<input id="ape-cons" style="'+fi+'" value="'+(a.cons||'')+'"></div>'+
-        '<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Positioning strategy</div>'+
-          '<textarea id="ape-strat" rows="3" style="'+fi+';resize:vertical">'+(a.posStrategy||'')+'</textarea></div>'+
-        '<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Notas</div>'+
-          '<input id="ape-notes" style="'+fi+'" value="'+(a.notes||'')+'"></div>'+
-      '</div>'+
-      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">'+
-        '<button class="ap-btn" onclick="apSel='+id+';apRenderPanel()">Cancelar</button>'+
-        '<button class="ap-btn adv" onclick="apSaveEdit('+id+')">Salvar</button>'+
-      '</div>';
-  }
-
-  function apSaveEdit(id){
-    id=Number(id);
-    var a=apApps.find(function(x){return x.id===id;});
-    if(!a)return;
-    function gv(sel){var el=document.getElementById(sel);return el?el.value:'';}
-    var co=(gv('ape-co')||'').trim();
-    if(!co){alert('Empresa é obrigatório.');return;}
-    a.company=co;
-    a.role=gv('ape-role');
-    a.location=gv('ape-loc');
-    a.status=gv('ape-status')||a.status;
-    a.link=gv('ape-link');
-    a.dateApplied=gv('ape-date');
-    a.recruiterName=gv('ape-rn');
-    a.recruiterEmail=gv('ape-re');
-    a.interviewDate=gv('ape-id');
-    a.pros=gv('ape-pros');
-    a.cons=gv('ape-cons');
-    a.posStrategy=gv('ape-strat');
-    a.notes=gv('ape-notes');
-    var mtype=gv('ape-mt')||'Interview';
-    if(a.interviewDate&&a.meetings&&a.meetings[0]) a.meetings[0]={type:mtype,date:a.interviewDate};
-    apSave();apRenderAll();
-    apSel=id;apRenderPanel();
-  }
-  function apCloseForm(){document.getElementById('ap-modal-bg').classList.remove('open');}
-
-  function apSaveForm(){
-    var co=(document.getElementById('apf-co').value||'').trim();
-    var role=(document.getElementById('apf-role').value||'').trim();
-    if(!co||!role){alert('Empresa e cargo s\u00e3o obrigat\u00f3rios.');return;}
-    var idate=document.getElementById('apf-id').value||'';
-    var mtype=document.getElementById('apf-mt').value||'Interview';
-    if(_apFid){
-      var a=apApps.find(function(x){return x.id===_apFid;});
-      a.company=co;a.role=role;
-      a.location=document.getElementById('apf-loc').value||'';
-      a.status=document.getElementById('apf-status').value;
-      a.link=document.getElementById('apf-link').value||'';
-      a.dateApplied=document.getElementById('apf-date').value||'';
-      a.recruiterName=document.getElementById('apf-rn').value||'';
-      a.recruiterEmail=document.getElementById('apf-re').value||'';
-      a.interviewDate=idate;
-      a.pros=document.getElementById('apf-pros').value||'';
-      a.cons=document.getElementById('apf-cons').value||'';
-      a.posStrategy=document.getElementById('apf-strat').value||'';
-      a.notes=document.getElementById('apf-notes').value||'';
-      if(idate&&a.meetings&&a.meetings[0])a.meetings[0]={type:mtype,date:idate};
-    } else {
-      apApps.push({id:apNextId++,company:co,role:role,
-        location:document.getElementById('apf-loc').value||'',
-        status:document.getElementById('apf-status').value,
-        link:document.getElementById('apf-link').value||'',
-        dateApplied:document.getElementById('apf-date').value||'',
-        interviewDate:idate,
-        recruiterName:document.getElementById('apf-rn').value||'',
-        recruiterEmail:document.getElementById('apf-re').value||'',
-        pros:document.getElementById('apf-pros').value||'',
-        cons:document.getElementById('apf-cons').value||'',
-        posStrategy:document.getElementById('apf-strat').value||'Qual \u00e9 a narrativa principal?\nQuais 3 experi\u00eancias destacar?\nQual o diferencial competitivo?\nPoss\u00edveis red flags?',
-        meetings:[{type:mtype,date:idate},{type:'',date:''}],
-        contacts:[{name:'',role:'',email:''}],
-        notes:document.getElementById('apf-notes').value||''
-      });
-    }
-    apCloseForm();apSave();apRenderAll();
-  }
+  function apFi(){return 'padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none;box-sizing:border-box';}
+  function apLbl(t){return '<div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+t+'</div>';}
 
   function apNewInPanel(colId){
+    var col=colId||'interested';
     var titleEl=document.getElementById('ap-side-title');
     if(titleEl) titleEl.textContent='Nova candidatura';
     var el=document.getElementById('ap-side-body');
-    if(!el){setTimeout(function(){apNewInPanel(colId);},100);return;}
-    var col=colId||'interested';
+    if(!el)return;
     var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
       return '<option value="'+c.id+'"'+(c.id===col?' selected':'')+'>'+c.name+'</option>';
     }).join('');
-    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none;box-sizing:border-box';
-    function lbl(t){return '<div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+t+'</div>';}
     el.innerHTML=
       '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Nova candidatura</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'+
-        '<div>'+lbl('Empresa *')+'<input id="apn-co" style="'+fi+'" placeholder="Pinterest"></div>'+
-        '<div>'+lbl('Cargo *')+'<input id="apn-role" style="'+fi+'" placeholder="Sr. Product Designer"></div>'+
-        '<div>'+lbl('Localiza\u00e7\u00e3o')+'<input id="apn-loc" style="'+fi+'" placeholder="Remote"></div>'+
-        '<div>'+lbl('Status')+'<select id="apn-status" style="'+fi+'">'+colOpts+'</select></div>'+
-        '<div>'+lbl('Link da vaga')+'<input id="apn-link" style="'+fi+'" placeholder="careers.empresa.com"></div>'+
-        '<div>'+lbl('Data candidatura')+'<input id="apn-date" style="'+fi+'" placeholder="DD/MM/AAAA"></div>'+
-        '<div>'+lbl('Nome recruiter')+'<input id="apn-rn" style="'+fi+'" placeholder="Nome"></div>'+
-        '<div>'+lbl('E-mail recruiter')+'<input id="apn-re" style="'+fi+'" placeholder="recruiter@empresa.com"></div>'+
-        '<div>'+lbl('Data entrevista')+'<input id="apn-id" style="'+fi+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
-        '<div>'+lbl('Tipo reuni\u00e3o')+'<input id="apn-mt" style="'+fi+'" placeholder="Intro call"></div>'+
-        '<div>'+lbl('Pros')+'<input id="apn-pros" style="'+fi+'" placeholder="Pontos positivos"></div>'+
-        '<div>'+lbl('Cons')+'<input id="apn-cons" style="'+fi+'" placeholder="Pontos negativos"></div>'+
-        '<div style="grid-column:1/-1">'+lbl('Positioning strategy')+
-          '<textarea id="apn-strat" rows="3" style="'+fi+';resize:vertical" placeholder="Uma linha por ponto..."></textarea></div>'+
-        '<div style="grid-column:1/-1">'+lbl('Notas')+
-          '<input id="apn-notes" style="'+fi+'" placeholder="Anota\u00e7\u00f5es..."></div>'+
+        '<div>'+apLbl('Empresa *')+'<input id="apn-co" style="'+apFi()+'" placeholder="Pinterest"></div>'+
+        '<div>'+apLbl('Cargo *')+'<input id="apn-role" style="'+apFi()+'" placeholder="Sr. Product Designer"></div>'+
+        '<div>'+apLbl('Localiza\u00e7\u00e3o')+'<input id="apn-loc" style="'+apFi()+'" placeholder="Remote"></div>'+
+        '<div>'+apLbl('Status')+'<select id="apn-status" style="'+apFi()+'">'+colOpts+'</select></div>'+
+        '<div>'+apLbl('Link da vaga')+'<input id="apn-link" style="'+apFi()+'" placeholder="careers.empresa.com"></div>'+
+        '<div>'+apLbl('Data candidatura')+'<input id="apn-date" style="'+apFi()+'" placeholder="DD/MM/AAAA"></div>'+
+        '<div>'+apLbl('Nome recruiter')+'<input id="apn-rn" style="'+apFi()+'" placeholder="Nome"></div>'+
+        '<div>'+apLbl('E-mail recruiter')+'<input id="apn-re" style="'+apFi()+'" placeholder="recruiter@empresa.com"></div>'+
+        '<div>'+apLbl('Data entrevista')+'<input id="apn-id" style="'+apFi()+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+        '<div>'+apLbl('Tipo reuni\u00e3o')+'<input id="apn-mt" style="'+apFi()+'" placeholder="Intro call"></div>'+
+        '<div>'+apLbl('Pros')+'<input id="apn-pros" style="'+apFi()+'" placeholder="Pontos positivos"></div>'+
+        '<div>'+apLbl('Cons')+'<input id="apn-cons" style="'+apFi()+'" placeholder="Pontos negativos"></div>'+
+        '<div style="grid-column:1/-1">'+apLbl('Positioning strategy')+
+          '<textarea id="apn-strat" rows="3" style="'+apFi()+';resize:vertical" placeholder="Uma linha por ponto..."></textarea></div>'+
+        '<div style="grid-column:1/-1">'+apLbl('Notas')+
+          '<input id="apn-notes" style="'+apFi()+'" placeholder="Anota\u00e7\u00f5es..."></div>'+
       '</div>'+
       '<div style="display:flex;gap:8px;justify-content:flex-end">'+
         '<button class="ap-btn" onclick="apClosePanel()">Cancelar</button>'+
@@ -9264,11 +9104,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '</div>';
     var panel=document.getElementById('ap-side-panel');
     var overlay=document.getElementById('ap-overlay-bg');
-    if(panel) panel.classList.add('open');
-    if(overlay) overlay.classList.add('open');
+    if(panel)panel.classList.add('open');
+    if(overlay)overlay.classList.add('open');
     document.body.style.overflow='hidden';
     apSel=null;
-    setTimeout(function(){var e=document.getElementById('apn-co');if(e)e.focus();},100);
+    setTimeout(function(){var e=document.getElementById('apn-co');if(e)e.focus();},50);
   }
 
   function apSaveNew(){
@@ -9278,7 +9118,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var role=(gv('apn-role')||'').trim();
     if(!role){alert('Cargo \u00e9 obrigat\u00f3rio.');return;}
     var idate=gv('apn-id');
-    var mtype=gv('apn-mt')||'Interview';
     var newId=apNextId++;
     apApps.push({id:newId,company:co,role:role,
       location:gv('apn-loc'),status:gv('apn-status')||'interested',
@@ -9286,12 +9125,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       interviewDate:idate,recruiterName:gv('apn-rn'),recruiterEmail:gv('apn-re'),
       pros:gv('apn-pros'),cons:gv('apn-cons'),
       posStrategy:gv('apn-strat'),
-      meetings:[{type:mtype,date:idate},{type:'',date:''}],
+      meetings:[{type:gv('apn-mt')||'Interview',date:idate},{type:'',date:''}],
       contacts:[{name:'',role:'',email:''}],
       notes:gv('apn-notes')
     });
-    apSave();apRenderAll();
-    apSel=newId;apRenderPanel();
+    apSave();apRenderAll();apSel=newId;apRenderPanel();
   }
 
   function apEditInPanel(id){
@@ -9299,33 +9137,31 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     var a=apApps.find(function(x){return x.id===id;});
     if(!a)return;
     var titleEl=document.getElementById('ap-side-title');
-    if(titleEl) titleEl.textContent='Editar — '+a.company;
+    if(titleEl) titleEl.textContent='Editar \u2014 '+a.company;
     var el=document.getElementById('ap-side-body');
     if(!el)return;
     var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
       return '<option value="'+c.id+'"'+(c.id===a.status?' selected':'')+'>'+c.name+'</option>';
     }).join('');
-    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none;box-sizing:border-box';
-    function lbl(t){return '<div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+t+'</div>';}
     el.innerHTML=
       '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Editar candidatura</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'+
-        '<div>'+lbl('Empresa *')+'<input id="ape-co" style="'+fi+'" value="'+(a.company||'')+'"></div>'+
-        '<div>'+lbl('Cargo *')+'<input id="ape-role" style="'+fi+'" value="'+(a.role||'')+'"></div>'+
-        '<div>'+lbl('Localiza\u00e7\u00e3o')+'<input id="ape-loc" style="'+fi+'" value="'+(a.location||'')+'"></div>'+
-        '<div>'+lbl('Status')+'<select id="ape-status" style="'+fi+'">'+colOpts+'</select></div>'+
-        '<div>'+lbl('Link da vaga')+'<input id="ape-link" style="'+fi+'" value="'+(a.link||'')+'"></div>'+
-        '<div>'+lbl('Data candidatura')+'<input id="ape-date" style="'+fi+'" value="'+(a.dateApplied||'')+'" placeholder="DD/MM/AAAA"></div>'+
-        '<div>'+lbl('Nome recruiter')+'<input id="ape-rn" style="'+fi+'" value="'+(a.recruiterName||'')+'"></div>'+
-        '<div>'+lbl('E-mail recruiter')+'<input id="ape-re" style="'+fi+'" value="'+(a.recruiterEmail||'')+'"></div>'+
-        '<div>'+lbl('Data entrevista')+'<input id="ape-id" style="'+fi+'" value="'+(a.interviewDate||'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
-        '<div>'+lbl('Tipo reuni\u00e3o')+'<input id="ape-mt" style="'+fi+'" value="'+(a.meetings&&a.meetings[0]?a.meetings[0].type||'':'')+'"></div>'+
-        '<div>'+lbl('Pros')+'<input id="ape-pros" style="'+fi+'" value="'+(a.pros||'')+'"></div>'+
-        '<div>'+lbl('Cons')+'<input id="ape-cons" style="'+fi+'" value="'+(a.cons||'')+'"></div>'+
-        '<div style="grid-column:1/-1">'+lbl('Positioning strategy')+
-          '<textarea id="ape-strat" rows="3" style="'+fi+';resize:vertical">'+(a.posStrategy||'')+'</textarea></div>'+
-        '<div style="grid-column:1/-1">'+lbl('Notas')+
-          '<input id="ape-notes" style="'+fi+'" value="'+(a.notes||'')+'"></div>'+
+        '<div>'+apLbl('Empresa *')+'<input id="ape-co" style="'+apFi()+'" value="'+(a.company||'')+'"></div>'+
+        '<div>'+apLbl('Cargo *')+'<input id="ape-role" style="'+apFi()+'" value="'+(a.role||'')+'"></div>'+
+        '<div>'+apLbl('Localiza\u00e7\u00e3o')+'<input id="ape-loc" style="'+apFi()+'" value="'+(a.location||'')+'"></div>'+
+        '<div>'+apLbl('Status')+'<select id="ape-status" style="'+apFi()+'">'+colOpts+'</select></div>'+
+        '<div>'+apLbl('Link da vaga')+'<input id="ape-link" style="'+apFi()+'" value="'+(a.link||'')+'"></div>'+
+        '<div>'+apLbl('Data candidatura')+'<input id="ape-date" style="'+apFi()+'" value="'+(a.dateApplied||'')+'" placeholder="DD/MM/AAAA"></div>'+
+        '<div>'+apLbl('Nome recruiter')+'<input id="ape-rn" style="'+apFi()+'" value="'+(a.recruiterName||'')+'"></div>'+
+        '<div>'+apLbl('E-mail recruiter')+'<input id="ape-re" style="'+apFi()+'" value="'+(a.recruiterEmail||'')+'"></div>'+
+        '<div>'+apLbl('Data entrevista')+'<input id="ape-id" style="'+apFi()+'" value="'+(a.interviewDate||'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+        '<div>'+apLbl('Tipo reuni\u00e3o')+'<input id="ape-mt" style="'+apFi()+'" value="'+(a.meetings&&a.meetings[0]?a.meetings[0].type||'':'')+'"></div>'+
+        '<div>'+apLbl('Pros')+'<input id="ape-pros" style="'+apFi()+'" value="'+(a.pros||'')+'"></div>'+
+        '<div>'+apLbl('Cons')+'<input id="ape-cons" style="'+apFi()+'" value="'+(a.cons||'')+'"></div>'+
+        '<div style="grid-column:1/-1">'+apLbl('Positioning strategy')+
+          '<textarea id="ape-strat" rows="3" style="'+apFi()+';resize:vertical">'+(a.posStrategy||'')+'</textarea></div>'+
+        '<div style="grid-column:1/-1">'+apLbl('Notas')+
+          '<input id="ape-notes" style="'+apFi()+'" value="'+(a.notes||'')+'"></div>'+
       '</div>'+
       '<div style="display:flex;gap:8px;justify-content:flex-end">'+
         '<button class="ap-btn" onclick="apSel='+id+';apRenderPanel()">Cancelar</button>'+
@@ -9340,18 +9176,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     function gv(s){var e=document.getElementById(s);return e?e.value:'';}
     var co=(gv('ape-co')||'').trim();
     if(!co){alert('Empresa \u00e9 obrigat\u00f3rio.');return;}
-    a.company=co; a.role=gv('ape-role');
-    a.location=gv('ape-loc'); a.status=gv('ape-status')||a.status;
-    a.link=gv('ape-link'); a.dateApplied=gv('ape-date');
-    a.recruiterName=gv('ape-rn'); a.recruiterEmail=gv('ape-re');
-    a.interviewDate=gv('ape-id'); a.pros=gv('ape-pros'); a.cons=gv('ape-cons');
+    a.company=co; a.role=gv('ape-role'); a.location=gv('ape-loc');
+    a.status=gv('ape-status')||a.status; a.link=gv('ape-link');
+    a.dateApplied=gv('ape-date'); a.recruiterName=gv('ape-rn');
+    a.recruiterEmail=gv('ape-re'); a.interviewDate=gv('ape-id');
+    a.pros=gv('ape-pros'); a.cons=gv('ape-cons');
     a.posStrategy=gv('ape-strat'); a.notes=gv('ape-notes');
     var mtype=gv('ape-mt')||'Interview';
     if(a.meetings&&a.meetings[0]) a.meetings[0]={type:mtype,date:a.interviewDate};
-    apSave();apRenderAll();
-    apSel=id;apRenderPanel();
+    apSave();apRenderAll();apSel=id;apRenderPanel();
   }
 
+  function apOpenForm(id,colId){apNewInPanel(colId);}
+  function apCloseForm(){apClosePanel();}
+  function apSaveForm(){apSaveNew();}
 
   // ── END CRM MENTORADO ────────────────────────────────────────────────────────
 
