@@ -1132,6 +1132,20 @@
   @media (max-width: 600px) {
     .tips-grid { grid-template-columns: 1fr; }
   }
+
+  /* AP Side Panel */
+  .ap-overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1000}
+  .ap-overlay-bg.open{display:block}
+  .ap-side-panel{position:fixed;top:0;right:-560px;width:560px;max-width:96vw;height:100vh;background:#fff;z-index:1001;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,0.12)}
+  .ap-side-panel.open{right:0}
+  .ap-side-close{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);z-index:2}
+  .ap-side-close-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:transparent;font-size:18px;cursor:pointer;color:#6b5a4e;line-height:1}
+  .ap-side-close-btn:hover{background:#faf7f4}
+  .ap-side-body{padding:1.25rem}
+  /* AP Tabs */
+  .ap-tabs-wrap{display:flex;gap:4px;background:#f0ebe4;border-radius:8px;padding:3px;width:fit-content;margin-bottom:1rem}
+  .ap-tab-btn{padding:6px 18px;font-size:13px;font-weight:500;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#8a7a6e;transition:all .15s}
+  .ap-tab-btn.active{background:#fff;color:#1c1410;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -4075,7 +4089,7 @@
         <div class="ap-today-lbl">Entrevistas de hoje</div>
         <div id="ap-today-list"><div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div></div>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:.75rem">
+      <div class="ap-tabs-wrap">
         <button class="ap-tab-btn active" id="ap-tab-ativas" onclick="apSetTab('ativas')">Ativas</button>
         <button class="ap-tab-btn" id="ap-tab-archived" onclick="apSetTab('archived')">Arquivadas</button>
       </div>
@@ -4170,7 +4184,7 @@
         <div class="ap-today-lbl">Entrevistas de hoje</div>
         <div id="ap-today-list"><div class="ap-today-empty">Nenhuma entrevista agendada para hoje.</div></div>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:.75rem">
+      <div class="ap-tabs-wrap">
         <button class="ap-tab-btn active" id="ap-tab-ativas" onclick="apSetTab('ativas')">Ativas</button>
         <button class="ap-tab-btn" id="ap-tab-archived" onclick="apSetTab('archived')">Arquivadas</button>
       </div>
@@ -8937,11 +8951,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function apPick(id){apSel=Number(id);apRenderKanban();apRenderPanel();}
 
   function apRenderAll(){
-    // Garantir que o DOM da section apps está pronto
-    if(!document.getElementById('ap-kanban')){
-      setTimeout(apRenderAll, 100);return;
-    }
-    apRenderToday();apRenderKanban();apRenderPanel();
+    apRenderToday();
+    apRenderKanban();
+    // Só renderiza painel se tiver seleção
+    if(apSel) apRenderPanel();
   }
 
   function apRenderKanban(){
