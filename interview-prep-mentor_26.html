@@ -7336,8 +7336,8 @@
         setTimeout(crmRenderAll, 0);
       }
       // Após re-renderizar apps, recarregar kanban do mentorado
-      if (sid === 'apps' && typeof apRenderAll === 'function') {
-        setTimeout(apRenderAll, 100);
+      if (sid === 'apps' && typeof apRenderKanban === 'function') {
+        setTimeout(apRenderKanban, 50);
       }
     });
 
@@ -7539,7 +7539,11 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
-    if (id === 'apps') { if(typeof apRenderAll==='function') setTimeout(apRenderAll,300); if(typeof apLoad==='function') setTimeout(apLoad,400); }
+    if (id === 'apps') {
+      _apRkRetry=0;
+      if(typeof apRenderKanban==='function') setTimeout(apRenderKanban,100);
+      if(typeof apLoad==='function') setTimeout(apLoad,300);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -8901,11 +8905,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         if(Array.isArray(parsed)&&parsed.length>0){
           apApps=parsed.map(function(a){a.id=Number(a.id);return a;});
           apNextId=Math.max.apply(null,apApps.map(function(a){return a.id;}))+1;
-          apRenderAll();return;
+          _apRkRetry=0;apRenderAll();return;
         }
       }
     }catch(e){}
-    apApps=[];apNextId=1;apRenderAll();
+    apApps=[];apNextId=1;_apRkRetry=0;apRenderAll();
   }
 
 
@@ -8955,15 +8959,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function apPick(id){apSel=Number(id);apRenderKanban();apRenderPanel();}
 
   function apRenderAll(){
-    var kanban=document.getElementById('ap-kanban');
-    if(!kanban) return;
     apRenderToday();
     apRenderKanban();
     if(apSel) apRenderPanel();
   }
 
+  var _apRkRetry=0;
   function apRenderKanban(){
-    var el=document.getElementById('ap-kanban');if(!el)return;
+    var el=document.getElementById('ap-kanban');
+    if(!el){
+      if(_apRkRetry++<10) setTimeout(apRenderKanban,100);
+      else _apRkRetry=0;
+      return;
+    }
+    _apRkRetry=0;
     var cols=apTab==='ativas'?AP_COLS.filter(function(c){return c.id!=='archived';}):AP_COLS.filter(function(c){return c.id==='archived';});
     var pool=apTab==='ativas'?apApps.filter(function(a){return a.status!=='archived';}):apApps.filter(function(a){return a.status==='archived';});
     el.innerHTML=cols.map(function(c){
