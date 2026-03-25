@@ -8890,7 +8890,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     apApps=[];apNextId=1;apRenderAll();
   }
 
-  function apRenderAll(){apRenderToday();apRenderKanban();apRenderPanel();}
 
   function apRenderToday(){
     var el=document.getElementById('ap-today-list');
@@ -8917,50 +8916,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
 
-  function apRenderPanel(){
-    var el=document.getElementById('ap-panel');if(!el)return;
-    if(!apSel){el.innerHTML='';return;}
-    var a=apApps.find(function(x){return x.id===apSel;});
-    if(!a){el.innerHTML='';return;}
-    var c=apColObj(a.status);
-    var nxtIdx=AP_COLS.findIndex(function(x){return x.id===a.status;})+1;
-    var nxt=nxtIdx<AP_COLS.length?AP_COLS[nxtIdx]:null;
-    var strat=(a.posStrategy||'').split('\n').filter(Boolean).map(function(l){return '<li>'+l+'</li>';}).join('');
-    var meetRows=(a.meetings||[]).map(function(m){return '<tr><td>'+apFmt(m.type)+'</td><td>'+apFmt(m.date)+'</td></tr>';}).join('');
-    var ctRows=(a.contacts||[]).map(function(ct){return '<tr><td>'+apFmt(ct.name)+'</td><td>'+apFmt(ct.role)+'</td><td>'+(ct.email?'<a href="mailto:'+ct.email+'" style="color:'+c.c+'">'+ct.email+'</a>':apFmt(''))+'</td></tr>';}).join('');
-    el.innerHTML='<div class="ap-panel" style="border-top:3px solid '+c.c+'">'+
-      '<div class="ap-p-hd">'+
-        '<div><div class="ap-p-co">'+a.company+'</div><div class="ap-p-role">'+a.role+' &middot; '+a.location+'</div></div>'+
-        '<div style="display:flex;align-items:center;gap:8px">'+
-          '<span style="font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;background:'+c.b+';color:'+c.t+'">'+c.name+'</span>'+
-          '<button class="ap-p-close" onclick="apPick('+a.id+')">&times;</button>'+
-        '</div>'+
-      '</div>'+
-      '<div class="ap-fields">'+
-        '<div class="ap-fld"><div class="ap-fld-lbl">Job link</div><div class="ap-fld-val">'+(a.link?'<a href="https://'+a.link+'" target="_blank" style="color:'+c.c+'">'+a.link+'</a>':apFmt(''))+'</div></div>'+
-        '<div class="ap-fld"><div class="ap-fld-lbl">Data candidatura</div><div class="ap-fld-val">'+apFmt(a.dateApplied)+'</div></div>'+
-        '<div class="ap-fld"><div class="ap-fld-lbl">Recruiter</div><div class="ap-fld-val">'+apFmt(a.recruiterName)+'</div></div>'+
-        '<div class="ap-fld"><div class="ap-fld-lbl">E-mail recruiter</div><div class="ap-fld-val">'+(a.recruiterEmail?'<a href="mailto:'+a.recruiterEmail+'" style="color:'+c.c+'">'+a.recruiterEmail+'</a>':apFmt(''))+'</div></div>'+
-        '<div class="ap-fld" style="border-left:3px solid #4a7c5a;border-radius:0 8px 8px 0"><div class="ap-fld-lbl">Pros</div><div class="ap-fld-val" style="color:#2a5a38">'+apFmt(a.pros)+'</div></div>'+
-        '<div class="ap-fld" style="border-left:3px solid #a32d2d;border-radius:0 8px 8px 0"><div class="ap-fld-lbl">Cons</div><div class="ap-fld-val" style="color:#a32d2d">'+apFmt(a.cons)+'</div></div>'+
-      '</div>'+
-      '<div class="ap-sec">Positioning strategy</div>'+
-      '<div class="ap-strat">'+(strat?'<ul>'+strat+'</ul>':'<span style="opacity:.5">Empty</span>')+'</div>'+
-      '<div class="ap-sec">Interview schedule</div>'+
-      '<table class="ap-tbl"><thead><tr><th>Meeting type</th><th>Date</th></tr></thead><tbody>'+meetRows+'</tbody></table>'+
-      '<div class="ap-sec">Contacts</div>'+
-      '<table class="ap-tbl"><thead><tr><th>Name</th><th>Role</th><th>Email</th></tr></thead><tbody>'+ctRows+'</tbody></table>'+
-      '<div class="ap-sec">Notes</div>'+
-      '<div class="ap-notes">'+(a.notes||'<span style="opacity:.5">Empty</span>')+'</div>'+
-      '<div class="ap-acts">'+
-        (nxt?'<button class="ap-btn adv" onclick="apAdvance('+a.id+')" style="border-color:'+nxt.c+'50;color:'+nxt.t+';background:'+nxt.b+'">&rarr; '+nxt.name+'</button>':'')+
-        '<button class="ap-btn" onclick="apOpenForm('+a.id+')">Editar</button>'+
-        '<button class="ap-btn del" onclick="apDel('+a.id+')">Excluir</button>'+
-      '</div>'+
-    '</div>';
-  }
 
-  var apTab='ativas';
   function apSetTab(tab){
     apTab=tab;apSel=null;
     document.querySelectorAll('.ap-tab-btn').forEach(function(b){b.classList.remove('active');});
