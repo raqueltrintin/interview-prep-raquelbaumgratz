@@ -9212,6 +9212,133 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     }
     apCloseForm();apSave();apRenderAll();
   }
+
+  function apNewInPanel(colId){
+    var titleEl=document.getElementById('ap-side-title');
+    if(titleEl) titleEl.textContent='Nova candidatura';
+    var el=document.getElementById('ap-side-body');
+    if(!el){setTimeout(function(){apNewInPanel(colId);},100);return;}
+    var col=colId||'interested';
+    var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
+      return '<option value="'+c.id+'"'+(c.id===col?' selected':'')+'>'+c.name+'</option>';
+    }).join('');
+    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none;box-sizing:border-box';
+    function lbl(t){return '<div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+t+'</div>';}
+    el.innerHTML=
+      '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Nova candidatura</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'+
+        '<div>'+lbl('Empresa *')+'<input id="apn-co" style="'+fi+'" placeholder="Pinterest"></div>'+
+        '<div>'+lbl('Cargo *')+'<input id="apn-role" style="'+fi+'" placeholder="Sr. Product Designer"></div>'+
+        '<div>'+lbl('Localiza\u00e7\u00e3o')+'<input id="apn-loc" style="'+fi+'" placeholder="Remote"></div>'+
+        '<div>'+lbl('Status')+'<select id="apn-status" style="'+fi+'">'+colOpts+'</select></div>'+
+        '<div>'+lbl('Link da vaga')+'<input id="apn-link" style="'+fi+'" placeholder="careers.empresa.com"></div>'+
+        '<div>'+lbl('Data candidatura')+'<input id="apn-date" style="'+fi+'" placeholder="DD/MM/AAAA"></div>'+
+        '<div>'+lbl('Nome recruiter')+'<input id="apn-rn" style="'+fi+'" placeholder="Nome"></div>'+
+        '<div>'+lbl('E-mail recruiter')+'<input id="apn-re" style="'+fi+'" placeholder="recruiter@empresa.com"></div>'+
+        '<div>'+lbl('Data entrevista')+'<input id="apn-id" style="'+fi+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+        '<div>'+lbl('Tipo reuni\u00e3o')+'<input id="apn-mt" style="'+fi+'" placeholder="Intro call"></div>'+
+        '<div>'+lbl('Pros')+'<input id="apn-pros" style="'+fi+'" placeholder="Pontos positivos"></div>'+
+        '<div>'+lbl('Cons')+'<input id="apn-cons" style="'+fi+'" placeholder="Pontos negativos"></div>'+
+        '<div style="grid-column:1/-1">'+lbl('Positioning strategy')+
+          '<textarea id="apn-strat" rows="3" style="'+fi+';resize:vertical" placeholder="Uma linha por ponto..."></textarea></div>'+
+        '<div style="grid-column:1/-1">'+lbl('Notas')+
+          '<input id="apn-notes" style="'+fi+'" placeholder="Anota\u00e7\u00f5es..."></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;justify-content:flex-end">'+
+        '<button class="ap-btn" onclick="apClosePanel()">Cancelar</button>'+
+        '<button class="ap-btn adv" onclick="apSaveNew()">Salvar</button>'+
+      '</div>';
+    var panel=document.getElementById('ap-side-panel');
+    var overlay=document.getElementById('ap-overlay-bg');
+    if(panel) panel.classList.add('open');
+    if(overlay) overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+    apSel=null;
+    setTimeout(function(){var e=document.getElementById('apn-co');if(e)e.focus();},100);
+  }
+
+  function apSaveNew(){
+    function gv(s){var e=document.getElementById(s);return e?e.value:'';}
+    var co=(gv('apn-co')||'').trim();
+    if(!co){alert('Empresa \u00e9 obrigat\u00f3rio.');return;}
+    var role=(gv('apn-role')||'').trim();
+    if(!role){alert('Cargo \u00e9 obrigat\u00f3rio.');return;}
+    var idate=gv('apn-id');
+    var mtype=gv('apn-mt')||'Interview';
+    var newId=apNextId++;
+    apApps.push({id:newId,company:co,role:role,
+      location:gv('apn-loc'),status:gv('apn-status')||'interested',
+      link:gv('apn-link'),dateApplied:gv('apn-date'),
+      interviewDate:idate,recruiterName:gv('apn-rn'),recruiterEmail:gv('apn-re'),
+      pros:gv('apn-pros'),cons:gv('apn-cons'),
+      posStrategy:gv('apn-strat'),
+      meetings:[{type:mtype,date:idate},{type:'',date:''}],
+      contacts:[{name:'',role:'',email:''}],
+      notes:gv('apn-notes')
+    });
+    apSave();apRenderAll();
+    apSel=newId;apRenderPanel();
+  }
+
+  function apEditInPanel(id){
+    id=Number(id);
+    var a=apApps.find(function(x){return x.id===id;});
+    if(!a)return;
+    var titleEl=document.getElementById('ap-side-title');
+    if(titleEl) titleEl.textContent='Editar — '+a.company;
+    var el=document.getElementById('ap-side-body');
+    if(!el)return;
+    var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
+      return '<option value="'+c.id+'"'+(c.id===a.status?' selected':'')+'>'+c.name+'</option>';
+    }).join('');
+    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none;box-sizing:border-box';
+    function lbl(t){return '<div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+t+'</div>';}
+    el.innerHTML=
+      '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Editar candidatura</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'+
+        '<div>'+lbl('Empresa *')+'<input id="ape-co" style="'+fi+'" value="'+(a.company||'')+'"></div>'+
+        '<div>'+lbl('Cargo *')+'<input id="ape-role" style="'+fi+'" value="'+(a.role||'')+'"></div>'+
+        '<div>'+lbl('Localiza\u00e7\u00e3o')+'<input id="ape-loc" style="'+fi+'" value="'+(a.location||'')+'"></div>'+
+        '<div>'+lbl('Status')+'<select id="ape-status" style="'+fi+'">'+colOpts+'</select></div>'+
+        '<div>'+lbl('Link da vaga')+'<input id="ape-link" style="'+fi+'" value="'+(a.link||'')+'"></div>'+
+        '<div>'+lbl('Data candidatura')+'<input id="ape-date" style="'+fi+'" value="'+(a.dateApplied||'')+'" placeholder="DD/MM/AAAA"></div>'+
+        '<div>'+lbl('Nome recruiter')+'<input id="ape-rn" style="'+fi+'" value="'+(a.recruiterName||'')+'"></div>'+
+        '<div>'+lbl('E-mail recruiter')+'<input id="ape-re" style="'+fi+'" value="'+(a.recruiterEmail||'')+'"></div>'+
+        '<div>'+lbl('Data entrevista')+'<input id="ape-id" style="'+fi+'" value="'+(a.interviewDate||'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+        '<div>'+lbl('Tipo reuni\u00e3o')+'<input id="ape-mt" style="'+fi+'" value="'+(a.meetings&&a.meetings[0]?a.meetings[0].type||'':'')+'"></div>'+
+        '<div>'+lbl('Pros')+'<input id="ape-pros" style="'+fi+'" value="'+(a.pros||'')+'"></div>'+
+        '<div>'+lbl('Cons')+'<input id="ape-cons" style="'+fi+'" value="'+(a.cons||'')+'"></div>'+
+        '<div style="grid-column:1/-1">'+lbl('Positioning strategy')+
+          '<textarea id="ape-strat" rows="3" style="'+fi+';resize:vertical">'+(a.posStrategy||'')+'</textarea></div>'+
+        '<div style="grid-column:1/-1">'+lbl('Notas')+
+          '<input id="ape-notes" style="'+fi+'" value="'+(a.notes||'')+'"></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;justify-content:flex-end">'+
+        '<button class="ap-btn" onclick="apSel='+id+';apRenderPanel()">Cancelar</button>'+
+        '<button class="ap-btn adv" onclick="apSaveEdit('+id+')">Salvar</button>'+
+      '</div>';
+  }
+
+  function apSaveEdit(id){
+    id=Number(id);
+    var a=apApps.find(function(x){return x.id===id;});
+    if(!a)return;
+    function gv(s){var e=document.getElementById(s);return e?e.value:'';}
+    var co=(gv('ape-co')||'').trim();
+    if(!co){alert('Empresa \u00e9 obrigat\u00f3rio.');return;}
+    a.company=co; a.role=gv('ape-role');
+    a.location=gv('ape-loc'); a.status=gv('ape-status')||a.status;
+    a.link=gv('ape-link'); a.dateApplied=gv('ape-date');
+    a.recruiterName=gv('ape-rn'); a.recruiterEmail=gv('ape-re');
+    a.interviewDate=gv('ape-id'); a.pros=gv('ape-pros'); a.cons=gv('ape-cons');
+    a.posStrategy=gv('ape-strat'); a.notes=gv('ape-notes');
+    var mtype=gv('ape-mt')||'Interview';
+    if(a.meetings&&a.meetings[0]) a.meetings[0]={type:mtype,date:a.interviewDate};
+    apSave();apRenderAll();
+    apSel=id;apRenderPanel();
+  }
+
+
   // ── END CRM MENTORADO ────────────────────────────────────────────────────────
 
 </script>
