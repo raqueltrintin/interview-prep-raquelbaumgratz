@@ -7521,7 +7521,7 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
-    if (id === 'apps' && typeof apLoad === 'function') setTimeout(apLoad, 50);
+    if (id === 'apps' && typeof apLoad === 'function') setTimeout(apLoad, 200);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -8883,11 +8883,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         if(Array.isArray(parsed)&&parsed.length>0){
           apApps=parsed.map(function(a){a.id=Number(a.id);return a;});
           apNextId=Math.max.apply(null,apApps.map(function(a){return a.id;}))+1;
-          apRenderAll();return;
+          setTimeout(apRenderAll,100);return;
         }
       }
     }catch(e){}
-    apApps=[];apNextId=1;apRenderAll();
+    apApps=[];apNextId=1;setTimeout(apRenderAll,100);
   }
 
 
@@ -8936,7 +8936,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function apPick(id){apSel=Number(id);apRenderKanban();apRenderPanel();}
 
-  function apRenderAll(){apRenderToday();apRenderKanban();apRenderPanel();}
+  function apRenderAll(){
+    // Garantir que o DOM da section apps está pronto
+    if(!document.getElementById('ap-kanban')){
+      setTimeout(apRenderAll, 100);return;
+    }
+    apRenderToday();apRenderKanban();apRenderPanel();
+  }
 
   function apRenderKanban(){
     var el=document.getElementById('ap-kanban');if(!el)return;
@@ -9050,6 +9056,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function apOpenForm(id,colId){
+    // Fechar painel lateral se estiver aberto
+    if(!id){ apClosePanel(); }
     _apFid=id?Number(id):null;
     var col=colId||'interested';
     var a=_apFid?apApps.find(function(x){return x.id===_apFid;}):null;
