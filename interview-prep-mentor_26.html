@@ -7337,7 +7337,7 @@
       }
       // Após re-renderizar apps, recarregar kanban do mentorado
       if (sid === 'apps' && typeof apRenderAll === 'function') {
-        setTimeout(apRenderAll, 0);
+        setTimeout(apRenderAll, 100);
       }
     });
 
@@ -7539,7 +7539,7 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
-    if (id === 'apps') { if(typeof apRenderAll==='function') setTimeout(apRenderAll,50); if(typeof apLoad==='function') setTimeout(apLoad,200); }
+    if (id === 'apps') { if(typeof apRenderAll==='function') setTimeout(apRenderAll,300); if(typeof apLoad==='function') setTimeout(apLoad,400); }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -8956,8 +8956,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function apRenderAll(){
     var kanban=document.getElementById('ap-kanban');
-    if(!kanban){setTimeout(apRenderAll,150);return;}
-    apRenderToday();apRenderKanban();
+    if(!kanban) return;
+    apRenderToday();
+    apRenderKanban();
     if(apSel) apRenderPanel();
   }
 
