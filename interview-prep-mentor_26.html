@@ -4095,7 +4095,7 @@
       </div>
       <div class="ap-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
-        <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
+        <button class="ap-btn-new" onclick="apNewInPanel()">+ Nova candidatura</button>
       </div>
       <div class="ap-kanban" id="ap-kanban"></div>
       <div id="ap-panel" style="display:none"></div>
@@ -4190,7 +4190,7 @@
       </div>
       <div class="ap-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
-        <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
+        <button class="ap-btn-new" onclick="apNewInPanel()">+ Nova candidatura</button>
       </div>
       <div class="ap-kanban" id="ap-kanban"></div>
       <div id="ap-panel" style="display:none"></div>
@@ -8951,9 +8951,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   function apPick(id){apSel=Number(id);apRenderKanban();apRenderPanel();}
 
   function apRenderAll(){
-    apRenderToday();
-    apRenderKanban();
-    // Só renderiza painel se tiver seleção
+    var kanban=document.getElementById('ap-kanban');
+    if(!kanban){setTimeout(apRenderAll,150);return;}
+    apRenderToday();apRenderKanban();
     if(apSel) apRenderPanel();
   }
 
@@ -8976,7 +8976,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
             (a.interviewDate?'<div class="ap-card-date" style="color:'+c.t+';font-weight:500">Interview '+a.interviewDate+'</div>':'')+
           '</div>';
         }).join(''):'<div class="ap-empty">Vazio</div>')+
-        (apTab==='ativas'?'<button class="ap-col-add" data-col="'+c.id+'" onclick="apOpenForm(null,this.dataset.col)">+ Add</button>':'')+
+        (apTab==='ativas'?'<button class="ap-col-add" data-col="'+c.id+'" onclick="apNewInPanel(this.dataset.col)">+ Add</button>':'')+
       '</div>';
     }).join('');
   }
