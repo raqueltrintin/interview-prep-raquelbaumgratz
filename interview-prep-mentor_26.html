@@ -7335,6 +7335,10 @@
       if (sid === 'crm' && typeof crmRenderAll === 'function') {
         setTimeout(crmRenderAll, 0);
       }
+      // Após re-renderizar apps, recarregar kanban do mentorado
+      if (sid === 'apps' && typeof apRenderAll === 'function') {
+        setTimeout(apRenderAll, 0);
+      }
     });
 
     // Restore mentor-only visibility
@@ -7535,7 +7539,7 @@
     if (id === 'ssi' && typeof ssiRestoreChecks === 'function') { ssiRestoreChecks(); setTimeout(ssiScoreRestore, 100); }
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
-    if (id === 'apps' && typeof apLoad === 'function') setTimeout(apLoad, 200);
+    if (id === 'apps') { if(typeof apRenderAll==='function') setTimeout(apRenderAll,50); if(typeof apLoad==='function') setTimeout(apLoad,200); }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
