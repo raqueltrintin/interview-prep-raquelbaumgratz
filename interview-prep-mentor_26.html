@@ -8897,11 +8897,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         if(Array.isArray(parsed)&&parsed.length>0){
           apApps=parsed.map(function(a){a.id=Number(a.id);return a;});
           apNextId=Math.max.apply(null,apApps.map(function(a){return a.id;}))+1;
-          setTimeout(apRenderAll,100);return;
+          apRenderAll();return;
         }
       }
     }catch(e){}
-    apApps=[];apNextId=1;setTimeout(apRenderAll,100);
+    apApps=[];apNextId=1;apRenderAll();
   }
 
 
@@ -9029,7 +9029,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       '<div class="ap-notes">'+(a.notes||'<span style="opacity:.5">Empty</span>')+'</div>'+
       '<div class="ap-acts" style="margin-top:12px">'+
         (nxt?'<button class="ap-btn adv" onclick="apAdvance('+a.id+')" style="border-color:'+nxt.c+'50;color:'+nxt.t+';background:'+nxt.b+'">&rarr; '+nxt.name+'</button>':'')+
-        '<button class="ap-btn" onclick="apOpenForm('+a.id+')">Editar</button>'+
+        '<button class="ap-btn" onclick="apEditInPanel('+a.id+')">Editar</button>'+
         (a.status!=='archived'?'<button class="ap-btn" style="color:#a32d2d;border-color:rgba(163,45,45,0.3)" onclick="apArchive('+a.id+')">Arquivar</button>':
          '<button class="ap-btn adv" onclick="apUnarchive('+a.id+')">Reativar</button>')+
         '<button class="ap-btn del" onclick="apDel('+a.id+')">Excluir</button>'+
@@ -9094,6 +9094,82 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('ap-modal-bg').classList.add('open');
   }
 
+
+  function apEditInPanel(id){
+    id=Number(id);
+    var a=apApps.find(function(x){return x.id===id;});
+    if(!a)return;
+    var el=document.getElementById('ap-side-body');
+    if(!el)return;
+    var c=apColObj(a.status);
+    var colOpts=AP_COLS.filter(function(c){return c.id!=='archived';}).map(function(c){
+      return '<option value="'+c.id+'"'+(c.id===a.status?' selected':'')+'>'+c.name+'</option>';
+    }).join('');
+    var fi='padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#faf7f4;color:#1c1410;width:100%;font-family:inherit;outline:none';
+    var fib=fi+';border-color:rgba(181,98,62,0.4)';
+    el.innerHTML=
+      '<div style="font-size:16px;font-weight:500;color:#1c1410;margin-bottom:1rem">Editar candidatura</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Empresa *</div>'+
+          '<input id="ape-co" style="'+fi+'" value="'+a.company+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Cargo *</div>'+
+          '<input id="ape-role" style="'+fi+'" value="'+(a.role||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Localização</div>'+
+          '<input id="ape-loc" style="'+fi+'" value="'+(a.location||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Status</div>'+
+          '<select id="ape-status" style="'+fi+'">'+colOpts+'</select></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Link da vaga</div>'+
+          '<input id="ape-link" style="'+fi+'" value="'+(a.link||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Data candidatura</div>'+
+          '<input id="ape-date" style="'+fi+'" value="'+(a.dateApplied||'')+'" placeholder="DD/MM/AAAA"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Nome recruiter</div>'+
+          '<input id="ape-rn" style="'+fi+'" value="'+(a.recruiterName||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">E-mail recruiter</div>'+
+          '<input id="ape-re" style="'+fi+'" value="'+(a.recruiterEmail||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Data entrevista</div>'+
+          '<input id="ape-id" style="'+fi+'" value="'+(a.interviewDate||'')+'" placeholder="DD/MM/AAAA HH:MM"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Tipo reunião</div>'+
+          '<input id="ape-mt" style="'+fi+'" value="'+(a.meetings&&a.meetings[0]?a.meetings[0].type||'':'')+'" placeholder="Intro call"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Pros</div>'+
+          '<input id="ape-pros" style="'+fi+'" value="'+(a.pros||'')+'"></div>'+
+        '<div><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Cons</div>'+
+          '<input id="ape-cons" style="'+fi+'" value="'+(a.cons||'')+'"></div>'+
+        '<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Positioning strategy</div>'+
+          '<textarea id="ape-strat" rows="3" style="'+fi+';resize:vertical">'+(a.posStrategy||'')+'</textarea></div>'+
+        '<div style="grid-column:1/-1"><div style="font-size:10px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Notas</div>'+
+          '<input id="ape-notes" style="'+fi+'" value="'+(a.notes||'')+'"></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">'+
+        '<button class="ap-btn" onclick="apSel='+id+';apRenderPanel()">Cancelar</button>'+
+        '<button class="ap-btn adv" onclick="apSaveEdit('+id+')">Salvar</button>'+
+      '</div>';
+  }
+
+  function apSaveEdit(id){
+    id=Number(id);
+    var a=apApps.find(function(x){return x.id===id;});
+    if(!a)return;
+    function gv(sel){var el=document.getElementById(sel);return el?el.value:'';}
+    var co=(gv('ape-co')||'').trim();
+    if(!co){alert('Empresa é obrigatório.');return;}
+    a.company=co;
+    a.role=gv('ape-role');
+    a.location=gv('ape-loc');
+    a.status=gv('ape-status')||a.status;
+    a.link=gv('ape-link');
+    a.dateApplied=gv('ape-date');
+    a.recruiterName=gv('ape-rn');
+    a.recruiterEmail=gv('ape-re');
+    a.interviewDate=gv('ape-id');
+    a.pros=gv('ape-pros');
+    a.cons=gv('ape-cons');
+    a.posStrategy=gv('ape-strat');
+    a.notes=gv('ape-notes');
+    var mtype=gv('ape-mt')||'Interview';
+    if(a.interviewDate&&a.meetings&&a.meetings[0]) a.meetings[0]={type:mtype,date:a.interviewDate};
+    apSave();apRenderAll();
+    apSel=id;apRenderPanel();
+  }
   function apCloseForm(){document.getElementById('ap-modal-bg').classList.remove('open');}
 
   function apSaveForm(){
