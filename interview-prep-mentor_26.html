@@ -4083,14 +4083,6 @@
         <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
         <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
       </div>
-      <div class="ap-overlay-bg" id="ap-overlay-bg" onclick="apClosePanel()"></div>
-      <div class="ap-side-panel" id="ap-side-panel">
-        <div class="ap-side-close">
-          <span id="ap-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
-          <button class="ap-side-close-btn" onclick="apClosePanel()">&times;</button>
-        </div>
-        <div class="ap-side-body" id="ap-side-body"></div>
-      </div>
       <div class="ap-kanban" id="ap-kanban"></div>
       <div id="ap-panel" style="display:none"></div>
       <div class="ap-modal-bg" id="ap-modal-bg">
@@ -4185,14 +4177,6 @@
       <div class="ap-hdr">
         <span style="font-size:14px;font-weight:500;color:#1c1410">Minhas candidaturas</span>
         <button class="ap-btn-new" onclick="apOpenForm(null)">+ Nova candidatura</button>
-      </div>
-      <div class="ap-overlay-bg" id="ap-overlay-bg" onclick="apClosePanel()"></div>
-      <div class="ap-side-panel" id="ap-side-panel">
-        <div class="ap-side-close">
-          <span id="ap-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
-          <button class="ap-side-close-btn" onclick="apClosePanel()">&times;</button>
-        </div>
-        <div class="ap-side-body" id="ap-side-body"></div>
       </div>
       <div class="ap-kanban" id="ap-kanban"></div>
       <div id="ap-panel" style="display:none"></div>
@@ -8930,30 +8914,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function apPickFromToday(id){
     apSel=Number(id);apRenderAll();
-    var p=document.getElementById('ap-panel');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  function apRenderKanban(){
-    var el=document.getElementById('ap-kanban');if(!el)return;
-    el.innerHTML=AP_COLS.map(function(c){
-      var cards=apApps.filter(function(a){return a.status===c.id;});
-      return '<div class="ap-col" style="background:'+c.b+';border-color:'+c.c+'30">'+
-        '<div class="ap-col-hd"><span class="ap-col-nm" style="color:'+c.t+'">'+c.name+'</span>'+
-        '<span class="ap-col-cnt" style="color:'+c.t+'">'+cards.length+'</span></div>'+
-        (cards.length?cards.map(function(a){
-          var sel=a.id===apSel;
-          return '<div class="ap-card" onclick="apPick('+a.id+')" style="'+(sel?'border-color:'+c.c+';border-width:1.5px;background:'+c.b+'30':'')+'">'+
-            '<div class="ap-card-co" style="'+(sel?'color:'+c.t:'')+'">'+a.company+'</div>'+
-            '<div class="ap-card-role">'+a.role+'</div>'+
-            '<div class="ap-card-loc">'+a.location+'</div>'+
-            (a.dateApplied?'<div class="ap-card-date" style="color:'+c.t+'">Applied '+a.dateApplied+'</div>':'')+
-            (a.interviewDate?'<div class="ap-card-date" style="color:'+c.t+';font-weight:500">Interview '+a.interviewDate+'</div>':'')+
-          '</div>';
-        }).join(''):'<div class="ap-empty">Vazio</div>')+
-        '<button class="ap-col-add" data-col="'+c.id+'" onclick="apOpenForm(null,this.dataset.col)">+ Add</button>'+
-      '</div>';
-    }).join('');
-  }
 
   function apRenderPanel(){
     var el=document.getElementById('ap-panel');if(!el)return;
@@ -9200,5 +9162,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   // ── END CRM MENTORADO ────────────────────────────────────────────────────────
 
 </script>
+  <!-- AP Side Panel (fora do SECTIONS para sobreviver ao setLang) -->
+  <div class="ap-overlay-bg" id="ap-overlay-bg" onclick="apClosePanel()"></div>
+  <div class="ap-side-panel" id="ap-side-panel">
+    <div class="ap-side-close">
+      <span id="ap-side-title" style="font-size:14px;font-weight:500;color:#1c1410"></span>
+      <button class="ap-side-close-btn" onclick="apClosePanel()">&times;</button>
+    </div>
+    <div class="ap-side-body" id="ap-side-body"></div>
+  </div>
 </body>
 </html>
