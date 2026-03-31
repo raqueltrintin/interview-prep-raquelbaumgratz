@@ -438,7 +438,7 @@ footer p{font-size:12px;color:var(--text3)}
   <span class="nav-logo"><span class="c">C</span>·Confidence</span>
   <div class="nav-actions">
     <a href="portal.html" class="btn-portal">Acessar portal</a>
-    <a href="#candidatura" class="btn-primary">Quero me candidatar</a>
+    <a href="#candidatura" class="btn-primary">Quero meu Diagnóstico</a>
   </div>
 </nav>
 
@@ -448,8 +448,8 @@ footer p{font-size:12px;color:var(--text3)}
   <h1>Seu inglês já está bom.<br>Falta saber <em>usar ele</em><br>para conseguir a vaga.</h1>
   <p class="hero-sub">Profissionais brasileiros sênior que travam em entrevistas internacionais — não por falta de vocabulário, mas por falta de narrativa.</p>
   <div class="hero-cta-group">
-    <a href="#candidatura" class="btn-hero">Quero me candidatar à mentoria</a>
-    <span class="hero-note">Vagas limitadas · Candidatura gratuita e sem compromisso</span>
+    <a href="#candidatura" class="btn-hero">Quero meu Diagnóstico de Presença Internacional</a>
+    <span class="hero-note">Gratuito · Sem compromisso · Diagnóstico personalizado</span>
   </div>
 </div>
 
@@ -616,9 +616,9 @@ footer p{font-size:12px;color:var(--text3)}
 <section class="form-section" id="candidatura">
   <div class="s-inner">
     <div class="form-header">
-      <span class="s-label" style="display:block;text-align:center">Candidatura</span>
-      <h2 class="s-title" style="text-align:center">Antes de conversarmos,<br>preciso te conhecer um pouco.</h2>
-      <p class="s-body" style="text-align:center;max-width:500px;margin:0 auto">Leva menos de 3 minutos. Suas respostas me ajudam a entender seu momento — sem pitch, sem pressão.</p>
+      <span class="s-label" style="display:block;text-align:center">Diagnóstico de Presença Internacional</span>
+      <h2 class="s-title" style="text-align:center">Seu Diagnóstico de Presença Internacional começa aqui.</h2>
+      <p class="s-body" style="text-align:center;max-width:500px;margin:0 auto">Responda as perguntas abaixo. Com base nisso, preparo uma análise personalizada do seu posicionamento para o mercado internacional.</p>
     </div>
 
     <div class="form-wrap">
@@ -711,13 +711,13 @@ footer p{font-size:12px;color:var(--text3)}
           </select>
         </div>
 
-        <button class="btn-submit" id="submitBtn" onclick="submitForm()">Enviar minha candidatura</button>
-        <p class="form-disclaimer">Suas respostas são confidenciais.<br>Entrarei em contato pelo WhatsApp em até 48h.</p>
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">Quero meu diagnóstico</button>
+        <p class="form-disclaimer">Suas respostas são confidenciais.<br>Analisarei suas respostas e entrarei em contato pelo WhatsApp com seu diagnóstico em até 48h.</p>
       </div>
 
       <div class="form-success" id="formSuccess">
-        <h3>Candidatura recebida.</h3>
-        <p>Obrigada por compartilhar isso comigo.<br>Vou analisar suas respostas e, se fizer sentido,<br>te mando mensagem no WhatsApp em até 48h.</p>
+        <h3>Diagnóstico solicitado.</h3>
+        <p>Obrigada por compartilhar isso comigo.<br>Vou analisar seu perfil e te mando o diagnóstico pelo WhatsApp em até 48h.</p>
       </div>
     </div>
   </div>
@@ -786,7 +786,7 @@ async function submitForm() {
     document.getElementById('formBody').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   } catch(e) {
-    btn.textContent = 'Enviar minha candidatura';
+    btn.textContent = 'Quero meu diagnóstico';
     btn.disabled = false;
     alert('Ocorreu um erro ao enviar. Por favor, tente novamente.');
   }
