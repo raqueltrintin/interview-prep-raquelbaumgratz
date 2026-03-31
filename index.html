@@ -77,9 +77,39 @@ nav{
 
 /* ── HERO ── */
 .hero{
-  max-width:900px;margin:0 auto;
-  padding:110px 2rem 90px;
-  text-align:center;
+  min-height:90vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero-content{
+  padding:100px 3rem 80px 4rem;
+  position:relative;
+  z-index:2;
+}
+
+.hero-photo-wrap{
+  position:relative;
+  height:100%;
+  min-height:90vh;
+  overflow:hidden;
+}
+
+.hero-photo-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  mask-image:linear-gradient(to right, transparent 0%, black 30%),
+             linear-gradient(to top, transparent 0%, black 8%);
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, black 30%),
+                     linear-gradient(to top, transparent 0%, black 8%);
+  mask-composite:intersect;
+  -webkit-mask-composite:source-in;
 }
 
 .hero-badge{
@@ -89,39 +119,49 @@ nav{
   color:var(--gold);
   border:0.5px solid rgba(201,149,74,0.35);
   padding:6px 16px;border-radius:2px;
-  margin-bottom:2.25rem;
+  margin-bottom:2rem;
 }
 
 .hero h1{
   font-family:'Playfair Display',serif;
-  font-size:clamp(38px,6.5vw,66px);
+  font-size:clamp(34px,4.5vw,58px);
   line-height:1.1;
   color:var(--text);
   letter-spacing:-0.01em;
-  margin-bottom:1.5rem;
+  margin-bottom:1.25rem;
 }
 .hero h1 em{font-style:italic;color:var(--gold)}
 
 .hero-sub{
-  font-size:18px;font-weight:300;
+  font-size:17px;font-weight:300;
   color:var(--text2);
-  max-width:540px;margin:0 auto 2.75rem;
+  max-width:460px;
+  margin-bottom:2.5rem;
   line-height:1.65;
 }
 
-.hero-cta-group{display:flex;flex-direction:column;align-items:center;gap:12px}
+.hero-cta-group{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 
 .btn-hero{
   display:inline-block;
   background:var(--gold);color:#0E0E10;
   font-size:15px;font-weight:500;
-  padding:16px 40px;border-radius:4px;
+  padding:16px 36px;border-radius:4px;
   text-decoration:none;letter-spacing:0.02em;
   transition:background .2s,transform .15s;
 }
 .btn-hero:hover{background:var(--gold2);transform:translateY(-1px)}
 
 .hero-note{font-size:13px;color:var(--text3)}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-content{padding:80px 1.5rem 40px}
+  .hero-photo-wrap{min-height:60vw;height:70vw}
+  .hero-cta-group{align-items:center}
+  .hero h1,.hero-sub,.hero-badge{text-align:center}
+  .hero-sub{max-width:100%}
+}
 
 /* ── SECTION BASE ── */
 section{padding:80px 2rem}
@@ -449,12 +489,17 @@ footer p{font-size:12px;color:var(--text3)}
 
 <!-- HERO -->
 <div class="hero">
-  <span class="hero-badge">Mentoria de Carreira Internacional</span>
-  <h1>Seu inglês já está bom.<br>Falta saber <em>usar ele</em><br>para conseguir a vaga.</h1>
-  <p class="hero-sub">Profissionais brasileiros que travam em entrevistas internacionais. Não por falta de vocabulário, mas por falta de narrativa.</p>
-  <div class="hero-cta-group">
-    <a href="#candidatura" class="btn-hero">Quero meu Diagnóstico de Presença Internacional</a>
-    <span class="hero-note">Gratuito · Sem compromisso · Diagnóstico personalizado</span>
+  <div class="hero-content">
+    <span class="hero-badge">Mentoria de Carreira Internacional</span>
+    <h1>Seu inglês já está bom.<br>Falta saber <em>usar ele</em><br>para conseguir a vaga.</h1>
+    <p class="hero-sub">Profissionais brasileiros que travam em entrevistas internacionais. Não por falta de vocabulário, mas por falta de narrativa.</p>
+    <div class="hero-cta-group">
+      <a href="#candidatura" class="btn-hero">Quero meu Diagnóstico de Presença Internacional</a>
+      <span class="hero-note">Gratuito · Sem compromisso · Diagnóstico personalizado</span>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <img src="raquel.jpg" alt="Raquel Baumgratz">
   </div>
 </div>
 
