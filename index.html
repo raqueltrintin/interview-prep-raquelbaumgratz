@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C-Confidence · Mentoria de Carreira Internacional</title>
+<title>Beyond Fluency · GCA — Global Career Accelerator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -302,8 +302,12 @@ section{padding:80px 2rem}
   gap:2.5rem;align-items:start;
 }
 .about-photo{object-position:top;
-  width:100%;border-radius:8px;
+  width:100%;border-radius:12px;
   object-fit:cover;display:block;
+  mask-image:linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-composite:intersect;
+  -webkit-mask-composite:source-in;
 }
 @media(max-width:900px){.about-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.about-grid{grid-template-columns:1fr;gap:2rem}.about-photo{object-position:top;max-width:240px}}
@@ -506,7 +510,7 @@ footer p{font-size:12px;color:var(--text3)}
 
 <!-- NAV -->
 <nav>
-  <span class="nav-logo"><span class="c">C</span>·Confidence</span>
+  <span class="nav-logo"><span class="c">Beyond</span> Fluency</span>
   <div class="nav-actions">
     <a href="portal.html" class="btn-portal">Acessar portal</a>
     <a href="#candidatura" class="btn-primary">Quero meu Diagnóstico</a>
@@ -516,7 +520,7 @@ footer p{font-size:12px;color:var(--text3)}
 <!-- HERO -->
 <div class="hero">
   <div class="hero-content">
-    <span class="hero-badge">Mentoria de Carreira Internacional</span>
+    <span class="hero-badge">GCA · Global Career Accelerator</span>
     <h1>Seu inglês já está bom.<br>Falta saber <em>usar ele</em><br>para conseguir a vaga.</h1>
     <p class="hero-sub">Profissionais brasileiros que travam em entrevistas internacionais. Não por falta de vocabulário, mas por falta de narrativa.</p>
     <div class="hero-cta-group">
@@ -534,7 +538,7 @@ footer p{font-size:12px;color:var(--text3)}
   <div class="s-inner">
     <span class="s-label">Para quem é</span>
     <h2 class="s-title">Você tem experiência sólida.<br>Falta o mercado internacional saber disso.</h2>
-    <p class="s-body">A C-Confidence foi desenhada para profissionais brasileiros que têm inglês bom, mas nunca precisaram usá-lo em contextos de alta pressão, como uma entrevista com recrutador americano.</p>
+    <p class="s-body">O GCA foi desenhado para profissionais brasileiros que têm inglês bom, mas nunca precisaram usá-lo em contextos de alta pressão, como uma entrevista com recrutador americano.</p>
     <div class="profiles">
       <div class="profile">
         <div class="profile-area">TI &amp; Desenvolvimento</div>
@@ -804,8 +808,8 @@ footer p{font-size:12px;color:var(--text3)}
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo"><span class="c">C</span>·Confidence</div>
-  <p>Raquel Baumgratz · Mentora de Carreira Internacional · raquelbaumgratz.com</p>
+  <div class="footer-logo"><span class="c">Beyond</span> Fluency</div>
+  <p>Raquel Baumgratz · Beyond Fluency · raquelbaumgratz.com</p>
 </footer>
 
 <script>
