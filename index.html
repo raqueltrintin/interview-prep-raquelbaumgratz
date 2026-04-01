@@ -301,12 +301,26 @@ section{padding:80px 2rem}
   display:grid;grid-template-columns:240px 1fr 1fr;
   gap:2.5rem;align-items:start;
 }
-.about-photo{object-position:top center;
+.about-photo-wrap{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+}
+.about-photo-wrap::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to bottom, var(--bg) 0%, transparent 18%, transparent 72%, var(--bg) 100%),
+    linear-gradient(to right, var(--bg) 0%, transparent 15%, transparent 85%, var(--bg) 100%);
+  pointer-events:none;
+}
+.about-photo{
+  object-position:top center;
   width:100%;
-  object-fit:cover;display:block;
+  object-fit:cover;
+  display:block;
   border-radius:0;
-  mask-image:radial-gradient(ellipse 80% 85% at 50% 42%, black 55%, rgba(0,0,0,0.5) 75%, transparent 100%);
-  -webkit-mask-image:radial-gradient(ellipse 80% 85% at 50% 42%, black 55%, rgba(0,0,0,0.5) 75%, transparent 100%);
 }
 @media(max-width:900px){.about-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.about-grid{grid-template-columns:1fr;gap:2rem}.about-photo{object-position:top;max-width:240px}}
@@ -658,7 +672,9 @@ footer p{font-size:12px;color:var(--text3)}
   <div class="s-inner" style="max-width:1020px">
     <div class="about-grid">
       <div>
+        <div class="about-photo-wrap">
         <img src="raquel2.jpg" alt="Raquel Baumgratz" class="about-photo">
+      </div>
       </div>
       <div>
         <span class="s-label">Quem sou eu</span>
