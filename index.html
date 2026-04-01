@@ -301,13 +301,12 @@ section{padding:80px 2rem}
   display:grid;grid-template-columns:240px 1fr 1fr;
   gap:2.5rem;align-items:start;
 }
-.about-photo{object-position:top;
-  width:100%;border-radius:12px;
+.about-photo{object-position:top center;
+  width:100%;
   object-fit:cover;display:block;
-  mask-image:linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-composite:intersect;
-  -webkit-mask-composite:source-in;
+  border-radius:0;
+  mask-image:radial-gradient(ellipse 85% 90% at 50% 45%, black 40%, transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 90% at 50% 45%, black 40%, transparent 100%);
 }
 @media(max-width:900px){.about-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.about-grid{grid-template-columns:1fr;gap:2rem}.about-photo{object-position:top;max-width:240px}}
