@@ -270,6 +270,32 @@ section{padding:80px 2rem}
 .result-name{font-size:15px;font-weight:500;color:var(--text);margin-bottom:.35rem}
 .result-role{font-size:13px;color:var(--text2);line-height:1.5}
 
+/* ── PLATFORM ── */
+.platform-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border:0.5px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  margin-top:2.5rem;
+}
+@media(max-width:800px){.platform-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.platform-grid{grid-template-columns:1fr}}
+.platform-card{
+  background:var(--bg2);
+  padding:1.75rem 1.5rem;
+  border-bottom:2px solid transparent;
+  transition:border-color .2s;
+}
+.platform-card:hover{border-bottom-color:var(--gold)}
+.platform-icon{
+  font-family:'Playfair Display',serif;
+  font-size:22px;color:var(--gold);
+  display:block;margin-bottom:.6rem;line-height:1;
+}
+.platform-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:.4rem}
+.platform-desc{font-size:13px;color:var(--text2);line-height:1.55}
+
 /* ── ABOUT ── */
 .about-grid{
   display:grid;grid-template-columns:240px 1fr 1fr;
@@ -554,7 +580,7 @@ footer p{font-size:12px;color:var(--text3)}
 <section style="background:var(--bg2)">
   <div class="s-inner">
     <span class="s-label">A metodologia</span>
-    <h2 class="s-title">Não é um curso. É uma preparação cirúrgica para o seu perfil.</h2>
+    <h2 class="s-title">Não é um curso. É uma preparação feita para o seu perfil, do zero.</h2>
     <p class="s-body">Comunicação estratégica, narrativa profissional e técnicas de performance cognitiva, aplicadas ao contexto específico de entrevistas internacionais remotas.</p>
     <div class="method-grid">
       <div class="method-card">
@@ -593,17 +619,48 @@ footer p{font-size:12px;color:var(--text3)}
 
 
 
+<!-- PLATFORM -->
+<section style="background:var(--bg)">
+  <div class="s-inner">
+    <span class="s-label">O que você acessa</span>
+    <h2 class="s-title">Dentro da plataforma, tudo que você precisa para o processo.</h2>
+    <p class="s-body">Os mentorados têm acesso a um portal exclusivo com materiais desenvolvidos especificamente para a jornada de posicionamento internacional.</p>
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="platform-icon">01</div>
+        <div class="platform-name">Plano de ação do LinkedIn</div>
+        <div class="platform-desc">Passo a passo para otimizar seu perfil e atrair recrutadores internacionais.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">02</div>
+        <div class="platform-name">Modelos de CV e Cover Letter</div>
+        <div class="platform-desc">Templates no formato que o mercado americano e europeu espera, prontos para adaptar.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">03</div>
+        <div class="platform-name">Guia de respostas para entrevistas</div>
+        <div class="platform-desc">Frameworks e exemplos reais para responder as perguntas mais comuns com clareza e confiança.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">04</div>
+        <div class="platform-name">Controle de candidaturas</div>
+        <div class="platform-desc">Acompanhe cada vaga, entrevista e contato em um painel organizado dentro da plataforma.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section>
   <div class="s-inner" style="max-width:1020px">
     <div class="about-grid">
       <div>
-        <img src="raquel.jpg" alt="Raquel Baumgratz" class="about-photo">
+        <img src="raquel2.jpg" alt="Raquel Baumgratz" class="about-photo">
       </div>
       <div>
         <span class="s-label">Quem sou eu</span>
         <h2 class="s-title">Raquel Baumgratz</h2>
-        <p class="s-body" style="margin-bottom:1.5rem">Mentora de Comunicação e Carreira Internacional. Ajudo profissionais brasileiros a se posicionarem, que conseguem vagas remotas internacionais.</p>
+        <p class="s-body" style="margin-bottom:1.5rem">Mentora de Comunicação e Carreira Internacional. Ajudo profissionais brasileiros a se posicionarem e conseguirem vagas remotas internacionais.</p>
         <div class="credentials">
           <div class="cred"><div class="cred-dot"></div><span>12+ anos de experiência ensinando inglês profissional para adultos</span></div>
           <div class="cred"><div class="cred-dot"></div><span>Graduação em Letras, Língua e Literatura Inglesa, Unisinos</span></div>
@@ -615,15 +672,6 @@ footer p{font-size:12px;color:var(--text3)}
         <p class="about-quote">"Inglês você já tem. O que falta é saber comunicar o seu valor, no idioma e no formato que o mercado internacional espera."</p>
         <p class="about-quote-sub">A diferença entre um profissional brasileiro excelente e um que consegue a vaga não é o nível de inglês. É saber narrar a própria trajetória com clareza e confiança.</p>
       </div>
-    </div>
-
-    <!-- Portal CTA -->
-    <div class="portal-cta">
-      <div class="portal-cta-text">
-        <h3>Já é mentorado C-Confidence?</h3>
-        <p>Acesse o portal para suas sessões, materiais e acompanhamento.</p>
-      </div>
-      <a href="portal.html" class="btn-portal-lg">Acessar o portal →</a>
     </div>
   </div>
 </section>
