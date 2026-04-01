@@ -528,8 +528,9 @@ footer p{font-size:12px;color:var(--text3)}
   .btn-primary{font-size:12px;padding:7px 14px}
 
   /* Hero */
-  .hero{grid-template-columns:1fr;min-height:auto;display:flex;flex-direction:column-reverse}
+  .hero{grid-template-columns:1fr;min-height:auto;display:grid}
   .hero-photo-wrap{
+    order:-1;
     width:100%;height:75vw;min-height:auto;
     mask-image:linear-gradient(to top, transparent 0%, black 35%);
     -webkit-mask-image:linear-gradient(to top, transparent 0%, black 35%);
