@@ -9311,15 +9311,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
   window.candDelete = async function(id, btn) {
-    if (!confirm('Deletar este lead? Ação irreversível.')) return;
+    if (!confirm('Deletar este lead? Esta ação não pode ser desfeita.')) return;
     btn.textContent = '...';
     btn.disabled = true;
     try {
       const res = await fetch(SUPABASE_URL + '/rest/v1/candidaturas?id=eq.' + id, {
         method: 'DELETE',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        }
       });
-      if (!res.ok) throw new Error('Erro ' + res.status);
+      if (res.status !== 204 && res.status !== 200) {
+        const errBody = await res.text();
+        throw new Error('Status ' + res.status + ': ' + errBody);
+      }
       window.candData = window.candData.filter(c => c.id !== id);
       const count = document.getElementById('cand-count');
       if (count) count.textContent = window.candData.length + ' candidatura' + (window.candData.length !== 1 ? 's' : '');
