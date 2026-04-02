@@ -9276,6 +9276,79 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   // ── END CRM MENTORADO ────────────────────────────────────────────────────────
 
+
+  // ── CANDIDATURAS DO SITE ──────────────────────────────────────────────────
+  window.candFilter = 'todos';
+  window.candData = [];
+
+  window.candSetFilter = function(val, btn) {
+    window.candFilter = val;
+    document.querySelectorAll('.cand-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    window.candRenderTable();
+  };
+
+  window.candRenderAll = async function() {
+    const body = document.getElementById('cand-body');
+    const count = document.getElementById('cand-count');
+    if (!body) return;
+    body.innerHTML = '<div class="cand-empty">Carregando...</div>';
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/candidaturas?order=criado_em.desc', {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      if (!res.ok) throw new Error('Erro ' + res.status);
+      window.candData = await res.json();
+      if (count) count.textContent = window.candData.length + ' candidatura' + (window.candData.length !== 1 ? 's' : '');
+      window.candRenderTable();
+    } catch(e) {
+      body.innerHTML = '<div class="cand-empty">Erro: ' + e.message + '</div>';
+    }
+  };
+
+  window.candRenderTable = function() {
+    const body = document.getElementById('cand-body');
+    if (!body) return;
+    const filtered = window.candFilter === 'todos'
+      ? window.candData
+      : window.candData.filter(c => (c.momento || '').includes(window.candFilter));
+    if (!filtered.length) {
+      body.innerHTML = '<div class="cand-empty">Nenhuma candidatura encontrada.</div>';
+      return;
+    }
+    const momentoClass = (m) => {
+      if (!m) return 'cand-momento-pesquisando';
+      if (m.includes('ativamente')) return 'cand-momento-ativo';
+      if (m.includes('avaliando') || m.includes('Avaliando')) return 'cand-momento-avaliando';
+      return 'cand-momento-pesquisando';
+    };
+    const fmt = (d) => d ? new Date(d).toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'2-digit'}) : '—';
+    body.innerHTML = `<table class="cand-table">
+      <thead><tr>
+        <th>Nome</th><th>Contato</th><th>Área</th><th>Momento</th><th>O que quer</th><th>Data</th>
+      </tr></thead>
+      <tbody>
+        ${filtered.map(c => `<tr>
+          <td>
+            <div class="cand-nome">${c.nome || '—'}</div>
+            <div class="cand-detail">${c.cargo || ''}</div>
+          </td>
+          <td>
+            <div>${c.whatsapp ? '<a href="https://wa.me/' + c.whatsapp.replace(/\D/g,'') + '" target="_blank" style="color:#c9954a;text-decoration:none;">📱 ' + c.whatsapp + '</a>' : '—'}</div>
+            <div style="font-size:11px;color:rgba(240,235,228,0.4)">${c.email || ''}</div>
+          </td>
+          <td>
+            <div>${c.area || '—'}</div>
+            <div class="cand-detail">${c.experiencia || ''}</div>
+          </td>
+          <td><span class="cand-tag ${momentoClass(c.momento)}">${c.momento ? c.momento.split(' ').slice(0,4).join(' ') + '...' : '—'}</span></td>
+          <td><div class="cand-detail" style="max-width:260px">${c.motivacao || '—'}</div></td>
+          <td style="white-space:nowrap;font-size:12px">${fmt(c.criado_em)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+  };
+
 </script>
   <!-- AP Side Panel (fora do SECTIONS para sobreviver ao setLang) -->
   <div class="ap-overlay-bg" id="ap-overlay-bg" onclick="apClosePanel()"></div>
