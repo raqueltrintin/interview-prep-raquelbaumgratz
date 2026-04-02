@@ -4209,23 +4209,25 @@
       'candidaturas': `<div class="section mentor-only" id="candidaturas">
         <style>
           .cand-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
-          .cand-count{font-size:12px;color:rgba(240,235,228,0.45);padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:20px}
-          .cand-table{width:100%;border-collapse:collapse;font-size:13px}
-          .cand-table th{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:rgba(240,235,228,0.4)}
-          .cand-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top;color:rgba(240,235,228,0.8)}
-          .cand-table tr:hover td{background:rgba(255,255,255,0.03)}
-          .cand-nome{font-weight:500;color:#f0ede8}
-          .cand-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(201,149,74,0.15);color:#c9954a;margin-top:3px}
-          .cand-momento-ativo{background:rgba(80,200,120,0.12);color:#50c878}
-          .cand-momento-avaliando{background:rgba(100,160,255,0.12);color:#64a0ff}
-          .cand-momento-pesquisando{background:rgba(200,200,200,0.1);color:rgba(240,235,228,0.4)}
-          .cand-empty{text-align:center;padding:3rem;color:rgba(240,235,228,0.3);font-size:14px}
-          .cand-refresh{font-size:11px;padding:5px 12px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.12);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;transition:all .2s}
-          .cand-refresh:hover{border-color:rgba(201,149,74,0.4);color:#c9954a}
-          .cand-detail{font-size:12px;color:rgba(240,235,228,0.45);margin-top:3px;max-width:320px;line-height:1.4}
-          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-          .cand-filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.45);cursor:pointer;transition:all .15s}
-          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:rgba(201,149,74,0.35);color:#c9954a}
+          .cand-count{font-size:12px;color:#9a9591;padding:4px 12px;background:#2a2724;border-radius:20px;border:1px solid #3a3734}
+          .cand-table{width:100%;border-collapse:collapse;font-size:13px;background:#1e1c1a;border-radius:8px;overflow:hidden;border:1px solid #3a3734}
+          .cand-table th{text-align:left;padding:10px 14px;background:#252220;border-bottom:1px solid #3a3734;font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#c9954a}
+          .cand-table td{padding:12px 14px;border-bottom:1px solid #2a2724;vertical-align:top;color:#d4cfc9}
+          .cand-table tr:last-child td{border-bottom:none}
+          .cand-table tr:hover td{background:#252220}
+          .cand-nome{font-weight:600;color:#f0ede8;font-size:14px}
+          .cand-tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;background:rgba(201,149,74,0.2);color:#c9954a;border:1px solid rgba(201,149,74,0.3);margin-top:3px}
+          .cand-momento-ativo{background:rgba(80,200,120,0.15);color:#50c878;border-color:rgba(80,200,120,0.3)}
+          .cand-momento-avaliando{background:rgba(100,160,255,0.15);color:#7ab4ff;border-color:rgba(100,160,255,0.3)}
+          .cand-momento-pesquisando{background:#2a2724;color:#9a9591;border-color:#3a3734}
+          .cand-empty{text-align:center;padding:3rem;color:#6a6560;font-size:14px;background:#1e1c1a;border-radius:8px;border:1px solid #3a3734}
+          .cand-refresh{font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid #3a3734;background:#252220;color:#c9954a;cursor:pointer;transition:all .2s;font-weight:500}
+          .cand-refresh:hover{border-color:#c9954a;background:rgba(201,149,74,0.1)}
+          .cand-detail{font-size:12px;color:#8a8581;margin-top:3px;max-width:300px;line-height:1.45}
+          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+          .cand-filter-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#8a8581;cursor:pointer;transition:all .15s}
+          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:#c9954a;color:#c9954a;font-weight:500}
+          .cand-filter-btn:hover{border-color:#5a5550;color:#d4cfc9}
         </style>
         <div class="cand-hdr">
           <h2 style="margin:0">📬 Candidaturas do Site</h2>
@@ -6906,23 +6908,25 @@
       'candidaturas': `<div class="section mentor-only" id="candidaturas">
         <style>
           .cand-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
-          .cand-count{font-size:12px;color:rgba(240,235,228,0.45);padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:20px}
-          .cand-table{width:100%;border-collapse:collapse;font-size:13px}
-          .cand-table th{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:rgba(240,235,228,0.4)}
-          .cand-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top;color:rgba(240,235,228,0.8)}
-          .cand-table tr:hover td{background:rgba(255,255,255,0.03)}
-          .cand-nome{font-weight:500;color:#f0ede8}
-          .cand-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(201,149,74,0.15);color:#c9954a;margin-top:3px}
-          .cand-momento-ativo{background:rgba(80,200,120,0.12);color:#50c878}
-          .cand-momento-avaliando{background:rgba(100,160,255,0.12);color:#64a0ff}
-          .cand-momento-pesquisando{background:rgba(200,200,200,0.1);color:rgba(240,235,228,0.4)}
-          .cand-empty{text-align:center;padding:3rem;color:rgba(240,235,228,0.3);font-size:14px}
-          .cand-refresh{font-size:11px;padding:5px 12px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.12);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;transition:all .2s}
-          .cand-refresh:hover{border-color:rgba(201,149,74,0.4);color:#c9954a}
-          .cand-detail{font-size:12px;color:rgba(240,235,228,0.45);margin-top:3px;max-width:320px;line-height:1.4}
-          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-          .cand-filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.45);cursor:pointer;transition:all .15s}
-          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:rgba(201,149,74,0.35);color:#c9954a}
+          .cand-count{font-size:12px;color:#9a9591;padding:4px 12px;background:#2a2724;border-radius:20px;border:1px solid #3a3734}
+          .cand-table{width:100%;border-collapse:collapse;font-size:13px;background:#1e1c1a;border-radius:8px;overflow:hidden;border:1px solid #3a3734}
+          .cand-table th{text-align:left;padding:10px 14px;background:#252220;border-bottom:1px solid #3a3734;font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#c9954a}
+          .cand-table td{padding:12px 14px;border-bottom:1px solid #2a2724;vertical-align:top;color:#d4cfc9}
+          .cand-table tr:last-child td{border-bottom:none}
+          .cand-table tr:hover td{background:#252220}
+          .cand-nome{font-weight:600;color:#f0ede8;font-size:14px}
+          .cand-tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;background:rgba(201,149,74,0.2);color:#c9954a;border:1px solid rgba(201,149,74,0.3);margin-top:3px}
+          .cand-momento-ativo{background:rgba(80,200,120,0.15);color:#50c878;border-color:rgba(80,200,120,0.3)}
+          .cand-momento-avaliando{background:rgba(100,160,255,0.15);color:#7ab4ff;border-color:rgba(100,160,255,0.3)}
+          .cand-momento-pesquisando{background:#2a2724;color:#9a9591;border-color:#3a3734}
+          .cand-empty{text-align:center;padding:3rem;color:#6a6560;font-size:14px;background:#1e1c1a;border-radius:8px;border:1px solid #3a3734}
+          .cand-refresh{font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid #3a3734;background:#252220;color:#c9954a;cursor:pointer;transition:all .2s;font-weight:500}
+          .cand-refresh:hover{border-color:#c9954a;background:rgba(201,149,74,0.1)}
+          .cand-detail{font-size:12px;color:#8a8581;margin-top:3px;max-width:300px;line-height:1.45}
+          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+          .cand-filter-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#8a8581;cursor:pointer;transition:all .15s}
+          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:#c9954a;color:#c9954a;font-weight:500}
+          .cand-filter-btn:hover{border-color:#5a5550;color:#d4cfc9}
         </style>
         <div class="cand-hdr">
           <h2 style="margin:0">📬 Candidaturas do Site</h2>
