@@ -1204,6 +1204,7 @@
       <div class="section" id="apps"></div>
       <div class="section mentor-only" id="funil"></div>
       <div class="section mentor-only" id="crm"></div>
+      <div class="section mentor-only" id="candidaturas"></div>
     </main>
   </div>
 
@@ -4205,6 +4206,45 @@
         </div>
       </div>
     </div>`,
+      'candidaturas': `<div class="section mentor-only" id="candidaturas">
+        <style>
+          .cand-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+          .cand-count{font-size:12px;color:rgba(240,235,228,0.45);padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:20px}
+          .cand-table{width:100%;border-collapse:collapse;font-size:13px}
+          .cand-table th{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:rgba(240,235,228,0.4)}
+          .cand-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top;color:rgba(240,235,228,0.8)}
+          .cand-table tr:hover td{background:rgba(255,255,255,0.03)}
+          .cand-nome{font-weight:500;color:#f0ede8}
+          .cand-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(201,149,74,0.15);color:#c9954a;margin-top:3px}
+          .cand-momento-ativo{background:rgba(80,200,120,0.12);color:#50c878}
+          .cand-momento-avaliando{background:rgba(100,160,255,0.12);color:#64a0ff}
+          .cand-momento-pesquisando{background:rgba(200,200,200,0.1);color:rgba(240,235,228,0.4)}
+          .cand-empty{text-align:center;padding:3rem;color:rgba(240,235,228,0.3);font-size:14px}
+          .cand-refresh{font-size:11px;padding:5px 12px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.12);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;transition:all .2s}
+          .cand-refresh:hover{border-color:rgba(201,149,74,0.4);color:#c9954a}
+          .cand-detail{font-size:12px;color:rgba(240,235,228,0.45);margin-top:3px;max-width:320px;line-height:1.4}
+          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+          .cand-filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.45);cursor:pointer;transition:all .15s}
+          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:rgba(201,149,74,0.35);color:#c9954a}
+        </style>
+        <div class="cand-hdr">
+          <h2 style="margin:0">📬 Candidaturas do Site</h2>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="cand-count" id="cand-count">—</span>
+            <button class="cand-refresh" onclick="candRenderAll()">↻ Atualizar</button>
+          </div>
+        </div>
+        <div class="cand-filters" id="cand-filters">
+          <button class="cand-filter-btn active" onclick="candSetFilter('todos',this)">Todos</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou ativamente buscando e quero acelerar',this)">Buscando ativamente</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou avaliando se faz sentido para mim',this)">Avaliando</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Ainda não me sinto pronto',this)">Não se sente pronto</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou só pesquisando',this)">Pesquisando</button>
+        </div>
+        <div id="cand-body">
+          <div class="cand-empty">Carregando candidaturas...</div>
+        </div>
+      </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Visão da Mentora</div>
@@ -6863,6 +6903,45 @@
         </div>
       </div>
     </div>`,
+      'candidaturas': `<div class="section mentor-only" id="candidaturas">
+        <style>
+          .cand-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:8px;flex-wrap:wrap}
+          .cand-count{font-size:12px;color:rgba(240,235,228,0.45);padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:20px}
+          .cand-table{width:100%;border-collapse:collapse;font-size:13px}
+          .cand-table th{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:rgba(240,235,228,0.4)}
+          .cand-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top;color:rgba(240,235,228,0.8)}
+          .cand-table tr:hover td{background:rgba(255,255,255,0.03)}
+          .cand-nome{font-weight:500;color:#f0ede8}
+          .cand-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(201,149,74,0.15);color:#c9954a;margin-top:3px}
+          .cand-momento-ativo{background:rgba(80,200,120,0.12);color:#50c878}
+          .cand-momento-avaliando{background:rgba(100,160,255,0.12);color:#64a0ff}
+          .cand-momento-pesquisando{background:rgba(200,200,200,0.1);color:rgba(240,235,228,0.4)}
+          .cand-empty{text-align:center;padding:3rem;color:rgba(240,235,228,0.3);font-size:14px}
+          .cand-refresh{font-size:11px;padding:5px 12px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.12);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;transition:all .2s}
+          .cand-refresh:hover{border-color:rgba(201,149,74,0.4);color:#c9954a}
+          .cand-detail{font-size:12px;color:rgba(240,235,228,0.45);margin-top:3px;max-width:320px;line-height:1.4}
+          .cand-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+          .cand-filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.45);cursor:pointer;transition:all .15s}
+          .cand-filter-btn.active{background:rgba(201,149,74,0.15);border-color:rgba(201,149,74,0.35);color:#c9954a}
+        </style>
+        <div class="cand-hdr">
+          <h2 style="margin:0">📬 Candidaturas do Site</h2>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="cand-count" id="cand-count">—</span>
+            <button class="cand-refresh" onclick="candRenderAll()">↻ Atualizar</button>
+          </div>
+        </div>
+        <div class="cand-filters" id="cand-filters">
+          <button class="cand-filter-btn active" onclick="candSetFilter('todos',this)">Todos</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou ativamente buscando e quero acelerar',this)">Buscando ativamente</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou avaliando se faz sentido para mim',this)">Avaliando</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Ainda não me sinto pronto',this)">Não se sente pronto</button>
+          <button class="cand-filter-btn" onclick="candSetFilter('Estou só pesquisando',this)">Pesquisando</button>
+        </div>
+        <div id="cand-body">
+          <div class="cand-empty">Carregando candidaturas...</div>
+        </div>
+      </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Mentor View</div>
@@ -7319,7 +7398,7 @@
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','mentorados','apps'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','candidaturas','mentorados','apps'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -7338,6 +7417,9 @@
       // Após re-renderizar apps, recarregar kanban do mentorado
       if (sid === 'apps' && typeof apRenderAll === 'function') {
         setTimeout(apRenderAll, 0);
+      }
+      if (sid === 'candidaturas' && typeof candRenderAll === 'function') {
+        setTimeout(candRenderAll, 0);
       }
     });
 
@@ -7766,6 +7848,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     vendas: { icon: '🔽', label: 'Vendas', subs: [
       { id: 'funil', icon: '🔽', label: 'Funil de Vendas' },
       { id: 'crm',   icon: '👥', label: 'CRM de Leads' },
+      { id: 'candidaturas', icon: '📬', label: 'Candidaturas do Site' },
     ]},
   };
 
