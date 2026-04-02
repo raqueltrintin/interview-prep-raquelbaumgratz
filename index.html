@@ -518,6 +518,40 @@ footer p{font-size:12px;color:var(--text3)}
   .portal-cta{flex-direction:column;align-items:flex-start}
 }
 
+/* ── FORM HIGHLIGHT ── */
+.form-highlight{background:var(--gold-dim) !important;border-top:0.5px solid rgba(201,149,74,0.2)}
+.form-highlight .s-label{color:var(--gold)}
+.form-highlight .s-title{color:var(--text)}
+.form-highlight .s-body{color:var(--text2)}
+.form-wrap{background:var(--bg2);border-color:rgba(201,149,74,0.25)}
+.form-wrap label{color:var(--text)}
+
+/* ── TESTI HIGHLIGHT ── */
+.testi-highlight{
+  grid-column:1/-1;
+  border-color:rgba(201,149,74,0.3);
+  background:rgba(201,149,74,0.06);
+}
+.testi-highlight .testi-text{font-size:15px;color:var(--text2)}
+
+/* ── PORTAL MOBILE FOOTER ── */
+.mobile-portal-btn{display:none}
+@media(max-width:520px){
+  .mobile-portal-btn{
+    display:block;
+    text-align:center;
+    margin-top:1.5rem;
+    font-size:13px;
+    color:var(--text2);
+  }
+  .mobile-portal-btn a{
+    color:var(--gold);
+    text-decoration:none;
+    border-bottom:0.5px solid rgba(201,149,74,0.4);
+    padding-bottom:2px;
+  }
+}
+
 /* ── MOBILE ── */
 @media(max-width:520px){
 
@@ -785,6 +819,11 @@ footer p{font-size:12px;color:var(--text3)}
     <span class="s-label">Depoimentos</span>
     <h2 class="s-title">O que dizem os mentorados.</h2>
     <div class="testi-grid">
+      <div class="testi-card testi-highlight">
+        <p class="testi-text">"A Raquel teve um papel fundamental na minha transição para o mercado internacional. Eu já tinha inglês suficiente para o dia a dia profissional, mas não conseguia me posicionar com clareza e estratégia em processos seletivos para vagas no exterior. O trabalho dela foi muito além de inglês. Ela me ajudou a estruturar meu posicionamento profissional, entender como me apresentar como candidato para empresas internacionais e, principalmente, ganhar clareza sobre como destacar minha experiência de forma relevante. Com a orientação dela, eu consegui participar de processos com muito mais segurança e conquistei oportunidades remotas com remuneração em dólar."</p>
+        <div class="testi-name">Vinícius Bohn</div>
+        <div class="testi-role">Research Analyst · Trilogy</div>
+      </div>
       <div class="testi-card">
         <p class="testi-text">"A Raquel é uma excelente professora. Ela customiza as aulas conforme a necessidade de cada aluno, e te faz sentir confiante para falar e escutar."</p>
         <div class="testi-name">Julia Ribeiro</div>
@@ -805,7 +844,7 @@ footer p{font-size:12px;color:var(--text3)}
 </section>
 
 <!-- FORM -->
-<section class="form-section" id="candidatura">
+<section class="form-section form-highlight" id="candidatura">
   <div class="s-inner">
     <div class="form-header">
       <span class="s-label" style="display:block;text-align:center">Diagnóstico de Presença Internacional</span>
@@ -906,6 +945,9 @@ footer p{font-size:12px;color:var(--text3)}
 </section>
 
 <!-- FOOTER -->
+<div class="mobile-portal-btn">
+  Já é mentorado? <a href="portal.html">Acessar o portal →</a>
+</div>
 <footer>
   <div class="footer-logo"><span class="c">Beyond</span> Fluency</div>
   <p>Raquel Baumgratz · Beyond Fluency · raquelbaumgratz.com</p>
