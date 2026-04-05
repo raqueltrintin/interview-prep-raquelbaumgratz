@@ -1200,6 +1200,7 @@
       <div class="section" id="links"></div>
       <div class="section" id="biblioteca"></div>
       <div class="section" id="templates"></div>
+      <div class="section" id="conteudo"></div>
       <div class="section mentor-only" id="social"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
@@ -4866,6 +4867,326 @@ Best regards,
             <button class="soc-btn-del" id="soc-btn-del" style="display:none" onclick="socDelete()">✕ Deletar</button>
             <button class="soc-btn-cancel" onclick="socCloseModal()">Cancelar</button>
             <button class="soc-btn-save" onclick="socSave()">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>`,
+      'conteudo': `<div class="section" id="conteudo">
+      <style>
+        .kb-wrap{padding:.5rem 0}
+        .kb-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:12px;flex-wrap:wrap}
+        .kb-h2{font-size:20px;font-weight:600;color:#f0ede8;margin:0}
+        .kb-actions{display:flex;align-items:center;gap:8px}
+        .kb-saving{font-size:11px;color:#6a6560}
+        .kb-new-btn{font-size:12px;font-weight:500;padding:6px 16px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer;transition:background .15s}
+        .kb-new-btn:hover{background:#9a4f32}
+        .kb-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow-x:auto}
+        .kb-col{background:#1a1816;border:1px solid #2e2c2a;border-radius:10px;padding:10px;min-height:420px;display:flex;flex-direction:column}
+        .kb-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
+        .kb-col-name{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9a9591}
+        .kb-col-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+        .badge-ideas{background:rgba(181,98,62,0.15);color:#b5623e;border:1px solid rgba(181,98,62,0.25)}
+        .badge-linkedin{background:rgba(100,149,255,0.12);color:#7ab4ff;border:1px solid rgba(100,149,255,0.2)}
+        .badge-instagram{background:rgba(200,80,150,0.12);color:#e0609a;border:1px solid rgba(200,80,150,0.2)}
+        .badge-tiktok{background:rgba(80,200,160,0.12);color:#4cc9a0;border:1px solid rgba(80,200,160,0.2)}
+        .kb-drop{flex:1;display:flex;flex-direction:column;gap:7px;min-height:80px;border-radius:7px;padding:2px;transition:outline .1s}
+        .kb-drop.drag-over{outline:2px dashed rgba(181,98,62,0.5);outline-offset:2px}
+        .kb-card{background:#242220;border:1px solid #3a3734;border-radius:8px;padding:10px 12px;cursor:grab;user-select:none;transition:opacity .15s,border-color .15s}
+        .kb-card:hover{border-color:#4a4744}
+        .kb-card:active{cursor:grabbing}
+        .kb-card.dragging{opacity:.35}
+        .kb-card-title{font-size:13px;font-weight:500;color:#f0ede8;line-height:1.4;margin-bottom:7px}
+        .kb-card-excerpt{font-size:12px;color:#7a7571;line-height:1.45;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .kb-card-footer{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+        .kb-tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:10px}
+        .kt-video{background:rgba(181,98,62,0.15);color:#d4836a}
+        .kt-carrossel{background:rgba(120,100,200,0.15);color:#a090e0}
+        .kt-texto{background:rgba(80,160,100,0.15);color:#70c080}
+        .kt-reel{background:rgba(200,80,150,0.15);color:#e080b0}
+        .kt-story{background:rgba(80,160,200,0.15);color:#70b0e0}
+        .kt-agendado{background:rgba(80,180,100,0.15);color:#60c878}
+        .kt-postado{background:rgba(100,140,220,0.15);color:#7ab4ff}
+        .kt-rascunho{background:rgba(100,100,100,0.15);color:#8a8581}
+        .kb-card-date{font-size:11px;color:#5a5550;margin-left:auto}
+        .kb-col-add{width:100%;margin-top:8px;font-size:12px;padding:7px;border-radius:6px;border:1px dashed #3a3734;background:transparent;color:#5a5550;cursor:pointer;text-align:center;flex-shrink:0}
+        .kb-col-add:hover{border-color:#b5623e;color:#b5623e}
+        .kb-modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:1rem}
+        .kb-modal-wrap.open{display:flex}
+        .kb-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+        .kb-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2e2c2a;position:sticky;top:0;background:#1e1c1a;z-index:1}
+        .kb-modal-title{font-size:15px;font-weight:600;color:#f0ede8}
+        .kb-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#6a6560;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .kb-modal-body{padding:1.25rem 1.5rem}
+        .kb-field{margin-bottom:1rem}
+        .kb-field label{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#b5623e;margin-bottom:.35rem}
+        .kb-field input,.kb-field select,.kb-field textarea{width:100%;background:#141210;border:1px solid #3a3734;border-radius:6px;padding:9px 12px;font-size:13px;color:#d4cfc9;font-family:'DM Sans',sans-serif;outline:none}
+        .kb-field input:focus,.kb-field select:focus,.kb-field textarea:focus{border-color:#b5623e}
+        .kb-field textarea{min-height:100px;resize:vertical;line-height:1.5}
+        .kb-field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23b5623e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+        .kb-field input::placeholder,.kb-field textarea::placeholder{color:#4a4744}
+        .kb-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .kb-modal-footer{display:flex;gap:8px;justify-content:space-between;padding:1rem 1.5rem;border-top:1px solid #2e2c2a}
+        .kb-btn-del{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:rgba(220,60,60,0.7);cursor:pointer}
+        .kb-btn-del:hover{border-color:#dc3c3c;color:#dc3c3c}
+        .kb-btn-save{font-size:13px;font-weight:500;padding:8px 20px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer}
+        .kb-btn-save:hover{background:#9a4f32}
+        .kb-btn-cancel{font-size:13px;padding:8px 16px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;cursor:pointer}
+        .kb-empty{text-align:center;padding:2rem 1rem;color:#4a4744;font-size:13px;pointer-events:none}
+      </style>
+
+      <div class="kb-wrap">
+        <div class="kb-topbar">
+          <h2 class="kb-h2">Planejamento de Conteúdo</h2>
+          <div class="kb-actions">
+            <span class="kb-saving" id="kb-saving"></span>
+            <button class="kb-new-btn" onclick="kbOpenNew('ideas')">+ Nova ideia</button>
+          </div>
+        </div>
+
+        <div class="kb-board">
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">Banco de ideias</span>
+              <span class="kb-col-badge badge-ideas" id="kb-badge-ideas">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-ideas" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'ideas')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('ideas')">+ ideia</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">LinkedIn</span>
+              <span class="kb-col-badge badge-linkedin" id="kb-badge-linkedin">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-linkedin" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'linkedin')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('linkedin')">+ post</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">Instagram</span>
+              <span class="kb-col-badge badge-instagram" id="kb-badge-instagram">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-instagram" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'instagram')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('instagram')">+ post</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">TikTok</span>
+              <span class="kb-col-badge badge-tiktok" id="kb-badge-tiktok">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-tiktok" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'tiktok')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('tiktok')">+ post</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-modal-wrap" id="kb-modal-wrap" onclick="if(event.target===this)kbCloseModal()">
+        <div class="kb-modal">
+          <div class="kb-modal-hdr">
+            <span class="kb-modal-title" id="kb-modal-title">Nova ideia</span>
+            <button class="kb-modal-close" onclick="kbCloseModal()">×</button>
+          </div>
+          <div class="kb-modal-body">
+            <div class="kb-field">
+              <label>Título / gancho</label>
+              <input type="text" id="kb-f-title" placeholder="Ex: Por que devs sênior travam na entrevista internacional">
+            </div>
+            <div class="kb-field">
+              <label>Roteiro / texto</label>
+              <textarea id="kb-f-body" placeholder="Cole aqui o roteiro, texto ou ideias principais..."></textarea>
+            </div>
+            <div class="kb-grid-2">
+              <div class="kb-field">
+                <label>Formato</label>
+                <select id="kb-f-format">
+                  <option value="">Selecione</option>
+                  <option>Texto</option>
+                  <option>Carrossel</option>
+                  <option>Vídeo</option>
+                  <option>Reel</option>
+                  <option>Story</option>
+                </select>
+              </div>
+              <div class="kb-field">
+                <label>Status</label>
+                <select id="kb-f-status">
+                  <option value="rascunho">Rascunho</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="postado">Postado</option>
+                </select>
+              </div>
+            </div>
+            <div class="kb-field">
+              <label>Data de postagem</label>
+              <input type="date" id="kb-f-date">
+            </div>
+          </div>
+          <div class="kb-modal-footer">
+            <button class="kb-btn-del" id="kb-btn-del" onclick="kbDeleteCard()" style="display:none">Deletar</button>
+            <div style="display:flex;gap:8px;margin-left:auto">
+              <button class="kb-btn-cancel" onclick="kbCloseModal()">Cancelar</button>
+              <button class="kb-btn-save" onclick="kbSaveCard()">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>`,
+      'conteudo': `<div class="section" id="conteudo">
+      <style>
+        .kb-wrap{padding:.5rem 0}
+        .kb-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:12px;flex-wrap:wrap}
+        .kb-h2{font-size:20px;font-weight:600;color:#f0ede8;margin:0}
+        .kb-actions{display:flex;align-items:center;gap:8px}
+        .kb-saving{font-size:11px;color:#6a6560}
+        .kb-new-btn{font-size:12px;font-weight:500;padding:6px 16px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer;transition:background .15s}
+        .kb-new-btn:hover{background:#9a4f32}
+        .kb-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow-x:auto}
+        .kb-col{background:#1a1816;border:1px solid #2e2c2a;border-radius:10px;padding:10px;min-height:420px;display:flex;flex-direction:column}
+        .kb-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
+        .kb-col-name{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9a9591}
+        .kb-col-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+        .badge-ideas{background:rgba(181,98,62,0.15);color:#b5623e;border:1px solid rgba(181,98,62,0.25)}
+        .badge-linkedin{background:rgba(100,149,255,0.12);color:#7ab4ff;border:1px solid rgba(100,149,255,0.2)}
+        .badge-instagram{background:rgba(200,80,150,0.12);color:#e0609a;border:1px solid rgba(200,80,150,0.2)}
+        .badge-tiktok{background:rgba(80,200,160,0.12);color:#4cc9a0;border:1px solid rgba(80,200,160,0.2)}
+        .kb-drop{flex:1;display:flex;flex-direction:column;gap:7px;min-height:80px;border-radius:7px;padding:2px;transition:outline .1s}
+        .kb-drop.drag-over{outline:2px dashed rgba(181,98,62,0.5);outline-offset:2px}
+        .kb-card{background:#242220;border:1px solid #3a3734;border-radius:8px;padding:10px 12px;cursor:grab;user-select:none;transition:opacity .15s,border-color .15s}
+        .kb-card:hover{border-color:#4a4744}
+        .kb-card:active{cursor:grabbing}
+        .kb-card.dragging{opacity:.35}
+        .kb-card-title{font-size:13px;font-weight:500;color:#f0ede8;line-height:1.4;margin-bottom:7px}
+        .kb-card-excerpt{font-size:12px;color:#7a7571;line-height:1.45;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .kb-card-footer{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+        .kb-tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:10px}
+        .kt-video{background:rgba(181,98,62,0.15);color:#d4836a}
+        .kt-carrossel{background:rgba(120,100,200,0.15);color:#a090e0}
+        .kt-texto{background:rgba(80,160,100,0.15);color:#70c080}
+        .kt-reel{background:rgba(200,80,150,0.15);color:#e080b0}
+        .kt-story{background:rgba(80,160,200,0.15);color:#70b0e0}
+        .kt-agendado{background:rgba(80,180,100,0.15);color:#60c878}
+        .kt-postado{background:rgba(100,140,220,0.15);color:#7ab4ff}
+        .kt-rascunho{background:rgba(100,100,100,0.15);color:#8a8581}
+        .kb-card-date{font-size:11px;color:#5a5550;margin-left:auto}
+        .kb-col-add{width:100%;margin-top:8px;font-size:12px;padding:7px;border-radius:6px;border:1px dashed #3a3734;background:transparent;color:#5a5550;cursor:pointer;text-align:center;flex-shrink:0}
+        .kb-col-add:hover{border-color:#b5623e;color:#b5623e}
+        .kb-modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:1rem}
+        .kb-modal-wrap.open{display:flex}
+        .kb-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+        .kb-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2e2c2a;position:sticky;top:0;background:#1e1c1a;z-index:1}
+        .kb-modal-title{font-size:15px;font-weight:600;color:#f0ede8}
+        .kb-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#6a6560;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .kb-modal-body{padding:1.25rem 1.5rem}
+        .kb-field{margin-bottom:1rem}
+        .kb-field label{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#b5623e;margin-bottom:.35rem}
+        .kb-field input,.kb-field select,.kb-field textarea{width:100%;background:#141210;border:1px solid #3a3734;border-radius:6px;padding:9px 12px;font-size:13px;color:#d4cfc9;font-family:'DM Sans',sans-serif;outline:none}
+        .kb-field input:focus,.kb-field select:focus,.kb-field textarea:focus{border-color:#b5623e}
+        .kb-field textarea{min-height:100px;resize:vertical;line-height:1.5}
+        .kb-field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23b5623e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+        .kb-field input::placeholder,.kb-field textarea::placeholder{color:#4a4744}
+        .kb-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .kb-modal-footer{display:flex;gap:8px;justify-content:space-between;padding:1rem 1.5rem;border-top:1px solid #2e2c2a}
+        .kb-btn-del{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:rgba(220,60,60,0.7);cursor:pointer}
+        .kb-btn-del:hover{border-color:#dc3c3c;color:#dc3c3c}
+        .kb-btn-save{font-size:13px;font-weight:500;padding:8px 20px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer}
+        .kb-btn-save:hover{background:#9a4f32}
+        .kb-btn-cancel{font-size:13px;padding:8px 16px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;cursor:pointer}
+        .kb-empty{text-align:center;padding:2rem 1rem;color:#4a4744;font-size:13px;pointer-events:none}
+      </style>
+
+      <div class="kb-wrap">
+        <div class="kb-topbar">
+          <h2 class="kb-h2">Planejamento de Conteúdo</h2>
+          <div class="kb-actions">
+            <span class="kb-saving" id="kb-saving"></span>
+            <button class="kb-new-btn" onclick="kbOpenNew('ideas')">+ Nova ideia</button>
+          </div>
+        </div>
+
+        <div class="kb-board">
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">Banco de ideias</span>
+              <span class="kb-col-badge badge-ideas" id="kb-badge-ideas">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-ideas" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'ideas')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('ideas')">+ ideia</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">LinkedIn</span>
+              <span class="kb-col-badge badge-linkedin" id="kb-badge-linkedin">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-linkedin" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'linkedin')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('linkedin')">+ post</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">Instagram</span>
+              <span class="kb-col-badge badge-instagram" id="kb-badge-instagram">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-instagram" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'instagram')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('instagram')">+ post</button>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-hdr">
+              <span class="kb-col-name">TikTok</span>
+              <span class="kb-col-badge badge-tiktok" id="kb-badge-tiktok">0</span>
+            </div>
+            <div class="kb-drop" id="kb-col-tiktok" ondragover="kbDragOver(event)" ondrop="kbDrop(event,'tiktok')" ondragleave="kbDragLeave(event)"></div>
+            <button class="kb-col-add" onclick="kbOpenNew('tiktok')">+ post</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-modal-wrap" id="kb-modal-wrap" onclick="if(event.target===this)kbCloseModal()">
+        <div class="kb-modal">
+          <div class="kb-modal-hdr">
+            <span class="kb-modal-title" id="kb-modal-title">Nova ideia</span>
+            <button class="kb-modal-close" onclick="kbCloseModal()">×</button>
+          </div>
+          <div class="kb-modal-body">
+            <div class="kb-field">
+              <label>Título / gancho</label>
+              <input type="text" id="kb-f-title" placeholder="Ex: Por que devs sênior travam na entrevista internacional">
+            </div>
+            <div class="kb-field">
+              <label>Roteiro / texto</label>
+              <textarea id="kb-f-body" placeholder="Cole aqui o roteiro, texto ou ideias principais..."></textarea>
+            </div>
+            <div class="kb-grid-2">
+              <div class="kb-field">
+                <label>Formato</label>
+                <select id="kb-f-format">
+                  <option value="">Selecione</option>
+                  <option>Texto</option>
+                  <option>Carrossel</option>
+                  <option>Vídeo</option>
+                  <option>Reel</option>
+                  <option>Story</option>
+                </select>
+              </div>
+              <div class="kb-field">
+                <label>Status</label>
+                <select id="kb-f-status">
+                  <option value="rascunho">Rascunho</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="postado">Postado</option>
+                </select>
+              </div>
+            </div>
+            <div class="kb-field">
+              <label>Data de postagem</label>
+              <input type="date" id="kb-f-date">
+            </div>
+          </div>
+          <div class="kb-modal-footer">
+            <button class="kb-btn-del" id="kb-btn-del" onclick="kbDeleteCard()" style="display:none">Deletar</button>
+            <div style="display:flex;gap:8px;margin-left:auto">
+              <button class="kb-btn-cancel" onclick="kbCloseModal()">Cancelar</button>
+              <button class="kb-btn-save" onclick="kbSaveCard()">Salvar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -8672,6 +8993,9 @@ Best regards,
         setTimeout(candRenderAll, 0);
       }
       // templates section is static, no render needed
+      if (sid === 'conteudo' && typeof kbRenderAll === 'function') {
+        setTimeout(kbRenderAll, 0);
+      }
       if (sid === 'social' && typeof socFetch === 'function') {
         setTimeout(socFetch, 0);
       }
@@ -8811,7 +9135,7 @@ Best regards,
       document.getElementById('app').style.display = 'flex';
       applyRole(currentRole);
       requestAnimationFrame(syncDockSpacer);
-      setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 400);
+      setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); if(typeof kbLoad==='function') kbLoad(); }, 400);
       setTimeout(async function(){ if(typeof apLoad==='function') await apLoad(); }, 450);
       setTimeout(ssiRestoreChecks, 300);
       setTimeout(ssiScoreRestore, 350);
@@ -9038,7 +9362,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     applyRole(currentRole);
     requestAnimationFrame(syncDockSpacer);
     // Carregar CRM e foto após a sessão ser restaurada
-    setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); }, 300);
+    setTimeout(async function(){ if(typeof crmLoad==='function') await crmLoad(); if(typeof kbLoad==='function') kbLoad(); }, 300);
     setTimeout(ngRestorePhoto, 200);
   })();
 
@@ -9091,6 +9415,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       { id: 'links',      icon: '🔗', label: 'Links Úteis' },
       { id: 'biblioteca', icon: '📚', label: 'Biblioteca de Conteúdos' },
       { id: 'templates', icon: '✉️', label: 'Templates de Abordagem' },
+    ]},
+
+    criacao: { icon: '✏️', label: 'Criação', subs: [
+      { id: 'conteudo', icon: '✏️', label: 'Planejamento de Conteúdo' },
     ]},
 
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
@@ -10911,6 +11239,190 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     window.socCloseModal();
     await window.socFetch();
   };
+
+
+  // ── KANBAN CONTEÚDO ──────────────────────────────────────────────────────────
+  var kbCards = [];
+  var kbNextId = 1;
+  var kbDragId = null;
+  var kbEditId = null;
+  var kbCurrentCol = 'ideas';
+  var kbSaveTimer = null;
+
+  var kbFormatTag = {
+    'Texto':'kt-texto','Carrossel':'kt-carrossel',
+    'Vídeo':'kt-video','Reel':'kt-reel','Story':'kt-story'
+  };
+  var kbStatusTag = {rascunho:'kt-rascunho',agendado:'kt-agendado',postado:'kt-postado'};
+  var kbStatusLabel = {rascunho:'Rascunho',agendado:'Agendado',postado:'Postado'};
+
+  function kbFmtDate(d) {
+    if (!d) return '';
+    var dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('pt-BR', {day:'2-digit', month:'short'});
+  }
+
+  window.kbRenderAll = function() {
+    ['ideas','linkedin','instagram','tiktok'].forEach(function(col) {
+      var el = document.getElementById('kb-col-' + col);
+      var badge = document.getElementById('kb-badge-' + col);
+      if (!el) return;
+      var colCards = kbCards.filter(function(c){ return c.col === col; });
+      if (badge) badge.textContent = colCards.length;
+      if (!colCards.length) {
+        el.innerHTML = '<div class="kb-empty">Arraste cards aqui</div>';
+        return;
+      }
+      el.innerHTML = colCards.map(function(c) {
+        var fmtCls = kbFormatTag[c.format] || '';
+        var stCls = kbStatusTag[c.status] || 'kt-rascunho';
+        var stLbl = kbStatusLabel[c.status] || '';
+        return '<div class="kb-card" draggable="true" data-id="' + c.id + '"' +
+          ' ondragstart="kbDragStart(event,' + c.id + ')"' +
+          ' ondragend="kbDragEnd(event)"' +
+          ' onclick="kbOpenEdit(' + c.id + ')">' +
+          '<div class="kb-card-title">' + c.title + '</div>' +
+          (c.body ? '<div class="kb-card-excerpt">' + c.body + '</div>' : '') +
+          '<div class="kb-card-footer">' +
+          (c.format ? '<span class="kb-tag ' + fmtCls + '">' + c.format + '</span>' : '') +
+          '<span class="kb-tag ' + stCls + '">' + stLbl + '</span>' +
+          (c.date ? '<span class="kb-card-date">' + kbFmtDate(c.date) + '</span>' : '') +
+          '</div>' +
+          '</div>';
+      }).join('');
+    });
+  };
+
+  window.kbDragStart = function(e, id) {
+    kbDragId = id;
+    setTimeout(function() {
+      var el = document.querySelector('[data-id="' + id + '"]');
+      if (el) el.classList.add('dragging');
+    }, 0);
+  };
+  window.kbDragEnd = function(e) {
+    document.querySelectorAll('.kb-card').forEach(function(el){ el.classList.remove('dragging'); });
+    document.querySelectorAll('.kb-drop').forEach(function(el){ el.classList.remove('drag-over'); });
+  };
+  window.kbDragOver = function(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+  };
+  window.kbDragLeave = function(e) {
+    e.currentTarget.classList.remove('drag-over');
+  };
+  window.kbDrop = function(e, col) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (kbDragId === null) return;
+    var card = kbCards.find(function(c){ return c.id === kbDragId; });
+    if (card) { card.col = col; kbSave(); }
+    kbDragId = null;
+    kbRenderAll();
+  };
+
+  window.kbOpenNew = function(col) {
+    kbEditId = null;
+    kbCurrentCol = col || 'ideas';
+    document.getElementById('kb-modal-title').textContent = 'Nova ideia';
+    document.getElementById('kb-f-title').value = '';
+    document.getElementById('kb-f-body').value = '';
+    document.getElementById('kb-f-format').value = '';
+    document.getElementById('kb-f-status').value = 'rascunho';
+    document.getElementById('kb-f-date').value = '';
+    document.getElementById('kb-btn-del').style.display = 'none';
+    document.getElementById('kb-modal-wrap').classList.add('open');
+  };
+
+  window.kbOpenEdit = function(id) {
+    var c = kbCards.find(function(x){ return x.id === id; });
+    if (!c) return;
+    kbEditId = id;
+    kbCurrentCol = c.col;
+    document.getElementById('kb-modal-title').textContent = 'Editar card';
+    document.getElementById('kb-f-title').value = c.title;
+    document.getElementById('kb-f-body').value = c.body || '';
+    document.getElementById('kb-f-format').value = c.format || '';
+    document.getElementById('kb-f-status').value = c.status || 'rascunho';
+    document.getElementById('kb-f-date').value = c.date || '';
+    document.getElementById('kb-btn-del').style.display = '';
+    document.getElementById('kb-modal-wrap').classList.add('open');
+  };
+
+  window.kbCloseModal = function() {
+    document.getElementById('kb-modal-wrap').classList.remove('open');
+  };
+
+  window.kbSaveCard = function() {
+    var title = document.getElementById('kb-f-title').value.trim();
+    if (!title) return;
+    var data = {
+      title: title,
+      body: document.getElementById('kb-f-body').value.trim(),
+      format: document.getElementById('kb-f-format').value,
+      status: document.getElementById('kb-f-status').value,
+      date: document.getElementById('kb-f-date').value,
+      col: kbCurrentCol
+    };
+    if (kbEditId) {
+      var idx = kbCards.findIndex(function(c){ return c.id === kbEditId; });
+      if (idx >= 0) kbCards[idx] = Object.assign({}, kbCards[idx], data);
+    } else {
+      kbCards.push(Object.assign({ id: kbNextId++ }, data));
+    }
+    kbCloseModal();
+    kbSave();
+    kbRenderAll();
+  };
+
+  window.kbDeleteCard = function() {
+    if (!kbEditId) return;
+    if (!confirm('Deletar este card?')) return;
+    kbCards = kbCards.filter(function(c){ return c.id !== kbEditId; });
+    kbCloseModal();
+    kbSave();
+    kbRenderAll();
+  };
+
+  async function kbSave() {
+    if (!currentUser) return;
+    var savingEl = document.getElementById('kb-saving');
+    if (savingEl) savingEl.textContent = 'Salvando...';
+    clearTimeout(kbSaveTimer);
+    kbSaveTimer = setTimeout(async function() {
+      try {
+        await sb.from('notes').upsert({
+          user_id: currentUser.id,
+          note_key: 'content_kanban',
+          content: JSON.stringify({ cards: kbCards, nextId: kbNextId }),
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id,note_key' });
+        if (savingEl) savingEl.textContent = 'Salvo';
+        setTimeout(function(){ if (savingEl) savingEl.textContent = ''; }, 2000);
+      } catch(e) {
+        if (savingEl) savingEl.textContent = 'Erro ao salvar';
+      }
+    }, 1000);
+  }
+
+  async function kbLoad() {
+    if (!currentUser) return;
+    try {
+      var result = await sb.from('notes')
+        .select('content')
+        .eq('user_id', currentUser.id)
+        .eq('note_key', 'content_kanban')
+        .single();
+      if (result.data && result.data.content) {
+        var parsed = JSON.parse(result.data.content);
+        if (parsed.cards && Array.isArray(parsed.cards)) {
+          kbCards = parsed.cards;
+          kbNextId = parsed.nextId || (kbCards.length ? Math.max.apply(null, kbCards.map(function(c){ return c.id; })) + 1 : 1);
+          kbRenderAll();
+        }
+      }
+    } catch(e) {}
+  }
 
 </script>
   <!-- AP Side Panel (fora do SECTIONS para sobreviver ao setLang) -->
