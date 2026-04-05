@@ -1199,6 +1199,7 @@
       <div class="section" id="coverletter"></div>
       <div class="section" id="links"></div>
       <div class="section" id="biblioteca"></div>
+      <div class="section" id="templates"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
       <div class="section" id="apps"></div>
@@ -4271,6 +4272,423 @@
           </div>
         </div>
       </div>`,
+      'templates': `<div class="section" id="templates">
+      <div class="section-intro">
+        <div class="tag">Recursos</div>
+        <h2>Templates de Abordagem</h2>
+        <p>Modelos prontos para contato no LinkedIn e por e-mail. Personalize os campos entre colchetes antes de enviar.</p>
+      </div>
+
+      <style>
+        .tpl-tabs{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tpl-tab{font-size:12px;font-weight:500;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;transition:all .15s}
+        .tpl-tab.active{background:rgba(181,98,62,0.15);border-color:var(--accent);color:var(--accent)}
+        .tpl-panel{display:none}.tpl-panel.active{display:block}
+        .tpl-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;margin-bottom:1.25rem;overflow:hidden}
+        .tpl-card-hdr{padding:.9rem 1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+        .tpl-card-hdr:hover{background:rgba(255,255,255,0.03)}
+        .tpl-card-title{font-size:14px;font-weight:500;color:#f0ede8}
+        .tpl-card-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(181,98,62,0.15);color:var(--accent);border:1px solid rgba(181,98,62,0.25);flex-shrink:0}
+        .tpl-card-arrow{font-size:12px;color:rgba(240,235,228,0.35);transition:transform .2s;flex-shrink:0}
+        .tpl-card.open .tpl-card-arrow{transform:rotate(180deg)}
+        .tpl-card-body{display:none;padding:0 1.25rem 1.25rem}
+        .tpl-card.open .tpl-card-body{display:block}
+        .tpl-instr{font-size:13px;color:rgba(240,235,228,0.55);margin-bottom:1rem;line-height:1.55;font-style:italic;border-left:2px solid var(--accent);padding-left:.75rem}
+        .tpl-msg{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.25rem;font-size:13.5px;color:#d4cfc9;line-height:1.7;white-space:pre-wrap;word-break:break-word;font-family:'DM Sans',sans-serif}
+        .tpl-field{color:var(--accent);font-weight:500}
+        .tpl-copy-btn{margin-top:.75rem;font-size:11px;padding:5px 14px;border-radius:4px;border:1px solid rgba(181,98,62,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all .15s}
+        .tpl-copy-btn:hover{background:rgba(181,98,62,0.1)}
+        .tpl-subject{font-size:12px;color:rgba(240,235,228,0.4);margin-bottom:.5rem;letter-spacing:.03em}
+        .tpl-subject strong{color:rgba(240,235,228,0.65)}
+      </style>
+
+      <div class="tpl-tabs">
+        <button class="tpl-tab active" onclick="tplSetTab('linkedin',this)">LinkedIn</button>
+        <button class="tpl-tab" onclick="tplSetTab('email',this)">E-mail</button>
+      </div>
+
+      <!-- LINKEDIN -->
+      <div class="tpl-panel active" id="tpl-linkedin">
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Candidate — Applied for a role</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Recruiter or Hiring Manager</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando você já se candidatou a uma vaga e quer reforçar seu interesse diretamente com o recrutador ou liderança da área.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>! Hope you're doing well.
+
+I recently applied for the <span class="tpl-field">[Job Title]</span> position and wanted to reach out directly to reinforce my interest. Joining <span class="tpl-field">[Company Name]</span> is truly one of my career goals, and I'm excited about this opportunity.
+
+Looking forward to connecting!
+
+Best,
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">No open role — Currently employed</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Recruiter</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando não há vaga aberta alinhada ao seu perfil, mas você quer estar no radar do recrutador.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>! Hope you're doing well.
+
+My name is <span class="tpl-field">[Your Name]</span>, and I work as a <span class="tpl-field">[Your Role]</span>. I'm not actively looking for new opportunities right now, but working at <span class="tpl-field">[Company Name]</span> has always been one of my career goals.
+
+I'd love to stay on your radar for when a role aligned with my background comes up.
+
+Thanks for connecting!
+
+Best,
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">No open role — Currently job seeking</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Recruiter</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando não há vaga aberta, você está buscando oportunidades e quer estar no radar do recrutador.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>! Hope you're doing well.
+
+My name is <span class="tpl-field">[Your Name]</span>, and I work as a <span class="tpl-field">[Your Role]</span>. I'm currently exploring new opportunities, and <span class="tpl-field">[Company Name]</span> has always been on my radar as a place where I'd love to grow.
+
+I'd be happy to connect and chat whenever a relevant role opens up.
+
+Thanks for your time!
+
+Best,
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">No open role — Hiring manager (employed)</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Hiring Manager</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando você está empregado e quer criar conexão diretamente com o gestor da área — personalize o primeiro parágrafo com algo real do perfil deles.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>! Hope you're doing well.
+
+<span class="tpl-field">[Add a personalized line — e.g., "I came across the article you shared on X and found it really insightful." or "I noticed you have experience with X, which is something I've been developing as well."]</span>
+
+My name is <span class="tpl-field">[Your Name]</span>, and I work as a <span class="tpl-field">[Your Role]</span>. I'm not actively looking for new opportunities, but joining <span class="tpl-field">[Company Name]</span> has long been a career goal of mine.
+
+I'd love to stay connected for when a role aligned with my background opens up.
+
+Thanks for your time!
+
+Best,
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">No open role — Hiring manager (job seeking)</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Hiring Manager</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando você está em busca ativa de oportunidades e quer criar conexão com o gestor da área — personalize o primeiro parágrafo.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>! Hope you're doing well.
+
+<span class="tpl-field">[Add a personalized line — e.g., "I came across the article you shared on X and found it really insightful." or "I noticed you have experience with X, which is something I've been developing as well."]</span>
+
+My name is <span class="tpl-field">[Your Name]</span>, and I work as a <span class="tpl-field">[Your Role]</span>. I'm currently exploring new opportunities, and <span class="tpl-field">[Company Name]</span> stands out as a place where I'd genuinely love to contribute.
+
+I'd be happy to connect whenever a relevant role opens up.
+
+Thanks for your time!
+
+Best,
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Career transition — Applied for a role</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Transição de Carreira</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Para profissionais em transição de carreira que já se candidataram a uma vaga em uma área nova.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>!
+
+I recently applied for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span> and wanted to introduce myself here as well.
+
+I'm currently transitioning from <span class="tpl-field">[Previous Field]</span>, where I spent <span class="tpl-field">[X years]</span>, into <span class="tpl-field">[New Field]</span>. I've been actively preparing for this shift through <span class="tpl-field">[e.g., courses, hands-on projects, mentoring]</span>, and I see <span class="tpl-field">[Company Name]</span> as a place where I could apply my background with a lot of energy and commitment.
+
+If it makes sense to connect, I'd love the chance to share more about my journey and motivation.
+
+Thanks so much — looking forward to it!
+
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Career transition — No open role</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Transição de Carreira</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Para profissionais em transição sem vaga aberta disponível — foco em se colocar no radar para oportunidades futuras.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>!
+
+I'm currently transitioning into <span class="tpl-field">[New Field]</span> and have been following <span class="tpl-field">[Company Name]</span> closely — I genuinely admire <span class="tpl-field">[something specific: culture, market presence, product]</span>.
+
+I come from a solid background in <span class="tpl-field">[Previous Field]</span>, with experience in <span class="tpl-field">[e.g., leadership, analysis, client relations]</span>, and I've been preparing for this shift through <span class="tpl-field">[courses, certifications, projects]</span>.
+
+Even if there's no open role right now, I'd love to be considered for future opportunities or simply have a brief introductory conversation.
+
+Thanks for your time!
+
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Career transition — Networking</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">Transição de Carreira</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Para networking com profissionais que já atuam na área de destino — foco em aprender, não em pedir emprego.</p>
+            <div class="tpl-msg">Hi, <span class="tpl-field">[First Name]</span>!
+
+I'm currently transitioning into <span class="tpl-field">[New Field]</span> and came across your profile — I noticed you work in this space at <span class="tpl-field">[Company / Market]</span>.
+
+I come from a background in <span class="tpl-field">[Previous Field]</span> and have been learning as much as I can about the challenges, most valued skills, and possible paths in this area.
+
+If you'd be open to a quick conversation or have any content or community suggestions for someone just getting started, that would already mean a lot.
+
+Thanks so much for your time!
+
+<span class="tpl-field">[Your Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- EMAIL -->
+      <div class="tpl-panel" id="tpl-email">
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Application Follow-up</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use após enviar uma candidatura sem retorno — para verificar o status da aplicação.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Follow Up on [Job Title] Interview at [Company Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I hope this email finds you well. I wanted to follow up on my recent application for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span>. I am very enthusiastic about the opportunity to contribute my skills and experience to your team.
+
+Can you provide an update on the status of my application? I appreciate your time and consideration.
+
+Thank you,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Thank You Letter</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Envie após a entrevista — dentro de 24h — para agradecer e reforçar interesse.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Thank You for [Job Title] Interview at [Company Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Interviewer's Name]</span>,
+
+I would like to extend my sincere gratitude for the opportunity to interview for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span>. It was a pleasure discussing how my skills and experiences align with the needs of your team.
+
+I am enthusiastic about the possibility of joining <span class="tpl-field">[Company Name]</span> and contributing to its continued success. Thank you for your time and consideration.
+
+Best regards,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Interview Follow-up</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando o processo está em andamento e você quer manter contato e reforçar interesse.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Thank You for the Interview - [Your Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Interviewer's Name or Hiring Manager's Name]</span>,
+
+I hope this email finds you well. I wanted to express my sincere gratitude for the opportunity to interview for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span> on <span class="tpl-field">[Interview Date]</span>. It was a pleasure meeting you and the team and learning more about your organization.
+
+I would like to reiterate my strong interest in the <span class="tpl-field">[Job Title]</span> position and my enthusiasm for the chance to contribute to <span class="tpl-field">[Company Name]</span>'s continued success. If there are any additional materials or information needed from my end, please do not hesitate to let me know.
+
+I look forward to hearing about the progress of the hiring process and hope to have the opportunity to work with the team at <span class="tpl-field">[Company Name]</span>.
+
+Thank you once again for your time and consideration.
+
+Sincerely,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Reschedule Interview</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando precisar remarcar uma entrevista já agendada.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Request for Interview Rescheduling - [Your Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I hope this email finds you well. Unfortunately, I am experiencing unforeseen circumstances and would like to request the rescheduling of my upcoming interview for the <span class="tpl-field">[Job Title]</span> position. I apologize for any inconvenience this may cause and appreciate your understanding.
+
+Please let me know if there are alternative dates and times that would be convenient for the rescheduled interview.
+
+Thank you,
+<span class="tpl-field">[Your Full Name]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Decline Next Stage</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use quando decidir se retirar do processo seletivo de forma respeitosa.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Grateful Acknowledgment and Withdrawal from Process</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I want to express my gratitude for the opportunity to interview for the <span class="tpl-field">[Job Title]</span> position. After careful consideration, I have decided to withdraw from the process at this time. I appreciate the time and effort invested in my candidacy.
+
+Thank you for your understanding.
+
+Sincerely,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Salary Negotiation</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use após receber uma oferta para negociar o salário de forma profissional.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Offer Discussion - [Job Title] - [Your Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I am excited about the opportunity to join <span class="tpl-field">[Company Name]</span> as the <span class="tpl-field">[Job Title]</span>. I have thoroughly enjoyed our discussions and believe my skills align well with the role.
+
+Before finalizing any details, I would like to discuss the possibility of adjusting the salary to <span class="tpl-field">[Your Desired Salary]</span>. I am confident that with my experience and contributions, I can bring significant value to the team.
+
+I look forward to further discussions on this matter.
+
+Best regards,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Decline Offer</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use para recusar uma oferta de emprego mantendo o relacionamento profissional.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Grateful Decline of Job Offer</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I want to express my sincere gratitude for extending the offer for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span>. After careful consideration, I have decided to decline the offer at this time.
+
+I appreciate your understanding and hope our paths cross again in the future.
+
+Best wishes,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+        <div class="tpl-card" onclick="tplToggle(this)">
+          <div class="tpl-card-hdr">
+            <span class="tpl-card-title">Accept Offer</span>
+            <div style="display:flex;align-items:center;gap:8px"><span class="tpl-card-tag">E-mail</span><span class="tpl-card-arrow">▾</span></div>
+          </div>
+          <div class="tpl-card-body">
+            <p class="tpl-instr">Use para aceitar formalmente uma oferta de emprego.</p>
+            <p class="tpl-subject"><strong>Subject:</strong> Acceptance of Job Offer - [Job Title] - [Your Name]</p>
+            <div class="tpl-msg">Dear <span class="tpl-field">[Hiring Manager's Name]</span>,
+
+I am thrilled to accept the offer for the <span class="tpl-field">[Job Title]</span> position at <span class="tpl-field">[Company Name]</span>. I am eager to contribute to the success of the team and am excited about the opportunity to work with such a reputable company.
+
+Please provide details about the next steps and any paperwork required to formalize the acceptance.
+
+Thank you once again for this incredible opportunity.
+
+Best regards,
+<span class="tpl-field">[Your Full Name]</span>
+<span class="tpl-field">[Your Contact Information]</span></div>
+            <button class="tpl-copy-btn" onclick="event.stopPropagation();tplCopy(this)">Copy message</button>
+          </div>
+        </div>
+
+      </div>
+
+      <script>
+        function tplSetTab(id, btn) {
+          document.querySelectorAll('.tpl-tab').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tpl-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tpl-' + id).classList.add('active');
+        }
+        function tplToggle(card) {
+          card.classList.toggle('open');
+        }
+        function tplCopy(btn) {
+          const msg = btn.previousElementSibling;
+          const text = msg.innerText;
+          navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy message', 2000);
+          }).catch(() => {
+            btn.textContent = 'Copy failed';
+            setTimeout(() => btn.textContent = 'Copy message', 2000);
+          });
+        }
+      </script>
+
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Visão da Mentora</div>
@@ -7450,7 +7868,7 @@
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','coaching','funil','crm','candidaturas','mentorados','apps'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','templates','coaching','funil','crm','candidaturas','mentorados','apps'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -7473,6 +7891,7 @@
       if (sid === 'candidaturas' && typeof candRenderAll === 'function') {
         setTimeout(candRenderAll, 0);
       }
+      // templates section is static, no render needed
     });
 
     // Restore mentor-only visibility
@@ -7888,6 +8307,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       { id: 'tips',       icon: '💡', label: 'Dicas Práticas' },
       { id: 'links',      icon: '🔗', label: 'Links Úteis' },
       { id: 'biblioteca', icon: '📚', label: 'Biblioteca de Conteúdos' },
+      { id: 'templates', icon: '✉️', label: 'Templates de Abordagem' },
     ]},
 
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
