@@ -11390,11 +11390,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     clearTimeout(kbSaveTimer);
     kbSaveTimer = setTimeout(async function() {
       try {
-        var res = await sb.from('kanban_cards').upsert({
-          owner_key: 'raquel',
-          cards: JSON.stringify({ cards: kbCards, nextId: kbNextId }),
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'owner_key' });
+        var payload = JSON.stringify({ cards: kbCards, nextId: kbNextId });
+        var res = await sb.from('kanban_cards')
+          .update({ cards: payload, updated_at: new Date().toISOString() })
+          .eq('owner_key', 'raquel');
         if (res.error) throw new Error(res.error.message);
         if (savingEl) savingEl.textContent = 'Salvo';
         setTimeout(function(){ if (savingEl) savingEl.textContent = ''; }, 2000);
@@ -11402,7 +11401,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         if (savingEl) savingEl.textContent = 'Erro: ' + e.message;
         console.error('kbSave error:', e);
       }
-    }, 1000);
+    }, 800);
   }
 
   async function kbLoad() {
