@@ -1200,6 +1200,7 @@
       <div class="section" id="links"></div>
       <div class="section" id="biblioteca"></div>
       <div class="section" id="templates"></div>
+      <div class="section mentor-only" id="social"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
       <div class="section" id="apps"></div>
@@ -4666,6 +4667,210 @@ Best regards,
       </div>
 
     </div>`,
+      'social': `<div class="section" id="social">
+      <style>
+        .soc-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:12px;flex-wrap:wrap}
+        .soc-tabs{display:flex;gap:6px}
+        .soc-tab{font-size:12px;font-weight:500;padding:6px 16px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#9a9591;cursor:pointer;transition:all .15s}
+        .soc-tab.active{background:rgba(181,98,62,0.15);border-color:#b5623e;color:#b5623e}
+        .soc-actions{display:flex;gap:8px;align-items:center}
+        .soc-filter{font-size:12px;padding:5px 12px;border-radius:6px;border:1px solid #3a3734;background:#1e1c1a;color:#d4cfc9;cursor:pointer}
+        .soc-btn-new{font-size:12px;font-weight:500;padding:6px 16px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer;transition:all .15s}
+        .soc-btn-new:hover{background:#a04d30}
+
+        /* KANBAN */
+        .soc-kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+        .soc-col{background:#1a1816;border:1px solid #2a2724;border-radius:10px;padding:.75rem}
+        .soc-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+        .soc-col-nm{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6a6560}
+        .soc-col-bdg{font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;background:#252220;color:#9a9591}
+        .soc-card{background:#252220;border:1px solid #3a3734;border-radius:8px;padding:.85rem;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+        .soc-card:hover{border-color:#b5623e}
+        .soc-card-top{display:flex;align-items:center;gap:6px;margin-bottom:.5rem}
+        .soc-badge-rede{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+        .soc-badge-li{background:rgba(10,102,194,0.15);color:#4a9fd4;border:1px solid rgba(10,102,194,0.2)}
+        .soc-badge-ig{background:rgba(193,53,132,0.12);color:#d4609a;border:1px solid rgba(193,53,132,0.2)}
+        .soc-badge-tipo{font-size:10px;padding:2px 8px;border-radius:10px;background:#2a2724;color:#6a6560;border:1px solid #3a3734}
+        .soc-card-data{font-size:11px;color:#6a6560;margin-left:auto;flex-shrink:0}
+        .soc-card-txt{font-size:13px;color:#d4cfc9;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+        .soc-card-metrics{display:flex;gap:10px;margin-top:.6rem;padding-top:.6rem;border-top:1px solid #2a2724}
+        .soc-metric{font-size:11px;color:#6a6560}
+        .soc-metric span{color:#9a9591;font-weight:500}
+
+        /* CALENDÁRIO */
+        .soc-cal{display:none}
+        .soc-cal.active{display:block}
+        .soc-cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+        .soc-cal-title{font-size:15px;font-weight:500;color:#f0ede8}
+        .soc-cal-btn{background:transparent;border:1px solid #3a3734;color:#9a9591;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+        .soc-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+        .soc-cal-day-hd{text-align:center;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6a6560;padding:4px}
+        .soc-cal-day{min-height:72px;background:#1a1816;border:1px solid #2a2724;border-radius:6px;padding:4px;position:relative}
+        .soc-cal-day.today{border-color:rgba(181,98,62,0.4)}
+        .soc-cal-day.other-month{opacity:.35}
+        .soc-cal-day-num{font-size:11px;color:#6a6560;margin-bottom:3px}
+        .soc-cal-pill{font-size:10px;padding:1px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+        .soc-cal-pill-li{background:rgba(10,102,194,0.2);color:#4a9fd4}
+        .soc-cal-pill-ig{background:rgba(193,53,132,0.15);color:#d4609a}
+
+        /* MODAL */
+        .soc-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:999;align-items:center;justify-content:center}
+        .soc-modal-bg.open{display:flex}
+        .soc-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto}
+        .soc-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2a2724;position:sticky;top:0;background:#1e1c1a;z-index:1}
+        .soc-modal-title{font-size:15px;font-weight:600;color:#f0ede8}
+        .soc-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;font-size:18px;cursor:pointer;line-height:1}
+        .soc-modal-body{padding:1.25rem 1.5rem}
+        .soc-form-group{margin-bottom:1rem}
+        .soc-form-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#b5623e;margin-bottom:.4rem}
+        .soc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+        .soc-form-input,.soc-form-select,.soc-form-textarea{width:100%;background:#141210;border:1px solid #3a3734;border-radius:6px;padding:9px 12px;font-size:13px;color:#d4cfc9;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+        .soc-form-input:focus,.soc-form-select:focus,.soc-form-textarea:focus{border-color:#b5623e}
+        .soc-form-textarea{min-height:100px;resize:vertical}
+        .soc-form-select{appearance:none;cursor:pointer}
+        .soc-metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+        .soc-metric-input{text-align:center}
+        .soc-modal-footer{display:flex;gap:8px;justify-content:flex-end;padding:.75rem 1.5rem 1.25rem}
+        .soc-btn-del{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:rgba(220,60,60,0.7);cursor:pointer;margin-right:auto}
+        .soc-btn-cancel{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;cursor:pointer}
+        .soc-btn-save{font-size:12px;font-weight:500;padding:7px 18px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer}
+        .soc-empty{text-align:center;padding:2.5rem;color:#4a4540;font-size:14px}
+      </style>
+
+      <div class="section-intro">
+        <div class="tag">Marketing</div>
+        <h2>Redes Sociais</h2>
+        <p>Organize suas postagens no LinkedIn e Instagram — calendário editorial e acompanhamento de métricas.</p>
+      </div>
+
+      <div class="soc-toolbar">
+        <div class="soc-tabs">
+          <button class="soc-tab active" onclick="socSetView('kanban',this)">Kanban</button>
+          <button class="soc-tab" onclick="socSetView('cal',this)">Calendário</button>
+        </div>
+        <div class="soc-actions">
+          <select class="soc-filter" id="soc-filter-rede" onchange="socRender()">
+            <option value="all">Todas as redes</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Instagram">Instagram</option>
+          </select>
+          <button class="soc-btn-new" onclick="socOpenModal()">+ Novo post</button>
+        </div>
+      </div>
+
+      <!-- KANBAN -->
+      <div id="soc-kanban">
+        <div class="soc-kanban">
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Rascunho</span><span class="soc-col-bdg" id="soc-bdg-rascunho">0</span></div>
+            <div id="soc-col-rascunho"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Agendado</span><span class="soc-col-bdg" id="soc-bdg-agendado">0</span></div>
+            <div id="soc-col-agendado"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Publicado</span><span class="soc-col-bdg" id="soc-bdg-publicado">0</span></div>
+            <div id="soc-col-publicado"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDÁRIO -->
+      <div id="soc-cal" class="soc-cal">
+        <div class="soc-cal-nav">
+          <button class="soc-cal-btn" onclick="socCalNav(-1)">← Anterior</button>
+          <span class="soc-cal-title" id="soc-cal-title"></span>
+          <button class="soc-cal-btn" onclick="socCalNav(1)">Próximo →</button>
+        </div>
+        <div class="soc-cal-grid">
+          <div class="soc-cal-day-hd">Dom</div>
+          <div class="soc-cal-day-hd">Seg</div>
+          <div class="soc-cal-day-hd">Ter</div>
+          <div class="soc-cal-day-hd">Qua</div>
+          <div class="soc-cal-day-hd">Qui</div>
+          <div class="soc-cal-day-hd">Sex</div>
+          <div class="soc-cal-day-hd">Sáb</div>
+        </div>
+        <div class="soc-cal-grid" id="soc-cal-days" style="margin-top:4px"></div>
+      </div>
+
+      <!-- MODAL -->
+      <div class="soc-modal-bg" id="soc-modal-bg" onclick="if(event.target===this)socCloseModal()">
+        <div class="soc-modal">
+          <div class="soc-modal-hdr">
+            <span class="soc-modal-title" id="soc-modal-title">Novo post</span>
+            <button class="soc-modal-close" onclick="socCloseModal()">×</button>
+          </div>
+          <div class="soc-modal-body">
+            <div class="soc-form-row">
+              <div class="soc-form-group">
+                <label class="soc-form-label">Rede social</label>
+                <select class="soc-form-select" id="soc-f-rede">
+                  <option value="LinkedIn">LinkedIn</option>
+                  <option value="Instagram">Instagram</option>
+                </select>
+              </div>
+              <div class="soc-form-group">
+                <label class="soc-form-label">Tipo de conteúdo</label>
+                <select class="soc-form-select" id="soc-f-tipo">
+                  <option value="texto">Texto</option>
+                  <option value="carrossel">Carrossel</option>
+                  <option value="vídeo">Vídeo</option>
+                  <option value="imagem">Imagem</option>
+                  <option value="reels">Reels</option>
+                </select>
+              </div>
+            </div>
+            <div class="soc-form-row">
+              <div class="soc-form-group">
+                <label class="soc-form-label">Data de publicação</label>
+                <input class="soc-form-input" type="date" id="soc-f-data">
+              </div>
+              <div class="soc-form-group">
+                <label class="soc-form-label">Status</label>
+                <select class="soc-form-select" id="soc-f-status">
+                  <option value="rascunho">Rascunho</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="publicado">Publicado</option>
+                </select>
+              </div>
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Legenda / Texto do post</label>
+              <textarea class="soc-form-textarea" id="soc-f-legenda" placeholder="Escreva o texto do post aqui..."></textarea>
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Notas internas</label>
+              <input class="soc-form-input" type="text" id="soc-f-notas" placeholder="Referências, hashtags, lembretes...">
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Métricas (após publicar)</label>
+              <div class="soc-metrics-grid">
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Curtidas</label>
+                  <input class="soc-form-input" type="number" id="soc-f-curtidas" min="0" value="0">
+                </div>
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Alcance</label>
+                  <input class="soc-form-input" type="number" id="soc-f-alcance" min="0" value="0">
+                </div>
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Comentários</label>
+                  <input class="soc-form-input" type="number" id="soc-f-comentarios" min="0" value="0">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="soc-modal-footer">
+            <button class="soc-btn-del" id="soc-btn-del" style="display:none" onclick="socDelete()">✕ Deletar</button>
+            <button class="soc-btn-cancel" onclick="socCloseModal()">Cancelar</button>
+            <button class="soc-btn-save" onclick="socSave()">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Visão da Mentora</div>
@@ -7783,6 +7988,210 @@ Best regards,
       </div>
 
     </div>`,
+      'social': `<div class="section" id="social">
+      <style>
+        .soc-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:12px;flex-wrap:wrap}
+        .soc-tabs{display:flex;gap:6px}
+        .soc-tab{font-size:12px;font-weight:500;padding:6px 16px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#9a9591;cursor:pointer;transition:all .15s}
+        .soc-tab.active{background:rgba(181,98,62,0.15);border-color:#b5623e;color:#b5623e}
+        .soc-actions{display:flex;gap:8px;align-items:center}
+        .soc-filter{font-size:12px;padding:5px 12px;border-radius:6px;border:1px solid #3a3734;background:#1e1c1a;color:#d4cfc9;cursor:pointer}
+        .soc-btn-new{font-size:12px;font-weight:500;padding:6px 16px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer;transition:all .15s}
+        .soc-btn-new:hover{background:#a04d30}
+
+        /* KANBAN */
+        .soc-kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+        .soc-col{background:#1a1816;border:1px solid #2a2724;border-radius:10px;padding:.75rem}
+        .soc-col-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+        .soc-col-nm{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6a6560}
+        .soc-col-bdg{font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;background:#252220;color:#9a9591}
+        .soc-card{background:#252220;border:1px solid #3a3734;border-radius:8px;padding:.85rem;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+        .soc-card:hover{border-color:#b5623e}
+        .soc-card-top{display:flex;align-items:center;gap:6px;margin-bottom:.5rem}
+        .soc-badge-rede{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+        .soc-badge-li{background:rgba(10,102,194,0.15);color:#4a9fd4;border:1px solid rgba(10,102,194,0.2)}
+        .soc-badge-ig{background:rgba(193,53,132,0.12);color:#d4609a;border:1px solid rgba(193,53,132,0.2)}
+        .soc-badge-tipo{font-size:10px;padding:2px 8px;border-radius:10px;background:#2a2724;color:#6a6560;border:1px solid #3a3734}
+        .soc-card-data{font-size:11px;color:#6a6560;margin-left:auto;flex-shrink:0}
+        .soc-card-txt{font-size:13px;color:#d4cfc9;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+        .soc-card-metrics{display:flex;gap:10px;margin-top:.6rem;padding-top:.6rem;border-top:1px solid #2a2724}
+        .soc-metric{font-size:11px;color:#6a6560}
+        .soc-metric span{color:#9a9591;font-weight:500}
+
+        /* CALENDÁRIO */
+        .soc-cal{display:none}
+        .soc-cal.active{display:block}
+        .soc-cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+        .soc-cal-title{font-size:15px;font-weight:500;color:#f0ede8}
+        .soc-cal-btn{background:transparent;border:1px solid #3a3734;color:#9a9591;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:13px}
+        .soc-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+        .soc-cal-day-hd{text-align:center;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6a6560;padding:4px}
+        .soc-cal-day{min-height:72px;background:#1a1816;border:1px solid #2a2724;border-radius:6px;padding:4px;position:relative}
+        .soc-cal-day.today{border-color:rgba(181,98,62,0.4)}
+        .soc-cal-day.other-month{opacity:.35}
+        .soc-cal-day-num{font-size:11px;color:#6a6560;margin-bottom:3px}
+        .soc-cal-pill{font-size:10px;padding:1px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+        .soc-cal-pill-li{background:rgba(10,102,194,0.2);color:#4a9fd4}
+        .soc-cal-pill-ig{background:rgba(193,53,132,0.15);color:#d4609a}
+
+        /* MODAL */
+        .soc-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:999;align-items:center;justify-content:center}
+        .soc-modal-bg.open{display:flex}
+        .soc-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto}
+        .soc-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2a2724;position:sticky;top:0;background:#1e1c1a;z-index:1}
+        .soc-modal-title{font-size:15px;font-weight:600;color:#f0ede8}
+        .soc-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;font-size:18px;cursor:pointer;line-height:1}
+        .soc-modal-body{padding:1.25rem 1.5rem}
+        .soc-form-group{margin-bottom:1rem}
+        .soc-form-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#b5623e;margin-bottom:.4rem}
+        .soc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+        .soc-form-input,.soc-form-select,.soc-form-textarea{width:100%;background:#141210;border:1px solid #3a3734;border-radius:6px;padding:9px 12px;font-size:13px;color:#d4cfc9;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+        .soc-form-input:focus,.soc-form-select:focus,.soc-form-textarea:focus{border-color:#b5623e}
+        .soc-form-textarea{min-height:100px;resize:vertical}
+        .soc-form-select{appearance:none;cursor:pointer}
+        .soc-metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+        .soc-metric-input{text-align:center}
+        .soc-modal-footer{display:flex;gap:8px;justify-content:flex-end;padding:.75rem 1.5rem 1.25rem}
+        .soc-btn-del{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:rgba(220,60,60,0.7);cursor:pointer;margin-right:auto}
+        .soc-btn-cancel{font-size:12px;padding:7px 14px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;cursor:pointer}
+        .soc-btn-save{font-size:12px;font-weight:500;padding:7px 18px;border-radius:6px;border:none;background:#b5623e;color:#fff;cursor:pointer}
+        .soc-empty{text-align:center;padding:2.5rem;color:#4a4540;font-size:14px}
+      </style>
+
+      <div class="section-intro">
+        <div class="tag">Marketing</div>
+        <h2>Redes Sociais</h2>
+        <p>Organize suas postagens no LinkedIn e Instagram — calendário editorial e acompanhamento de métricas.</p>
+      </div>
+
+      <div class="soc-toolbar">
+        <div class="soc-tabs">
+          <button class="soc-tab active" onclick="socSetView('kanban',this)">Kanban</button>
+          <button class="soc-tab" onclick="socSetView('cal',this)">Calendário</button>
+        </div>
+        <div class="soc-actions">
+          <select class="soc-filter" id="soc-filter-rede" onchange="socRender()">
+            <option value="all">Todas as redes</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Instagram">Instagram</option>
+          </select>
+          <button class="soc-btn-new" onclick="socOpenModal()">+ Novo post</button>
+        </div>
+      </div>
+
+      <!-- KANBAN -->
+      <div id="soc-kanban">
+        <div class="soc-kanban">
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Rascunho</span><span class="soc-col-bdg" id="soc-bdg-rascunho">0</span></div>
+            <div id="soc-col-rascunho"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Agendado</span><span class="soc-col-bdg" id="soc-bdg-agendado">0</span></div>
+            <div id="soc-col-agendado"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+          <div class="soc-col">
+            <div class="soc-col-hd"><span class="soc-col-nm">Publicado</span><span class="soc-col-bdg" id="soc-bdg-publicado">0</span></div>
+            <div id="soc-col-publicado"><div class="soc-empty">Nenhum post</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDÁRIO -->
+      <div id="soc-cal" class="soc-cal">
+        <div class="soc-cal-nav">
+          <button class="soc-cal-btn" onclick="socCalNav(-1)">← Anterior</button>
+          <span class="soc-cal-title" id="soc-cal-title"></span>
+          <button class="soc-cal-btn" onclick="socCalNav(1)">Próximo →</button>
+        </div>
+        <div class="soc-cal-grid">
+          <div class="soc-cal-day-hd">Dom</div>
+          <div class="soc-cal-day-hd">Seg</div>
+          <div class="soc-cal-day-hd">Ter</div>
+          <div class="soc-cal-day-hd">Qua</div>
+          <div class="soc-cal-day-hd">Qui</div>
+          <div class="soc-cal-day-hd">Sex</div>
+          <div class="soc-cal-day-hd">Sáb</div>
+        </div>
+        <div class="soc-cal-grid" id="soc-cal-days" style="margin-top:4px"></div>
+      </div>
+
+      <!-- MODAL -->
+      <div class="soc-modal-bg" id="soc-modal-bg" onclick="if(event.target===this)socCloseModal()">
+        <div class="soc-modal">
+          <div class="soc-modal-hdr">
+            <span class="soc-modal-title" id="soc-modal-title">Novo post</span>
+            <button class="soc-modal-close" onclick="socCloseModal()">×</button>
+          </div>
+          <div class="soc-modal-body">
+            <div class="soc-form-row">
+              <div class="soc-form-group">
+                <label class="soc-form-label">Rede social</label>
+                <select class="soc-form-select" id="soc-f-rede">
+                  <option value="LinkedIn">LinkedIn</option>
+                  <option value="Instagram">Instagram</option>
+                </select>
+              </div>
+              <div class="soc-form-group">
+                <label class="soc-form-label">Tipo de conteúdo</label>
+                <select class="soc-form-select" id="soc-f-tipo">
+                  <option value="texto">Texto</option>
+                  <option value="carrossel">Carrossel</option>
+                  <option value="vídeo">Vídeo</option>
+                  <option value="imagem">Imagem</option>
+                  <option value="reels">Reels</option>
+                </select>
+              </div>
+            </div>
+            <div class="soc-form-row">
+              <div class="soc-form-group">
+                <label class="soc-form-label">Data de publicação</label>
+                <input class="soc-form-input" type="date" id="soc-f-data">
+              </div>
+              <div class="soc-form-group">
+                <label class="soc-form-label">Status</label>
+                <select class="soc-form-select" id="soc-f-status">
+                  <option value="rascunho">Rascunho</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="publicado">Publicado</option>
+                </select>
+              </div>
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Legenda / Texto do post</label>
+              <textarea class="soc-form-textarea" id="soc-f-legenda" placeholder="Escreva o texto do post aqui..."></textarea>
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Notas internas</label>
+              <input class="soc-form-input" type="text" id="soc-f-notas" placeholder="Referências, hashtags, lembretes...">
+            </div>
+            <div class="soc-form-group">
+              <label class="soc-form-label">Métricas (após publicar)</label>
+              <div class="soc-metrics-grid">
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Curtidas</label>
+                  <input class="soc-form-input" type="number" id="soc-f-curtidas" min="0" value="0">
+                </div>
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Alcance</label>
+                  <input class="soc-form-input" type="number" id="soc-f-alcance" min="0" value="0">
+                </div>
+                <div class="soc-metric-input">
+                  <label class="soc-form-label" style="text-align:center">Comentários</label>
+                  <input class="soc-form-input" type="number" id="soc-f-comentarios" min="0" value="0">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="soc-modal-footer">
+            <button class="soc-btn-del" id="soc-btn-del" style="display:none" onclick="socDelete()">✕ Deletar</button>
+            <button class="soc-btn-cancel" onclick="socCloseModal()">Cancelar</button>
+            <button class="soc-btn-save" onclick="socSave()">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
         <div class="tag">Mentor View</div>
@@ -8239,7 +8648,7 @@ Best regards,
     const activeId = activeEl ? activeEl.id : 'intro';
 
     // Re-render all section shells with translated content
-    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','templates','coaching','funil','crm','candidaturas','mentorados','apps'];
+    const sectionIds = ['intro','positioning','behavioral','situational','motivation','closing','salary','tips','linkedin','ssi','cv','coverletter','links','biblioteca','templates','social','coaching','funil','crm','candidaturas','mentorados','apps'];
     sectionIds.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el || !SECTIONS[lang][sid]) return;
@@ -8263,6 +8672,9 @@ Best regards,
         setTimeout(candRenderAll, 0);
       }
       // templates section is static, no render needed
+      if (sid === 'social' && typeof socFetch === 'function') {
+        setTimeout(socFetch, 0);
+      }
     });
 
     // Restore mentor-only visibility
@@ -8684,6 +9096,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
       { id: 'apps', icon: '📋', label: 'Minhas Candidaturas' },
     ]},
+    marketing: { icon: '📣', label: 'Marketing', subs: [
+      { id: 'social', icon: '📱', label: 'Redes Sociais' },
+    ]},
     mentora: { icon: '👤', label: 'Mentora', subs: [
       { id: 'coaching',   icon: '🧠', label: 'Coaching' },
       { id: 'mentorados', icon: '👥', label: 'Mentorados' },
@@ -8697,7 +9112,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   const NG_MODES = {
     mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos','apps_grupo'] },
-    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','mentora','vendas'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','marketing','mentora','vendas'] },
   };
 
   let ngActiveGroup = null;
@@ -10305,6 +10720,196 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       btn.textContent = 'Copy failed';
       setTimeout(function(){ btn.textContent = 'Copy message'; }, 2000);
     });
+  };
+
+
+  // ── REDES SOCIAIS ────────────────────────────────────────────────────────────
+  window.socPosts = [];
+  window.socSelId = null;
+  window.socView = 'kanban';
+  window.socCalDate = new Date();
+
+  const SUPABASE_URL_SOC = 'https://ruyyanefahvhqdambsis.supabase.co';
+  const SUPABASE_KEY_SOC = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
+
+  window.socFetch = async function() {
+    try {
+      const res = await fetch(SUPABASE_URL_SOC + '/rest/v1/posts_sociais?order=data_post.asc', {
+        headers: { 'apikey': SUPABASE_KEY_SOC, 'Authorization': 'Bearer ' + SUPABASE_KEY_SOC }
+      });
+      window.socPosts = await res.json();
+      window.socRender();
+    } catch(e) { console.error('socFetch:', e); }
+  };
+
+  window.socRender = function() {
+    const rede = (document.getElementById('soc-filter-rede') || {}).value || 'all';
+    const posts = rede === 'all' ? window.socPosts : window.socPosts.filter(p => p.rede === rede);
+    if (window.socView === 'kanban') window.socRenderKanban(posts);
+    else window.socRenderCal(posts);
+  };
+
+  window.socRenderKanban = function(posts) {
+    const cols = { rascunho: [], agendado: [], publicado: [] };
+    posts.forEach(p => { if (cols[p.status]) cols[p.status].push(p); });
+    ['rascunho','agendado','publicado'].forEach(st => {
+      const col = document.getElementById('soc-col-' + st);
+      const bdg = document.getElementById('soc-bdg-' + st);
+      if (!col) return;
+      if (bdg) bdg.textContent = cols[st].length;
+      if (!cols[st].length) { col.innerHTML = '<div class="soc-empty">Nenhum post</div>'; return; }
+      col.innerHTML = cols[st].map(p => {
+        const redeCls = p.rede === 'LinkedIn' ? 'soc-badge-li' : 'soc-badge-ig';
+        const dataFmt = p.data_post ? new Date(p.data_post + 'T12:00:00').toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit'}) : '';
+        const metricas = p.status === 'publicado' ? `<div class="soc-card-metrics">
+          <span class="soc-metric">♥ <span>${p.curtidas||0}</span></span>
+          <span class="soc-metric">👁 <span>${p.alcance||0}</span></span>
+          <span class="soc-metric">💬 <span>${p.comentarios||0}</span></span>
+        </div>` : '';
+        return `<div class="soc-card" onclick="socOpenModal('${p.id}')">
+          <div class="soc-card-top">
+            <span class="soc-badge-rede ${redeCls}">${p.rede}</span>
+            <span class="soc-badge-tipo">${p.tipo||''}</span>
+            <span class="soc-card-data">${dataFmt}</span>
+          </div>
+          <div class="soc-card-txt">${p.legenda||'<em style="color:#4a4540">Sem texto</em>'}</div>
+          ${metricas}
+        </div>`;
+      }).join('');
+    });
+  };
+
+  window.socRenderCal = function(posts) {
+    const d = window.socCalDate;
+    const title = document.getElementById('soc-cal-title');
+    if (title) title.textContent = d.toLocaleDateString('pt-BR', {month:'long', year:'numeric'});
+    const grid = document.getElementById('soc-cal-days');
+    if (!grid) return;
+    const year = d.getFullYear(), month = d.getMonth();
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month + 1, 0);
+    const today = new Date().toDateString();
+    let days = [];
+    for (let i = 0; i < first.getDay(); i++) {
+      const prev = new Date(year, month, -first.getDay() + i + 1);
+      days.push({ date: prev, otherMonth: true });
+    }
+    for (let i = 1; i <= last.getDate(); i++) days.push({ date: new Date(year, month, i), otherMonth: false });
+    while (days.length % 7 !== 0) {
+      const next = new Date(year, month + 1, days.length - last.getDate() - first.getDay() + 1);
+      days.push({ date: next, otherMonth: true });
+    }
+    grid.innerHTML = days.map(({ date, otherMonth }) => {
+      const dateStr = date.toISOString().slice(0,10);
+      const isToday = date.toDateString() === today;
+      const dayPosts = posts.filter(p => p.data_post === dateStr);
+      const pills = dayPosts.map(p => {
+        const cls = p.rede === 'LinkedIn' ? 'soc-cal-pill-li' : 'soc-cal-pill-ig';
+        return `<div class="soc-cal-pill ${cls}" onclick="socOpenModal('${p.id}')">${p.rede.slice(0,2)} ${p.tipo||''}</div>`;
+      }).join('');
+      return `<div class="soc-cal-day${otherMonth?' other-month':''}${isToday?' today':''}">
+        <div class="soc-cal-day-num">${date.getDate()}</div>
+        ${pills}
+      </div>`;
+    }).join('');
+  };
+
+  window.socSetView = function(view, btn) {
+    window.socView = view;
+    document.querySelectorAll('.soc-tab').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    document.getElementById('soc-kanban').style.display = view === 'kanban' ? '' : 'none';
+    const cal = document.getElementById('soc-cal');
+    if (cal) { cal.style.display = view === 'cal' ? '' : 'none'; cal.classList.toggle('active', view === 'cal'); }
+    window.socRender();
+  };
+
+  window.socCalNav = function(dir) {
+    window.socCalDate.setMonth(window.socCalDate.getMonth() + dir);
+    window.socRender();
+  };
+
+  window.socOpenModal = function(id) {
+    window.socSelId = id || null;
+    const del = document.getElementById('soc-btn-del');
+    const title = document.getElementById('soc-modal-title');
+    if (id) {
+      const p = window.socPosts.find(x => x.id === id);
+      if (!p) return;
+      if (title) title.textContent = 'Editar post';
+      if (del) del.style.display = '';
+      document.getElementById('soc-f-rede').value = p.rede || 'LinkedIn';
+      document.getElementById('soc-f-tipo').value = p.tipo || 'texto';
+      document.getElementById('soc-f-data').value = p.data_post || '';
+      document.getElementById('soc-f-status').value = p.status || 'rascunho';
+      document.getElementById('soc-f-legenda').value = p.legenda || '';
+      document.getElementById('soc-f-notas').value = p.notas || '';
+      document.getElementById('soc-f-curtidas').value = p.curtidas || 0;
+      document.getElementById('soc-f-alcance').value = p.alcance || 0;
+      document.getElementById('soc-f-comentarios').value = p.comentarios || 0;
+    } else {
+      if (title) title.textContent = 'Novo post';
+      if (del) del.style.display = 'none';
+      document.getElementById('soc-f-rede').value = 'LinkedIn';
+      document.getElementById('soc-f-tipo').value = 'texto';
+      document.getElementById('soc-f-data').value = '';
+      document.getElementById('soc-f-status').value = 'rascunho';
+      document.getElementById('soc-f-legenda').value = '';
+      document.getElementById('soc-f-notas').value = '';
+      document.getElementById('soc-f-curtidas').value = 0;
+      document.getElementById('soc-f-alcance').value = 0;
+      document.getElementById('soc-f-comentarios').value = 0;
+    }
+    document.getElementById('soc-modal-bg').classList.add('open');
+  };
+
+  window.socCloseModal = function() {
+    document.getElementById('soc-modal-bg').classList.remove('open');
+    window.socSelId = null;
+  };
+
+  window.socSave = async function() {
+    const payload = {
+      rede: document.getElementById('soc-f-rede').value,
+      tipo: document.getElementById('soc-f-tipo').value,
+      data_post: document.getElementById('soc-f-data').value || null,
+      status: document.getElementById('soc-f-status').value,
+      legenda: document.getElementById('soc-f-legenda').value,
+      notas: document.getElementById('soc-f-notas').value,
+      curtidas: parseInt(document.getElementById('soc-f-curtidas').value)||0,
+      alcance: parseInt(document.getElementById('soc-f-alcance').value)||0,
+      comentarios: parseInt(document.getElementById('soc-f-comentarios').value)||0
+    };
+    try {
+      let res;
+      if (window.socSelId) {
+        res = await fetch(SUPABASE_URL_SOC + '/rest/v1/posts_sociais?id=eq.' + window.socSelId, {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY_SOC, 'Authorization': 'Bearer ' + SUPABASE_KEY_SOC, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify(payload)
+        });
+      } else {
+        res = await fetch(SUPABASE_URL_SOC + '/rest/v1/posts_sociais', {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_KEY_SOC, 'Authorization': 'Bearer ' + SUPABASE_KEY_SOC, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify(payload)
+        });
+      }
+      if (res.status === 200 || res.status === 201 || res.status === 204) {
+        window.socCloseModal();
+        await window.socFetch();
+      } else { alert('Erro ao salvar: ' + res.status); }
+    } catch(e) { alert('Erro: ' + e.message); }
+  };
+
+  window.socDelete = async function() {
+    if (!window.socSelId || !confirm('Deletar este post?')) return;
+    await fetch(SUPABASE_URL_SOC + '/rest/v1/posts_sociais?id=eq.' + window.socSelId, {
+      method: 'DELETE',
+      headers: { 'apikey': SUPABASE_KEY_SOC, 'Authorization': 'Bearer ' + SUPABASE_KEY_SOC }
+    });
+    window.socCloseModal();
+    await window.socFetch();
   };
 
 </script>
