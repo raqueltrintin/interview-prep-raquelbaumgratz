@@ -11385,43 +11385,43 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
   async function kbSave() {
-    if (!currentUser) return;
     var savingEl = document.getElementById('kb-saving');
     if (savingEl) savingEl.textContent = 'Salvando...';
     clearTimeout(kbSaveTimer);
     kbSaveTimer = setTimeout(async function() {
       try {
-        await sb.from('notes').upsert({
-          user_id: currentUser.id,
-          note_key: 'content_kanban',
-          content: JSON.stringify({ cards: kbCards, nextId: kbNextId }),
+        var res = await sb.from('kanban_cards').upsert({
+          owner_key: 'raquel',
+          cards: JSON.stringify({ cards: kbCards, nextId: kbNextId }),
           updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id,note_key' });
+        }, { onConflict: 'owner_key' });
+        if (res.error) throw new Error(res.error.message);
         if (savingEl) savingEl.textContent = 'Salvo';
         setTimeout(function(){ if (savingEl) savingEl.textContent = ''; }, 2000);
       } catch(e) {
-        if (savingEl) savingEl.textContent = 'Erro ao salvar';
+        if (savingEl) savingEl.textContent = 'Erro: ' + e.message;
+        console.error('kbSave error:', e);
       }
     }, 1000);
   }
 
   async function kbLoad() {
-    if (!currentUser) return;
     try {
-      var result = await sb.from('notes')
-        .select('content')
-        .eq('user_id', currentUser.id)
-        .eq('note_key', 'content_kanban')
+      var result = await sb.from('kanban_cards')
+        .select('cards')
+        .eq('owner_key', 'raquel')
         .single();
-      if (result.data && result.data.content) {
-        var parsed = JSON.parse(result.data.content);
-        if (parsed.cards && Array.isArray(parsed.cards)) {
+      if (result.data && result.data.cards) {
+        var parsed = typeof result.data.cards === 'string'
+          ? JSON.parse(result.data.cards)
+          : result.data.cards;
+        if (parsed && Array.isArray(parsed.cards)) {
           kbCards = parsed.cards;
           kbNextId = parsed.nextId || (kbCards.length ? Math.max.apply(null, kbCards.map(function(c){ return c.id; })) + 1 : 1);
           kbRenderAll();
         }
       }
-    } catch(e) {}
+    } catch(e) { console.error('kbLoad error:', e); }
   }
 
 </script>
