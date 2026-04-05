@@ -4228,6 +4228,21 @@
           .cand-filter-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#8a8581;cursor:pointer;transition:all .15s}
           .cand-filter-btn.active{background:rgba(181,98,62,0.15);border-color:#c9954a;color:#c9954a;font-weight:500}
           .cand-filter-btn:hover{border-color:#5a5550;color:#d4cfc9}
+          .cand-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center}
+          .cand-modal-bg.open{display:flex}
+          .cand-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;padding:0;position:relative}
+          .cand-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2a2724;position:sticky;top:0;background:#1e1c1a;z-index:1}
+          .cand-modal-name{font-size:17px;font-weight:600;color:#f0ede8}
+          .cand-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+          .cand-modal-body{padding:1.25rem 1.5rem}
+          .cand-modal-row{margin-bottom:1rem}
+          .cand-modal-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#b5623e;margin-bottom:.3rem}
+          .cand-modal-val{font-size:14px;color:#d4cfc9;line-height:1.55}
+          .cand-modal-val a{color:#b5623e;text-decoration:none}
+          .cand-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+          .cand-modal-divider{height:1px;background:#2a2724;margin:1rem 0}
+          .cand-table tr{cursor:pointer}
+          .cand-table tr:hover td{background:#252220}
         </style>
         <div class="cand-hdr">
           <h2 style="margin:0">📬 Candidaturas do Site</h2>
@@ -4245,6 +4260,15 @@
         </div>
         <div id="cand-body">
           <div class="cand-empty">Carregando candidaturas...</div>
+        </div>
+        <div class="cand-modal-bg" id="cand-modal-bg" onclick="if(event.target===this)candCloseModal()">
+          <div class="cand-modal" id="cand-modal">
+            <div class="cand-modal-hdr">
+              <span class="cand-modal-name" id="cand-modal-name"></span>
+              <button class="cand-modal-close" onclick="candCloseModal()">×</button>
+            </div>
+            <div class="cand-modal-body" id="cand-modal-body"></div>
+          </div>
         </div>
       </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
@@ -6927,6 +6951,21 @@
           .cand-filter-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid #3a3734;background:#1e1c1a;color:#8a8581;cursor:pointer;transition:all .15s}
           .cand-filter-btn.active{background:rgba(181,98,62,0.15);border-color:#c9954a;color:#c9954a;font-weight:500}
           .cand-filter-btn:hover{border-color:#5a5550;color:#d4cfc9}
+          .cand-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center}
+          .cand-modal-bg.open{display:flex}
+          .cand-modal{background:#1e1c1a;border:1px solid #3a3734;border-radius:12px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;padding:0;position:relative}
+          .cand-modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #2a2724;position:sticky;top:0;background:#1e1c1a;z-index:1}
+          .cand-modal-name{font-size:17px;font-weight:600;color:#f0ede8}
+          .cand-modal-close{width:28px;height:28px;border-radius:6px;border:1px solid #3a3734;background:transparent;color:#9a9591;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+          .cand-modal-body{padding:1.25rem 1.5rem}
+          .cand-modal-row{margin-bottom:1rem}
+          .cand-modal-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#b5623e;margin-bottom:.3rem}
+          .cand-modal-val{font-size:14px;color:#d4cfc9;line-height:1.55}
+          .cand-modal-val a{color:#b5623e;text-decoration:none}
+          .cand-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+          .cand-modal-divider{height:1px;background:#2a2724;margin:1rem 0}
+          .cand-table tr{cursor:pointer}
+          .cand-table tr:hover td{background:#252220}
         </style>
         <div class="cand-hdr">
           <h2 style="margin:0">📬 Candidaturas do Site</h2>
@@ -6944,6 +6983,15 @@
         </div>
         <div id="cand-body">
           <div class="cand-empty">Carregando candidaturas...</div>
+        </div>
+        <div class="cand-modal-bg" id="cand-modal-bg" onclick="if(event.target===this)candCloseModal()">
+          <div class="cand-modal" id="cand-modal">
+            <div class="cand-modal-hdr">
+              <span class="cand-modal-name" id="cand-modal-name"></span>
+              <button class="cand-modal-close" onclick="candCloseModal()">×</button>
+            </div>
+            <div class="cand-modal-body" id="cand-modal-body"></div>
+          </div>
         </div>
       </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
@@ -9339,6 +9387,65 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     }
   };
 
+  window.candOpenModal = function(id) {
+    const c = window.candData.find(x => x.id === id);
+    if (!c) return;
+    document.getElementById('cand-modal-name').textContent = c.nome || '—';
+    const fmt = (d) => d ? new Date(d).toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    const wp = c.whatsapp ? c.whatsapp.replace(/\D/g,'') : '';
+    document.getElementById('cand-modal-body').innerHTML = `
+      <div class="cand-modal-grid">
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">WhatsApp</div>
+          <div class="cand-modal-val">${c.whatsapp ? '<a href="https://wa.me/' + wp + '" target="_blank">📱 ' + c.whatsapp + '</a>' : '—'}</div>
+        </div>
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">E-mail</div>
+          <div class="cand-modal-val">${c.email || '—'}</div>
+        </div>
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">Cargo</div>
+          <div class="cand-modal-val">${c.cargo || '—'}</div>
+        </div>
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">Área</div>
+          <div class="cand-modal-val">${c.area || '—'}</div>
+        </div>
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">Experiência</div>
+          <div class="cand-modal-val">${c.experiencia || '—'}</div>
+        </div>
+        <div class="cand-modal-row">
+          <div class="cand-modal-lbl">Inglês</div>
+          <div class="cand-modal-val">${c.ingles || '—'}</div>
+        </div>
+      </div>
+      <div class="cand-modal-divider"></div>
+      <div class="cand-modal-row">
+        <div class="cand-modal-lbl">Motivação</div>
+        <div class="cand-modal-val">${c.motivacao || '—'}</div>
+      </div>
+      <div class="cand-modal-row">
+        <div class="cand-modal-lbl">Maior obstáculo</div>
+        <div class="cand-modal-val">${c.obstaculo || '—'}</div>
+      </div>
+      <div class="cand-modal-row">
+        <div class="cand-modal-lbl">Momento atual</div>
+        <div class="cand-modal-val">${c.momento || '—'}</div>
+      </div>
+      <div class="cand-modal-divider"></div>
+      <div class="cand-modal-row">
+        <div class="cand-modal-lbl">Data de envio</div>
+        <div class="cand-modal-val">${fmt(c.criado_em)}</div>
+      </div>
+    `;
+    document.getElementById('cand-modal-bg').classList.add('open');
+  };
+
+  window.candCloseModal = function() {
+    document.getElementById('cand-modal-bg').classList.remove('open');
+  };
+
   window.candRenderTable = function() {
     const body = document.getElementById('cand-body');
     if (!body) return;
@@ -9361,7 +9468,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         <th>Nome</th><th>Contato</th><th>Área</th><th>Momento</th><th>O que quer</th><th>Data</th><th></th>
       </tr></thead>
       <tbody>
-        ${filtered.map(c => `<tr>
+        ${filtered.map(c => `<tr onclick="candOpenModal('${c.id}')" style="cursor:pointer">
           <td>
             <div class="cand-nome">${c.nome || '—'}</div>
             <div class="cand-detail">${c.cargo || ''}</div>
