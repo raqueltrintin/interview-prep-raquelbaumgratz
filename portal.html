@@ -4665,29 +4665,6 @@ Best regards,
 
       </div>
 
-      <script>
-        function tplSetTab(id, btn) {
-          document.querySelectorAll('.tpl-tab').forEach(b => b.classList.remove('active'));
-          document.querySelectorAll('.tpl-panel').forEach(p => p.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('tpl-' + id).classList.add('active');
-        }
-        function tplToggle(card) {
-          card.classList.toggle('open');
-        }
-        function tplCopy(btn) {
-          const msg = btn.previousElementSibling;
-          const text = msg.innerText;
-          navigator.clipboard.writeText(text).then(() => {
-            btn.textContent = 'Copied!';
-            setTimeout(() => btn.textContent = 'Copy message', 2000);
-          }).catch(() => {
-            btn.textContent = 'Copy failed';
-            setTimeout(() => btn.textContent = 'Copy message', 2000);
-          });
-        }
-      </script>
-
     </div>`,
       'coaching': `<div class="section mentor-only" id="coaching">
       <div class="section-intro">
@@ -9910,6 +9887,30 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         </tr>`).join('')}
       </tbody>
     </table>`;
+  };
+
+
+  window.tplSetTab = function(id, btn) {
+    document.querySelectorAll('.tpl-tab').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.tpl-panel').forEach(function(p){ p.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tpl-' + id);
+    if (panel) panel.classList.add('active');
+  };
+  window.tplToggle = function(card) {
+    if (card) card.classList.toggle('open');
+  };
+  window.tplCopy = function(btn) {
+    var msg = btn ? btn.previousElementSibling : null;
+    if (!msg) return;
+    var text = msg.innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function(){ btn.textContent = 'Copy message'; }, 2000);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function(){ btn.textContent = 'Copy message'; }, 2000);
+    });
   };
 
 </script>
