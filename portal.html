@@ -11390,16 +11390,18 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     clearTimeout(kbSaveTimer);
     kbSaveTimer = setTimeout(async function() {
       try {
-        var payload = { cards: kbCards, nextId: kbNextId };
-        var res = await sb.from('kanban_cards')
-          .update({ cards: payload, updated_at: new Date().toISOString() })
-          .eq('owner_key', 'raquel');
-        if (res.error) throw new Error(res.error.message);
+        var SURL = 'https://ruyyanefahvhqdambsis.supabase.co';
+        var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
+        var r = await fetch(SURL + '/rest/v1/kanban_cards?owner_key=eq.raquel', {
+          method: 'PATCH',
+          headers: { 'apikey': SKEY, 'Authorization': 'Bearer ' + SKEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ cards: { cards: kbCards, nextId: kbNextId }, updated_at: new Date().toISOString() })
+        });
+        if (!r.ok) throw new Error('status ' + r.status);
         if (savingEl) savingEl.textContent = 'Salvo';
         setTimeout(function(){ if (savingEl) savingEl.textContent = ''; }, 2000);
       } catch(e) {
         if (savingEl) savingEl.textContent = 'Erro: ' + e.message;
-        console.error('kbSave error:', e);
       }
     }, 800);
   }
