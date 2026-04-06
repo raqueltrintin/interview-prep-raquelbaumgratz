@@ -9200,6 +9200,18 @@ Best regards,
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
     if (id === 'apps') { if(typeof apLoad==='function') setTimeout(apLoad,100); }
+    if (id === 'conteudo') {
+      var lang = currentLang || 'pt';
+      var tmpl = SECTIONS[lang] && SECTIONS[lang]['conteudo'];
+      if (tmpl && section && !section.querySelector('.kb-board')) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = tmpl;
+        var newNode = tmp.firstElementChild;
+        newNode.classList.add('active');
+        section.replaceWith(newNode);
+      }
+      if (typeof kbRenderAll === 'function') setTimeout(kbRenderAll, 50);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
