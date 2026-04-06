@@ -1200,7 +1200,118 @@
       <div class="section" id="links"></div>
       <div class="section" id="biblioteca"></div>
       <div class="section" id="templates"></div>
-      <div class="section" id="conteudo"></div>
+      <div class="section" id="conteudo">
+        <style>
+          .kb2-wrap{padding:1rem 0 2rem;}
+          .kb2-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:0.5px solid rgba(255,255,255,0.1);}
+          .kb2-title{font-size:15px;font-style:italic;color:#e8a97a;letter-spacing:.04em;}
+          .kb2-saving{font-size:11px;color:rgba(240,235,228,0.4);min-width:50px;text-align:right;}
+          .kb2-btn-new{background:#c0805a;color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:.04em;transition:background .2s;}
+          .kb2-btn-new:hover{background:#e8a97a;color:#1a1410;}
+          .kb2-board{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;align-items:start;}
+          @media(max-width:680px){.kb2-board{grid-template-columns:1fr;}}
+          .kb2-col{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.09);border-radius:10px;padding:.85rem;min-height:200px;}
+          .kb2-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:0.5px solid rgba(255,255,255,0.09);}
+          .kb2-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(240,235,228,0.55);}
+          .kb2-col-count{font-size:10px;background:rgba(192,128,90,0.15);color:#e8a97a;border-radius:10px;padding:1px 7px;}
+          .kb2-cards{display:flex;flex-direction:column;gap:.6rem;}
+          .kb2-empty{color:rgba(240,235,228,0.25);font-size:11px;font-style:italic;text-align:center;padding:1.2rem 0;}
+          .kb2-card{background:rgba(20,16,12,0.92);border:0.5px solid rgba(255,255,255,0.11);border-radius:7px;padding:.75rem;cursor:grab;transition:border-color .2s;}
+          .kb2-card:active{cursor:grabbing;}
+          .kb2-card.kb2-dragging{opacity:.4;}
+          .kb2-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:5px;}
+          .kb2-tags{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+          .kb2-tag{font-size:10px;padding:1px 6px;border-radius:9px;}
+          .kb2-tag-f{background:rgba(100,80,180,0.22);color:#b0a0f8;}
+          .kb2-tag-r{background:rgba(192,128,90,0.2);color:#e8a97a;}
+          .kb2-tag-d{background:rgba(60,120,80,0.2);color:#80c896;}
+          .kb2-actions{display:flex;gap:3px;flex-shrink:0;}
+          .kb2-btn-ic{background:none;border:none;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:rgba(240,235,228,0.45);transition:background .15s;}
+          .kb2-btn-ic:hover{background:rgba(255,255,255,0.08);color:#f0ebe4;}
+          .kb2-btn-del-ic:hover{background:rgba(192,64,64,0.2);color:#f08080;}
+          .kb2-roteiro{font-size:11px;color:rgba(240,235,228,0.55);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+          .kb2-roteiro.kb2-exp{display:block;-webkit-line-clamp:unset;}
+          .kb2-notas{margin-top:6px;padding-top:6px;border-top:0.5px solid rgba(255,255,255,0.09);font-size:11px;color:rgba(240,235,228,0.35);display:none;white-space:pre-wrap;}
+          .kb2-notas.kb2-vis{display:block;}
+          .kb2-drop-zone{min-height:32px;border:1.5px dashed transparent;border-radius:6px;margin-top:.4rem;transition:border-color .2s,background .2s;}
+          .kb2-drop-zone.kb2-dz-active{border-color:#c0805a;background:rgba(192,128,90,0.05);}
+          .kb2-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+          .kb2-overlay.kb2-open{display:flex;}
+          .kb2-modal{background:#1e1812;border:0.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:1.4rem;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;}
+          .kb2-modal-title{font-size:15px;font-style:italic;color:#e8a97a;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:0.5px solid rgba(255,255,255,0.09);}
+          .kb2-fg{margin-bottom:.85rem;}
+          .kb2-label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,235,228,0.35);margin-bottom:4px;}
+          .kb2-fg select,.kb2-fg input[type=date],.kb2-fg textarea{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.14);border-radius:6px;color:#f0ebe4;font-size:12px;padding:7px 9px;outline:none;transition:border-color .2s;font-family:inherit;}
+          .kb2-fg select:focus,.kb2-fg input:focus,.kb2-fg textarea:focus{border-color:#c0805a;}
+          .kb2-fg textarea{resize:vertical;min-height:75px;line-height:1.6;}
+          .kb2-fg select option{background:#1e1812;}
+          .kb2-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+          @media(max-width:400px){.kb2-row{grid-template-columns:1fr;}}
+          .kb2-modal-footer{display:flex;gap:8px;margin-top:1rem;padding-top:.85rem;border-top:0.5px solid rgba(255,255,255,0.09);}
+          .kb2-btn-save{flex:1;background:#c0805a;color:#fff;border:none;padding:8px;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:.04em;transition:background .2s;font-family:inherit;}
+          .kb2-btn-save:hover{background:#e8a97a;color:#1a1410;}
+          .kb2-btn-cancel{background:none;border:0.5px solid rgba(255,255,255,0.15);color:rgba(240,235,228,0.55);padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;}
+          .kb2-btn-cancel:hover{color:#f0ebe4;}
+          .kb2-btn-trash{background:none;border:0.5px solid rgba(192,64,64,0.3);color:#f08080;padding:8px 12px;border-radius:6px;font-size:12px;cursor:pointer;}
+          .kb2-btn-trash:hover{background:rgba(192,64,64,0.15);}
+          .kb2-msg{font-size:11px;padding:4px 10px;border-radius:5px;text-align:center;margin-top:.6rem;display:none;}
+          .kb2-msg.kb2-ok{display:block;background:rgba(60,120,80,0.2);color:#80c896;}
+          .kb2-msg.kb2-err{display:block;background:rgba(192,64,64,0.2);color:#f08080;}
+        </style>
+        <div class="kb2-wrap">
+          <div class="kb2-hdr">
+            <span class="kb2-title">Produção de Conteúdo</span>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="kb2-saving" id="kb2-saving"></span>
+              <button class="kb2-btn-new" onclick="kb2OpenModal()">+ novo card</button>
+            </div>
+          </div>
+          <div class="kb2-board">
+            <div class="kb2-col" ondragover="kb2DragOver(event,'ideias')" ondrop="kb2Drop(event,'ideias')" ondragleave="kb2DragLeave(event)">
+              <div class="kb2-col-hdr"><span class="kb2-col-title">💡 Banco de Ideias</span><span class="kb2-col-count" id="kb2-count-ideias">0</span></div>
+              <div class="kb2-cards" id="kb2-list-ideias"><div class="kb2-empty">Carregando...</div></div>
+              <div class="kb2-drop-zone" id="kb2-dz-ideias"></div>
+            </div>
+            <div class="kb2-col" ondragover="kb2DragOver(event,'producao')" ondrop="kb2Drop(event,'producao')" ondragleave="kb2DragLeave(event)">
+              <div class="kb2-col-hdr"><span class="kb2-col-title">🎬 Em Produção</span><span class="kb2-col-count" id="kb2-count-producao">0</span></div>
+              <div class="kb2-cards" id="kb2-list-producao"><div class="kb2-empty">Carregando...</div></div>
+              <div class="kb2-drop-zone" id="kb2-dz-producao"></div>
+            </div>
+            <div class="kb2-col" ondragover="kb2DragOver(event,'publicado')" ondrop="kb2Drop(event,'publicado')" ondragleave="kb2DragLeave(event)">
+              <div class="kb2-col-hdr"><span class="kb2-col-title">✅ Publicado</span><span class="kb2-col-count" id="kb2-count-publicado">0</span></div>
+              <div class="kb2-cards" id="kb2-list-publicado"><div class="kb2-empty">Carregando...</div></div>
+              <div class="kb2-drop-zone" id="kb2-dz-publicado"></div>
+            </div>
+          </div>
+        </div>
+        <div class="kb2-overlay" id="kb2-overlay" onclick="if(event.target===this)kb2CloseModal()">
+          <div class="kb2-modal">
+            <div class="kb2-modal-title" id="kb2-modal-title">Novo card</div>
+            <input type="hidden" id="kb2-edit-id">
+            <div class="kb2-row">
+              <div class="kb2-fg"><label class="kb2-label">Formato</label>
+                <select id="kb2-formato"><option value="">Selecione...</option><option>Carrossel</option><option>Vídeo</option><option>Texto</option><option>Story</option><option>Reels</option></select></div>
+              <div class="kb2-fg"><label class="kb2-label">Rede Social</label>
+                <select id="kb2-rede"><option value="">Selecione...</option><option>LinkedIn</option><option>Instagram</option><option>TikTok</option></select></div>
+            </div>
+            <div class="kb2-row">
+              <div class="kb2-fg"><label class="kb2-label">Data de Publicação</label><input type="date" id="kb2-data"></div>
+              <div class="kb2-fg"><label class="kb2-label">Coluna</label>
+                <select id="kb2-coluna"><option value="ideias">Banco de Ideias</option><option value="producao">Em Produção</option><option value="publicado">Publicado</option></select></div>
+            </div>
+            <div class="kb2-fg"><label class="kb2-label">Roteiro</label>
+              <textarea id="kb2-roteiro" placeholder="Escreve o roteiro ou ideia central do conteúdo..." style="min-height:110px;"></textarea></div>
+            <div class="kb2-fg"><label class="kb2-label">Comentários e Anotações</label>
+              <textarea id="kb2-comentarios" placeholder="Notas, referências, observações gerais..."></textarea></div>
+            <div class="kb2-modal-footer">
+              <button class="kb2-btn-trash" id="kb2-btn-del" style="display:none" onclick="kb2Delete()">🗑 Deletar</button>
+              <button class="kb2-btn-cancel" onclick="kb2CloseModal()">Cancelar</button>
+              <button class="kb2-btn-save" onclick="kb2Save()">Salvar card</button>
+            </div>
+            <div id="kb2-msg" class="kb2-msg"></div>
+          </div>
+        </div>
+      </div>
       <div class="section mentor-only" id="social"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
@@ -1253,56 +1364,7 @@
 
 
 
-      <div id="kb-modal-wrap" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)kbCloseModal()">
-        <div class="kb-modal">
-          <div class="kb-modal-hdr">
-            <span class="kb-modal-title" id="kb-modal-title">Nova ideia</span>
-            <button class="kb-modal-close" onclick="kbCloseModal()">×</button>
-          </div>
-          <div class="kb-modal-body">
-            <div class="kb-field">
-              <label>Título / gancho</label>
-              <input type="text" id="kb-f-title" placeholder="Ex: Por que devs sênior travam na entrevista internacional">
-            </div>
-            <div class="kb-field">
-              <label>Roteiro / texto</label>
-              <textarea id="kb-f-body" placeholder="Cole aqui o roteiro, texto ou ideias principais..."></textarea>
-            </div>
-            <div class="kb-grid-2">
-              <div class="kb-field">
-                <label>Formato</label>
-                <select id="kb-f-format">
-                  <option value="">Selecione</option>
-                  <option>Texto</option>
-                  <option>Carrossel</option>
-                  <option>Vídeo</option>
-                  <option>Reel</option>
-                  <option>Story</option>
-                </select>
-              </div>
-              <div class="kb-field">
-                <label>Status</label>
-                <select id="kb-f-status">
-                  <option value="rascunho">Rascunho</option>
-                  <option value="agendado">Agendado</option>
-                  <option value="postado">Postado</option>
-                </select>
-              </div>
-            </div>
-            <div class="kb-field">
-              <label>Data de postagem</label>
-              <input type="date" id="kb-f-date">
-            </div>
-          </div>
-          <div class="kb-modal-footer">
-            <button class="kb-btn-del" id="kb-btn-del" onclick="kbDeleteCard()" style="display:none">Deletar</button>
-            <div style="display:flex;gap:8px;margin-left:auto">
-              <button class="kb-btn-cancel" onclick="kbCloseModal()">Cancelar</button>
-              <button class="kb-btn-save" onclick="kbSaveCard()">Salvar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- kb-modal removido: substituído pelo kb2-overlay dentro do #conteudo -->
 
 </div>
 
@@ -8526,15 +8588,6 @@ Best regards,
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
     if (id === 'apps') { if(typeof apLoad==='function') setTimeout(apLoad,100); }
     if (id === 'conteudo' || id === 'marketing') {
-      var lang = currentLang || 'pt';
-      var tmpl = SECTIONS[lang] && SECTIONS[lang]['conteudo'];
-      if (tmpl && section && !section.querySelector('.kb-board')) {
-        var tmp = document.createElement('div');
-        tmp.innerHTML = tmpl;
-        var newNode = tmp.firstElementChild;
-        newNode.classList.add('active');
-        section.replaceWith(newNode);
-      }
       if (typeof kbRenderAll === 'function') setTimeout(kbRenderAll, 50);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -10577,187 +10630,198 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   };
 
 
-  // ── KANBAN CONTEÚDO ──────────────────────────────────────────────────────────
-  var kbCards = [];
-  var kbNextId = 1;
-  var kbDragId = null;
-  var kbEditId = null;
-  var kbCurrentCol = 'ideas';
-  var kbSaveTimer = null;
+  // ── KANBAN CONTEÚDO v2 (marketing_kanban table, per-card rows) ─────────────
+  var kb2Cards = [];
+  var kb2DragId = null;
 
-  var kbFormatTag = {
-    'Texto':'kt-texto','Carrossel':'kt-carrossel',
-    'Vídeo':'kt-video','Reel':'kt-reel','Story':'kt-story'
-  };
-  var kbStatusTag = {rascunho:'kt-rascunho',agendado:'kt-agendado',postado:'kt-postado'};
-  var kbStatusLabel = {rascunho:'Rascunho',agendado:'Agendado',postado:'Postado'};
+  var KB2_URL = 'https://ruyyanefahvhqdambsis.supabase.co';
+  var KB2_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
+  var KB2_TABLE = 'marketing_kanban';
 
-  function kbFmtDate(d) {
-    if (!d) return '';
-    var dt = new Date(d + 'T12:00:00');
-    return dt.toLocaleDateString('pt-BR', {day:'2-digit', month:'short'});
+  function kb2Api(method, path, body) {
+    var h = { 'apikey': KB2_KEY, 'Authorization': 'Bearer ' + KB2_KEY, 'Content-Type': 'application/json' };
+    if (method === 'POST') h['Prefer'] = 'return=representation';
+    return fetch(KB2_URL + '/rest/v1/' + path, {
+      method: method, headers: h,
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function(r) {
+      if (r.status === 204 || method === 'DELETE') return null;
+      return r.json();
+    });
   }
 
-  window.kbRenderAll = function() {
-    ['ideas','linkedin','instagram','tiktok'].forEach(function(col) {
-      var el = document.getElementById('kb-col-' + col);
-      var badge = document.getElementById('kb-badge-' + col);
-      if (!el) return;
-      var colCards = kbCards.filter(function(c){ return c.col === col; });
-      if (badge) badge.textContent = colCards.length;
-      if (!colCards.length) {
-        el.innerHTML = '<div class="kb-empty">Arraste cards aqui</div>';
-        return;
-      }
-      el.innerHTML = colCards.map(function(c) {
-        var fmtCls = kbFormatTag[c.format] || '';
-        var stCls = kbStatusTag[c.status] || 'kt-rascunho';
-        var stLbl = kbStatusLabel[c.status] || '';
-        return '<div class="kb-card" draggable="true" data-id="' + c.id + '"' +
-          ' ondragstart="kbDragStart(event,' + c.id + ')"' +
-          ' ondragend="kbDragEnd(event)"' +
-          ' onclick="kbOpenEdit(' + c.id + ')">' +
-          '<div class="kb-card-title">' + c.title + '</div>' +
-          (c.body ? '<div class="kb-card-excerpt">' + c.body + '</div>' : '') +
-          '<div class="kb-card-footer">' +
-          (c.format ? '<span class="kb-tag ' + fmtCls + '">' + c.format + '</span>' : '') +
-          '<span class="kb-tag ' + stCls + '">' + stLbl + '</span>' +
-          (c.date ? '<span class="kb-card-date">' + kbFmtDate(c.date) + '</span>' : '') +
+  function kb2FmtDate(s) {
+    if (!s) return '';
+    var p = s.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  window.kbRenderAll = function() { kb2Render(); };
+
+  function kb2Render() {
+    ['ideias','producao','publicado'].forEach(function(col) {
+      var list  = document.getElementById('kb2-list-' + col);
+      var badge = document.getElementById('kb2-count-' + col);
+      if (!list) return;
+      var cc = kb2Cards.filter(function(c) { return c.coluna === col; });
+      if (badge) badge.textContent = cc.length;
+      if (!cc.length) { list.innerHTML = '<div class="kb2-empty">Sem cards ainda</div>'; return; }
+      list.innerHTML = cc.map(function(c) {
+        var has_notas = c.comentarios && c.comentarios.trim();
+        return '<div class="kb2-card" id="kb2-c-' + c.id + '" draggable="true"' +
+          ' ondragstart="kb2DragStart(event,'' + c.id + '')"' +
+          ' ondragend="kb2DragEnd(event)">' +
+          '<div class="kb2-card-top">' +
+          '<div class="kb2-tags">' +
+          (c.formato ? '<span class="kb2-tag kb2-tag-f">' + c.formato + '</span>' : '') +
+          (c.rede    ? '<span class="kb2-tag kb2-tag-r">' + c.rede    + '</span>' : '') +
+          (c.data_pub? '<span class="kb2-tag kb2-tag-d">' + kb2FmtDate(c.data_pub) + '</span>' : '') +
           '</div>' +
+          '<div class="kb2-actions">' +
+          '<button class="kb2-btn-ic" onclick="kb2ToggleRot('' + c.id + '')" title="Ver roteiro">≡</button>' +
+          (has_notas ? '<button class="kb2-btn-ic" onclick="kb2ToggleNot('' + c.id + '')" title="Notas">✦</button>' : '') +
+          '<button class="kb2-btn-ic" onclick="kb2OpenModal('' + c.id + '')" title="Editar">✎</button>' +
+          '<button class="kb2-btn-ic kb2-btn-del-ic" onclick="kb2Delete('' + c.id + '')" title="Deletar">✕</button>' +
+          '</div></div>' +
+          '<div class="kb2-roteiro" id="kb2-rot-' + c.id + '">' +
+          (c.roteiro || '<em style="color:rgba(240,235,228,0.25)">Sem roteiro</em>') + '</div>' +
+          (has_notas ? '<div class="kb2-notas" id="kb2-not-' + c.id + '">' + c.comentarios + '</div>' : '') +
           '</div>';
       }).join('');
     });
+  }
+
+  window.kb2ToggleRot = function(id) {
+    var el = document.getElementById('kb2-rot-' + id);
+    if (el) el.classList.toggle('kb2-exp');
+  };
+  window.kb2ToggleNot = function(id) {
+    var el = document.getElementById('kb2-not-' + id);
+    if (el) el.classList.toggle('kb2-vis');
   };
 
-  window.kbDragStart = function(e, id) {
-    kbDragId = id;
+  window.kb2DragStart = function(e, id) {
+    kb2DragId = id;
+    e.dataTransfer.setData('text/plain', id);
     setTimeout(function() {
-      var el = document.querySelector('[data-id="' + id + '"]');
-      if (el) el.classList.add('dragging');
+      var el = document.getElementById('kb2-c-' + id);
+      if (el) el.classList.add('kb2-dragging');
     }, 0);
   };
-  window.kbDragEnd = function(e) {
-    document.querySelectorAll('.kb-card').forEach(function(el){ el.classList.remove('dragging'); });
-    document.querySelectorAll('.kb-drop').forEach(function(el){ el.classList.remove('drag-over'); });
+  window.kb2DragEnd = function() {
+    kb2DragId = null;
+    document.querySelectorAll('.kb2-card').forEach(function(el) { el.classList.remove('kb2-dragging'); });
+    document.querySelectorAll('.kb2-drop-zone').forEach(function(el) { el.classList.remove('kb2-dz-active'); });
   };
-  window.kbDragOver = function(e) {
+  window.kb2DragOver = function(e, col) {
     e.preventDefault();
-    e.currentTarget.classList.add('drag-over');
+    var dz = document.getElementById('kb2-dz-' + col);
+    if (dz) dz.classList.add('kb2-dz-active');
   };
-  window.kbDragLeave = function(e) {
-    e.currentTarget.classList.remove('drag-over');
+  window.kb2DragLeave = function(e) {
+    document.querySelectorAll('.kb2-drop-zone').forEach(function(el) { el.classList.remove('kb2-dz-active'); });
   };
-  window.kbDrop = function(e, col) {
+  window.kb2Drop = function(e, col) {
     e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
-    if (kbDragId === null) return;
-    var card = kbCards.find(function(c){ return c.id === kbDragId; });
-    if (card) { card.col = col; kbSave(); }
-    kbDragId = null;
-    kbRenderAll();
+    document.querySelectorAll('.kb2-drop-zone').forEach(function(el) { el.classList.remove('kb2-dz-active'); });
+    var id = e.dataTransfer.getData('text/plain') || kb2DragId;
+    if (id) kb2Move(id, col);
   };
 
-  window.kbOpenNew = function(col) {
-    kbEditId = null;
-    kbCurrentCol = col || 'ideas';
-    document.getElementById('kb-modal-title').textContent = 'Nova ideia';
-    document.getElementById('kb-f-title').value = '';
-    document.getElementById('kb-f-body').value = '';
-    document.getElementById('kb-f-format').value = '';
-    document.getElementById('kb-f-status').value = 'rascunho';
-    document.getElementById('kb-f-date').value = '';
-    document.getElementById('kb-btn-del').style.display = 'none';
-    document.getElementById('kb-modal-wrap').style.display='flex';
-  };
-
-  window.kbOpenEdit = function(id) {
-    var c = kbCards.find(function(x){ return x.id === id; });
-    if (!c) return;
-    kbEditId = id;
-    kbCurrentCol = c.col;
-    document.getElementById('kb-modal-title').textContent = 'Editar card';
-    document.getElementById('kb-f-title').value = c.title;
-    document.getElementById('kb-f-body').value = c.body || '';
-    document.getElementById('kb-f-format').value = c.format || '';
-    document.getElementById('kb-f-status').value = c.status || 'rascunho';
-    document.getElementById('kb-f-date').value = c.date || '';
-    document.getElementById('kb-btn-del').style.display = '';
-    document.getElementById('kb-modal-wrap').style.display='flex';
-  };
-
-  window.kbCloseModal = function() {
-    document.getElementById('kb-modal-wrap').style.display='none';
-  };
-
-  window.kbSaveCard = function() {
-    var title = document.getElementById('kb-f-title').value.trim();
-    if (!title) return;
-    var data = {
-      title: title,
-      body: document.getElementById('kb-f-body').value.trim(),
-      format: document.getElementById('kb-f-format').value,
-      status: document.getElementById('kb-f-status').value,
-      date: document.getElementById('kb-f-date').value,
-      col: kbCurrentCol
-    };
-    if (kbEditId) {
-      var idx = kbCards.findIndex(function(c){ return c.id === kbEditId; });
-      if (idx >= 0) kbCards[idx] = Object.assign({}, kbCards[idx], data);
-    } else {
-      kbCards.push(Object.assign({ id: kbNextId++ }, data));
-    }
-    kbCloseModal();
-    kbSave();
-    kbRenderAll();
-  };
-
-  window.kbDeleteCard = function() {
-    if (!kbEditId) return;
-    if (!confirm('Deletar este card?')) return;
-    kbCards = kbCards.filter(function(c){ return c.id !== kbEditId; });
-    kbCloseModal();
-    kbSave();
-    kbRenderAll();
-  };
-
-  async function kbSave() {
-    var savingEl = document.getElementById('kb-saving');
-    if (savingEl) savingEl.textContent = 'Salvando...';
-    clearTimeout(kbSaveTimer);
-    kbSaveTimer = setTimeout(async function() {
-      try {
-        var SURL = 'https://ruyyanefahvhqdambsis.supabase.co';
-        var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
-        var r = await fetch(SURL + '/rest/v1/kanban_cards?owner_key=eq.raquel', {
-          method: 'PATCH',
-          headers: { 'apikey': SKEY, 'Authorization': 'Bearer ' + SKEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ cards: { cards: kbCards, nextId: kbNextId }, updated_at: new Date().toISOString() })
-        });
-        if (!r.ok) throw new Error('status ' + r.status);
-        if (savingEl) savingEl.textContent = 'Salvo';
-        setTimeout(function(){ if (savingEl) savingEl.textContent = ''; }, 2000);
-      } catch(e) {
-        if (savingEl) savingEl.textContent = 'Erro: ' + e.message;
-      }
-    }, 800);
+  function kb2Move(id, col) {
+    var sv = document.getElementById('kb2-saving');
+    if (sv) sv.textContent = 'Salvando...';
+    kb2Api('PATCH', KB2_TABLE + '?id=eq.' + id, { coluna: col }).then(function() {
+      var c = kb2Cards.find(function(x) { return x.id === id; });
+      if (c) c.coluna = col;
+      kb2Render();
+      if (sv) { sv.textContent = 'Salvo'; setTimeout(function(){ sv.textContent=''; }, 1500); }
+    }).catch(function(e) {
+      if (sv) sv.textContent = 'Erro';
+    });
   }
+
+  window.kb2OpenModal = function(editId) {
+    var ov = document.getElementById('kb2-overlay');
+    if (!ov) return;
+    ov.classList.add('kb2-open');
+    var msg = document.getElementById('kb2-msg');
+    if (msg) msg.className = 'kb2-msg';
+    var delBtn = document.getElementById('kb2-btn-del');
+    if (editId) {
+      var c = kb2Cards.find(function(x) { return x.id === editId; });
+      if (!c) return;
+      document.getElementById('kb2-modal-title').textContent = 'Editar card';
+      document.getElementById('kb2-edit-id').value = editId;
+      document.getElementById('kb2-formato').value    = c.formato   || '';
+      document.getElementById('kb2-rede').value       = c.rede      || '';
+      document.getElementById('kb2-data').value       = c.data_pub  || '';
+      document.getElementById('kb2-coluna').value     = c.coluna    || 'ideias';
+      document.getElementById('kb2-roteiro').value    = c.roteiro   || '';
+      document.getElementById('kb2-comentarios').value= c.comentarios || '';
+      if (delBtn) delBtn.style.display = '';
+    } else {
+      document.getElementById('kb2-modal-title').textContent = 'Novo card de conteúdo';
+      document.getElementById('kb2-edit-id').value = '';
+      ['kb2-formato','kb2-rede','kb2-data','kb2-roteiro','kb2-comentarios'].forEach(function(fid) {
+        var el = document.getElementById(fid);
+        if (el) el.value = '';
+      });
+      document.getElementById('kb2-coluna').value = 'ideias';
+      if (delBtn) delBtn.style.display = 'none';
+    }
+  };
+
+  window.kb2CloseModal = function() {
+    var ov = document.getElementById('kb2-overlay');
+    if (ov) ov.classList.remove('kb2-open');
+  };
+
+  window.kb2Save = function() {
+    var id = document.getElementById('kb2-edit-id').value;
+    var payload = {
+      formato:     document.getElementById('kb2-formato').value,
+      rede:        document.getElementById('kb2-rede').value,
+      data_pub:    document.getElementById('kb2-data').value,
+      coluna:      document.getElementById('kb2-coluna').value || 'ideias',
+      roteiro:     document.getElementById('kb2-roteiro').value,
+      comentarios: document.getElementById('kb2-comentarios').value
+    };
+    var msg = document.getElementById('kb2-msg');
+    if (msg) { msg.textContent = 'Salvando...'; msg.className = 'kb2-msg kb2-ok'; }
+    var path = id ? KB2_TABLE + '?id=eq.' + id : KB2_TABLE;
+    var method = id ? 'PATCH' : 'POST';
+    kb2Api(method, path, payload).then(function(res) {
+      if (id) {
+        var idx = kb2Cards.findIndex(function(c) { return c.id === id; });
+        if (idx >= 0) kb2Cards[idx] = Object.assign({}, kb2Cards[idx], payload);
+      } else {
+        if (res && res[0]) kb2Cards.push(res[0]);
+      }
+      kb2Render();
+      if (msg) msg.textContent = 'Salvo!';
+      setTimeout(function() { window.kb2CloseModal(); }, 700);
+    }).catch(function(e) {
+      if (msg) { msg.textContent = 'Erro: ' + e.message; msg.className = 'kb2-msg kb2-err'; }
+    });
+  };
+
+  window.kb2Delete = function(id) {
+    if (!id) id = document.getElementById('kb2-edit-id').value;
+    if (!id || !confirm('Deletar este card?')) return;
+    kb2Api('DELETE', KB2_TABLE + '?id=eq.' + id).then(function() {
+      kb2Cards = kb2Cards.filter(function(c) { return c.id !== id; });
+      kb2Render();
+      window.kb2CloseModal();
+    }).catch(function(e) { alert('Erro ao deletar: ' + e.message); });
+  };
 
   async function kbLoad() {
     try {
-      var result = await sb.from('kanban_cards')
-        .select('cards')
-        .eq('owner_key', 'raquel')
-        .single();
-      if (result.data && result.data.cards) {
-        var raw = result.data.cards;
-        var parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        if (parsed && Array.isArray(parsed.cards)) {
-          kbCards = parsed.cards;
-          kbNextId = parsed.nextId || (kbCards.length ? Math.max.apply(null, kbCards.map(function(c){ return c.id; })) + 1 : 1);
-          kbRenderAll();
-        }
-      }
-    } catch(e) { console.error('kbLoad error:', e); }
+      var res = await kb2Api('GET', KB2_TABLE + '?order=created_at.asc&select=*');
+      kb2Cards = res || [];
+    } catch(e) { console.error('kb2Load error:', e); kb2Cards = []; }
+    kb2Render();
   }
 
 </script>
