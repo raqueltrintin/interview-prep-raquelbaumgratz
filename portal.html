@@ -11390,7 +11390,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     clearTimeout(kbSaveTimer);
     kbSaveTimer = setTimeout(async function() {
       try {
-        var payload = JSON.stringify({ cards: kbCards, nextId: kbNextId });
+        var payload = { cards: kbCards, nextId: kbNextId };
         var res = await sb.from('kanban_cards')
           .update({ cards: payload, updated_at: new Date().toISOString() })
           .eq('owner_key', 'raquel');
@@ -11411,9 +11411,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         .eq('owner_key', 'raquel')
         .single();
       if (result.data && result.data.cards) {
-        var parsed = typeof result.data.cards === 'string'
-          ? JSON.parse(result.data.cards)
-          : result.data.cards;
+        var raw = result.data.cards;
+        var parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
         if (parsed && Array.isArray(parsed.cards)) {
           kbCards = parsed.cards;
           kbNextId = parsed.nextId || (kbCards.length ? Math.max.apply(null, kbCards.map(function(c){ return c.id; })) + 1 : 1);
