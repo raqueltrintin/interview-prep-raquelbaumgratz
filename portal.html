@@ -10667,27 +10667,47 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       if (badge) badge.textContent = cc.length;
       if (!cc.length) { list.innerHTML = '<div class="kb2-empty">Sem cards ainda</div>'; return; }
       list.innerHTML = cc.map(function(c) {
+        var id = c.id;
         var has_notas = c.comentarios && c.comentarios.trim();
-        return '<div class="kb2-card" id="kb2-c-' + c.id + '" draggable="true"' +
-          ' ondragstart="kb2DragStart(event,'' + c.id + '')"' +
-          ' ondragend="kb2DragEnd(event)">' +
-          '<div class="kb2-card-top">' +
-          '<div class="kb2-tags">' +
-          (c.formato ? '<span class="kb2-tag kb2-tag-f">' + c.formato + '</span>' : '') +
-          (c.rede    ? '<span class="kb2-tag kb2-tag-r">' + c.rede    + '</span>' : '') +
-          (c.data_pub? '<span class="kb2-tag kb2-tag-d">' + kb2FmtDate(c.data_pub) + '</span>' : '') +
-          '</div>' +
-          '<div class="kb2-actions">' +
-          '<button class="kb2-btn-ic" onclick="kb2ToggleRot('' + c.id + '')" title="Ver roteiro">≡</button>' +
-          (has_notas ? '<button class="kb2-btn-ic" onclick="kb2ToggleNot('' + c.id + '')" title="Notas">✦</button>' : '') +
-          '<button class="kb2-btn-ic" onclick="kb2OpenModal('' + c.id + '')" title="Editar">✎</button>' +
-          '<button class="kb2-btn-ic kb2-btn-del-ic" onclick="kb2Delete('' + c.id + '')" title="Deletar">✕</button>' +
-          '</div></div>' +
-          '<div class="kb2-roteiro" id="kb2-rot-' + c.id + '">' +
-          (c.roteiro || '<em style="color:rgba(240,235,228,0.25)">Sem roteiro</em>') + '</div>' +
-          (has_notas ? '<div class="kb2-notas" id="kb2-not-' + c.id + '">' + c.comentarios + '</div>' : '') +
-          '</div>';
+        var html = '<div class="kb2-card" id="kb2-c-' + id + '" draggable="true"';
+        html += ' data-kid="' + id + '">';
+        html += '<div class="kb2-card-top">';
+        html += '<div class="kb2-tags">';
+        if (c.formato) html += '<span class="kb2-tag kb2-tag-f">' + c.formato + '</span>';
+        if (c.rede)    html += '<span class="kb2-tag kb2-tag-r">' + c.rede + '</span>';
+        if (c.data_pub)html += '<span class="kb2-tag kb2-tag-d">' + kb2FmtDate(c.data_pub) + '</span>';
+        html += '</div><div class="kb2-actions">';
+        html += '<button class="kb2-btn-ic" data-action="rot" data-kid="' + id + '" title="Ver roteiro">≡</button>';
+        if (has_notas) html += '<button class="kb2-btn-ic" data-action="not" data-kid="' + id + '" title="Notas">✦</button>';
+        html += '<button class="kb2-btn-ic" data-action="edit" data-kid="' + id + '" title="Editar">✎</button>';
+        html += '<button class="kb2-btn-ic kb2-btn-del-ic" data-action="del" data-kid="' + id + '" title="Deletar">✕</button>';
+        html += '</div></div>';
+        html += '<div class="kb2-roteiro" id="kb2-rot-' + id + '">';
+        html += (c.roteiro || '<em style="color:rgba(240,235,228,0.25)">Sem roteiro</em>') + '</div>';
+        if (has_notas) html += '<div class="kb2-notas" id="kb2-not-' + id + '">' + c.comentarios + '</div>';
+        html += '</div>';
+        return html;
       }).join('');
+    });
+    // Bind click events via delegation after render
+    kb2BindClicks();
+  }
+
+  function kb2BindClicks() {
+    document.querySelectorAll('.kb2-card').forEach(function(card) {
+      card.addEventListener('dragstart', function(e) { kb2DragStart(e, card.dataset.kid); });
+      card.addEventListener('dragend', kb2DragEnd);
+    });
+    document.querySelectorAll('[data-action]').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        var id = btn.dataset.kid;
+        var action = btn.dataset.action;
+        if (action === 'rot')  kb2ToggleRot(id);
+        if (action === 'not')  kb2ToggleNot(id);
+        if (action === 'edit') kb2OpenModal(id);
+        if (action === 'del')  kb2Delete(id);
+      };
     });
   }
 
