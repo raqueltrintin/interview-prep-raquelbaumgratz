@@ -1251,6 +1251,59 @@
     <button class="tab-btn active" data-tab="intro">Início</button>
   </nav>
 
+
+
+      <div id="kb-modal-wrap" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)kbCloseModal()">
+        <div class="kb-modal">
+          <div class="kb-modal-hdr">
+            <span class="kb-modal-title" id="kb-modal-title">Nova ideia</span>
+            <button class="kb-modal-close" onclick="kbCloseModal()">×</button>
+          </div>
+          <div class="kb-modal-body">
+            <div class="kb-field">
+              <label>Título / gancho</label>
+              <input type="text" id="kb-f-title" placeholder="Ex: Por que devs sênior travam na entrevista internacional">
+            </div>
+            <div class="kb-field">
+              <label>Roteiro / texto</label>
+              <textarea id="kb-f-body" placeholder="Cole aqui o roteiro, texto ou ideias principais..."></textarea>
+            </div>
+            <div class="kb-grid-2">
+              <div class="kb-field">
+                <label>Formato</label>
+                <select id="kb-f-format">
+                  <option value="">Selecione</option>
+                  <option>Texto</option>
+                  <option>Carrossel</option>
+                  <option>Vídeo</option>
+                  <option>Reel</option>
+                  <option>Story</option>
+                </select>
+              </div>
+              <div class="kb-field">
+                <label>Status</label>
+                <select id="kb-f-status">
+                  <option value="rascunho">Rascunho</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="postado">Postado</option>
+                </select>
+              </div>
+            </div>
+            <div class="kb-field">
+              <label>Data de postagem</label>
+              <input type="date" id="kb-f-date">
+            </div>
+          </div>
+          <div class="kb-modal-footer">
+            <button class="kb-btn-del" id="kb-btn-del" onclick="kbDeleteCard()" style="display:none">Deletar</button>
+            <div style="display:flex;gap:8px;margin-left:auto">
+              <button class="kb-btn-cancel" onclick="kbCloseModal()">Cancelar</button>
+              <button class="kb-btn-save" onclick="kbSaveCard()">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </div>
 
 <script>
@@ -4980,56 +5033,6 @@ Best regards,
         </div>
       </div>
 
-      <div class="kb-modal-wrap" id="kb-modal-wrap" onclick="if(event.target===this)kbCloseModal()">
-        <div class="kb-modal">
-          <div class="kb-modal-hdr">
-            <span class="kb-modal-title" id="kb-modal-title">Nova ideia</span>
-            <button class="kb-modal-close" onclick="kbCloseModal()">×</button>
-          </div>
-          <div class="kb-modal-body">
-            <div class="kb-field">
-              <label>Título / gancho</label>
-              <input type="text" id="kb-f-title" placeholder="Ex: Por que devs sênior travam na entrevista internacional">
-            </div>
-            <div class="kb-field">
-              <label>Roteiro / texto</label>
-              <textarea id="kb-f-body" placeholder="Cole aqui o roteiro, texto ou ideias principais..."></textarea>
-            </div>
-            <div class="kb-grid-2">
-              <div class="kb-field">
-                <label>Formato</label>
-                <select id="kb-f-format">
-                  <option value="">Selecione</option>
-                  <option>Texto</option>
-                  <option>Carrossel</option>
-                  <option>Vídeo</option>
-                  <option>Reel</option>
-                  <option>Story</option>
-                </select>
-              </div>
-              <div class="kb-field">
-                <label>Status</label>
-                <select id="kb-f-status">
-                  <option value="rascunho">Rascunho</option>
-                  <option value="agendado">Agendado</option>
-                  <option value="postado">Postado</option>
-                </select>
-              </div>
-            </div>
-            <div class="kb-field">
-              <label>Data de postagem</label>
-              <input type="date" id="kb-f-date">
-            </div>
-          </div>
-          <div class="kb-modal-footer">
-            <button class="kb-btn-del" id="kb-btn-del" onclick="kbDeleteCard()" style="display:none">Deletar</button>
-            <div style="display:flex;gap:8px;margin-left:auto">
-              <button class="kb-btn-cancel" onclick="kbCloseModal()">Cancelar</button>
-              <button class="kb-btn-save" onclick="kbSaveCard()">Salvar</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>`,
       'conteudo': `<div class="section" id="conteudo">
@@ -11345,7 +11348,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('kb-f-status').value = 'rascunho';
     document.getElementById('kb-f-date').value = '';
     document.getElementById('kb-btn-del').style.display = 'none';
-    document.getElementById('kb-modal-wrap').classList.add('open');
+    document.getElementById('kb-modal-wrap').style.display='flex';
   };
 
   window.kbOpenEdit = function(id) {
@@ -11360,11 +11363,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.getElementById('kb-f-status').value = c.status || 'rascunho';
     document.getElementById('kb-f-date').value = c.date || '';
     document.getElementById('kb-btn-del').style.display = '';
-    document.getElementById('kb-modal-wrap').classList.add('open');
+    document.getElementById('kb-modal-wrap').style.display='flex';
   };
 
   window.kbCloseModal = function() {
-    document.getElementById('kb-modal-wrap').classList.remove('open');
+    document.getElementById('kb-modal-wrap').style.display='none';
   };
 
   window.kbSaveCard = function() {
