@@ -8525,7 +8525,7 @@ Best regards,
     if (id === 'crm' && typeof crmRenderAll === 'function') setTimeout(crmRenderAll, 50);
     if (id === 'mentorados' && typeof mntLoad === 'function') setTimeout(mntLoad, 50);
     if (id === 'apps') { if(typeof apLoad==='function') setTimeout(apLoad,100); }
-    if (id === 'conteudo') {
+    if (id === 'conteudo' || id === 'marketing') {
       var lang = currentLang || 'pt';
       var tmpl = SECTIONS[lang] && SECTIONS[lang]['conteudo'];
       if (tmpl && section && !section.querySelector('.kb-board')) {
@@ -8754,7 +8754,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
       { id: 'templates', icon: '✉️', label: 'Templates de Abordagem' },
     ]},
 
-    criacao: { icon: '✏️', label: 'Criação', subs: [
+    marketing: { icon: '📣', label: 'Marketing', subs: [
       { id: 'conteudo', icon: '✏️', label: 'Planejamento de Conteúdo' },
     ]},
 
@@ -8774,7 +8774,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   const NG_MODES = {
     mentee: { badge: 'Central do Mentorado', groups: ['perfil','entrevista','recursos','apps_grupo'] },
-    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','criacao','mentora','vendas'] },
+    mentor: { badge: 'Painel da Mentora',    groups: ['perfil','entrevista','recursos','marketing','mentora','vendas'] },
   };
 
   let ngActiveGroup = null;
