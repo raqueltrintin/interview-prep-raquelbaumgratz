@@ -1203,60 +1203,61 @@
       <div class="section" id="conteudo">
         <style>
           .kb2-wrap{padding:1rem 0 2rem;}
-          .kb2-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:0.5px solid rgba(255,255,255,0.1);}
-          .kb2-title{font-size:15px;font-style:italic;color:#e8a97a;letter-spacing:.04em;}
-          .kb2-saving{font-size:11px;color:rgba(240,235,228,0.4);min-width:50px;text-align:right;}
+          .kb2-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid rgba(28,20,16,0.1);}
+          .kb2-title{font-size:15px;font-style:italic;color:#b5623a;letter-spacing:.04em;}
+          .kb2-saving{font-size:11px;color:rgba(28,20,16,0.4);min-width:50px;text-align:right;}
           .kb2-btn-new{background:#c0805a;color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:.04em;transition:background .2s;}
-          .kb2-btn-new:hover{background:#e8a97a;color:#1a1410;}
+          .kb2-btn-new:hover{background:#a06040;color:#fff;}
           .kb2-board{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;align-items:start;}
           @media(max-width:680px){.kb2-board{grid-template-columns:1fr;}}
-          .kb2-col{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.09);border-radius:10px;padding:.85rem;min-height:200px;}
-          .kb2-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:0.5px solid rgba(255,255,255,0.09);}
-          .kb2-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(240,235,228,0.55);}
-          .kb2-col-count{font-size:10px;background:rgba(192,128,90,0.15);color:#e8a97a;border-radius:10px;padding:1px 7px;}
+          .kb2-col{background:rgba(28,20,16,0.04);border:1px solid rgba(28,20,16,0.1);border-radius:10px;padding:.85rem;min-height:200px;}
+          .kb2-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid rgba(28,20,16,0.08);}
+          .kb2-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(28,20,16,0.45);}
+          .kb2-col-count{font-size:10px;background:rgba(192,128,90,0.18);color:#a06040;border-radius:10px;padding:1px 7px;font-weight:600;}
           .kb2-cards{display:flex;flex-direction:column;gap:.6rem;}
-          .kb2-empty{color:rgba(240,235,228,0.25);font-size:11px;font-style:italic;text-align:center;padding:1.2rem 0;}
-          .kb2-card{background:rgba(20,16,12,0.92);border:0.5px solid rgba(255,255,255,0.11);border-radius:7px;padding:.75rem;cursor:grab;transition:border-color .2s;}
+          .kb2-empty{color:rgba(28,20,16,0.3);font-size:11px;font-style:italic;text-align:center;padding:1.2rem 0;}
+          .kb2-card{background:#fff;border:1px solid rgba(28,20,16,0.12);border-radius:7px;padding:.75rem;cursor:grab;transition:border-color .2s,box-shadow .2s;}
+          .kb2-card:hover{box-shadow:0 2px 8px rgba(28,20,16,0.08);border-color:rgba(192,128,90,0.4);}
           .kb2-card:active{cursor:grabbing;}
           .kb2-card.kb2-dragging{opacity:.4;}
           .kb2-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:5px;}
           .kb2-tags{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
-          .kb2-tag{font-size:10px;padding:1px 6px;border-radius:9px;}
-          .kb2-tag-f{background:rgba(100,80,180,0.22);color:#b0a0f8;}
-          .kb2-tag-r{background:rgba(192,128,90,0.2);color:#e8a97a;}
-          .kb2-tag-d{background:rgba(60,120,80,0.2);color:#80c896;}
+          .kb2-tag{font-size:10px;padding:2px 7px;border-radius:9px;font-weight:500;}
+          .kb2-tag-f{background:rgba(100,80,180,0.12);color:#5040a0;}
+          .kb2-tag-r{background:rgba(192,128,90,0.15);color:#8a5030;}
+          .kb2-tag-d{background:rgba(40,140,80,0.12);color:#206040;}
           .kb2-actions{display:flex;gap:3px;flex-shrink:0;}
-          .kb2-btn-ic{background:none;border:none;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:rgba(240,235,228,0.45);transition:background .15s;}
-          .kb2-btn-ic:hover{background:rgba(255,255,255,0.08);color:#f0ebe4;}
-          .kb2-btn-del-ic:hover{background:rgba(192,64,64,0.2);color:#f08080;}
-          .kb2-roteiro{font-size:11px;color:rgba(240,235,228,0.55);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+          .kb2-btn-ic{background:none;border:none;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:rgba(28,20,16,0.35);transition:background .15s;}
+          .kb2-btn-ic:hover{background:rgba(28,20,16,0.07);color:rgba(28,20,16,0.8);}
+          .kb2-btn-del-ic:hover{background:rgba(192,64,64,0.1);color:#c04040;}
+          .kb2-roteiro{font-size:12px;color:rgba(28,20,16,0.65);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
           .kb2-roteiro.kb2-exp{display:block;-webkit-line-clamp:unset;}
-          .kb2-notas{margin-top:6px;padding-top:6px;border-top:0.5px solid rgba(255,255,255,0.09);font-size:11px;color:rgba(240,235,228,0.35);display:none;white-space:pre-wrap;}
+          .kb2-notas{margin-top:6px;padding-top:6px;border-top:1px solid rgba(28,20,16,0.08);font-size:11px;color:rgba(28,20,16,0.45);display:none;white-space:pre-wrap;}
           .kb2-notas.kb2-vis{display:block;}
           .kb2-drop-zone{min-height:32px;border:1.5px dashed transparent;border-radius:6px;margin-top:.4rem;transition:border-color .2s,background .2s;}
-          .kb2-drop-zone.kb2-dz-active{border-color:#c0805a;background:rgba(192,128,90,0.05);}
-          .kb2-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+          .kb2-drop-zone.kb2-dz-active{border-color:#c0805a;background:rgba(192,128,90,0.06);}
+          .kb2-overlay{position:fixed;inset:0;background:rgba(28,20,16,0.5);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
           .kb2-overlay.kb2-open{display:flex;}
-          .kb2-modal{background:#1e1812;border:0.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:1.4rem;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;}
-          .kb2-modal-title{font-size:15px;font-style:italic;color:#e8a97a;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:0.5px solid rgba(255,255,255,0.09);}
+          .kb2-modal{background:#faf7f4;border:1px solid rgba(28,20,16,0.12);border-radius:12px;padding:1.4rem;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;}
+          .kb2-modal-title{font-size:15px;font-style:italic;color:#b5623a;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid rgba(28,20,16,0.1);}
           .kb2-fg{margin-bottom:.85rem;}
-          .kb2-label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,235,228,0.35);margin-bottom:4px;}
-          .kb2-fg select,.kb2-fg input[type=date],.kb2-fg textarea{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.14);border-radius:6px;color:#f0ebe4;font-size:12px;padding:7px 9px;outline:none;transition:border-color .2s;font-family:inherit;}
+          .kb2-label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(28,20,16,0.45);margin-bottom:4px;}
+          .kb2-fg select,.kb2-fg input[type=date],.kb2-fg textarea{width:100%;background:#fff;border:1px solid rgba(28,20,16,0.15);border-radius:6px;color:#1c1410;font-size:12px;padding:7px 9px;outline:none;transition:border-color .2s;font-family:inherit;}
           .kb2-fg select:focus,.kb2-fg input:focus,.kb2-fg textarea:focus{border-color:#c0805a;}
           .kb2-fg textarea{resize:vertical;min-height:75px;line-height:1.6;}
-          .kb2-fg select option{background:#1e1812;}
+          .kb2-fg select option{background:#faf7f4;color:#1c1410;}
           .kb2-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
           @media(max-width:400px){.kb2-row{grid-template-columns:1fr;}}
-          .kb2-modal-footer{display:flex;gap:8px;margin-top:1rem;padding-top:.85rem;border-top:0.5px solid rgba(255,255,255,0.09);}
+          .kb2-modal-footer{display:flex;gap:8px;margin-top:1rem;padding-top:.85rem;border-top:1px solid rgba(28,20,16,0.1);}
           .kb2-btn-save{flex:1;background:#c0805a;color:#fff;border:none;padding:8px;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:.04em;transition:background .2s;font-family:inherit;}
-          .kb2-btn-save:hover{background:#e8a97a;color:#1a1410;}
-          .kb2-btn-cancel{background:none;border:0.5px solid rgba(255,255,255,0.15);color:rgba(240,235,228,0.55);padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;}
-          .kb2-btn-cancel:hover{color:#f0ebe4;}
-          .kb2-btn-trash{background:none;border:0.5px solid rgba(192,64,64,0.3);color:#f08080;padding:8px 12px;border-radius:6px;font-size:12px;cursor:pointer;}
-          .kb2-btn-trash:hover{background:rgba(192,64,64,0.15);}
+          .kb2-btn-save:hover{background:#a06040;color:#fff;}
+          .kb2-btn-cancel{background:none;border:1px solid rgba(28,20,16,0.15);color:rgba(28,20,16,0.6);padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;}
+          .kb2-btn-cancel:hover{color:#1c1410;border-color:rgba(28,20,16,0.3);}
+          .kb2-btn-trash{background:none;border:1px solid rgba(192,64,64,0.25);color:#c04040;padding:8px 12px;border-radius:6px;font-size:12px;cursor:pointer;}
+          .kb2-btn-trash:hover{background:rgba(192,64,64,0.08);}
           .kb2-msg{font-size:11px;padding:4px 10px;border-radius:5px;text-align:center;margin-top:.6rem;display:none;}
-          .kb2-msg.kb2-ok{display:block;background:rgba(60,120,80,0.2);color:#80c896;}
-          .kb2-msg.kb2-err{display:block;background:rgba(192,64,64,0.2);color:#f08080;}
+          .kb2-msg.kb2-ok{display:block;background:rgba(40,140,80,0.12);color:#206040;}
+          .kb2-msg.kb2-err{display:block;background:rgba(192,64,64,0.1);color:#c04040;}
         </style>
         <div class="kb2-wrap">
           <div class="kb2-hdr">
@@ -1352,7 +1353,7 @@
           <button class="lang-btn" id="app-lang-en" onclick="setLang('en')" style="font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;">🇺🇸 EN</button>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:10px;color:rgba(240,235,228,0.25);"><span class="app-role-dot" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:4px;vertical-align:middle;"></span><span id="header-eyebrow" data-i18n="app.eyebrow"></span></span>
+          <span style="font-size:10px;color:rgba(28,20,16,0.25);"><span class="app-role-dot" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:4px;vertical-align:middle;"></span><span id="header-eyebrow" data-i18n="app.eyebrow"></span></span>
           <button id="btn-trocar-senha" onclick="mntOpenTrocarSenha()" style="display:none;font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.5);cursor:pointer;">Trocar senha</button> <button class="logout-btn" onclick="doLogout()" data-i18n="app.logout" style="font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,235,228,0.4);cursor:pointer;">Sair</button>
         </div>
       </div>
@@ -10683,7 +10684,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         html += '<button class="kb2-btn-ic kb2-btn-del-ic" data-action="del" data-kid="' + id + '" title="Deletar">✕</button>';
         html += '</div></div>';
         html += '<div class="kb2-roteiro" id="kb2-rot-' + id + '">';
-        html += (c.roteiro || '<em style="color:rgba(240,235,228,0.25)">Sem roteiro</em>') + '</div>';
+        html += (c.roteiro || '<em style="color:rgba(28,20,16,0.25)">Sem roteiro</em>') + '</div>';
         if (has_notas) html += '<div class="kb2-notas" id="kb2-not-' + id + '">' + c.comentarios + '</div>';
         html += '</div>';
         return html;
