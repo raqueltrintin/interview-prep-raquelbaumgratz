@@ -423,3 +423,231 @@
   }
 
 })();
+
+// ============================================================
+// PATCH 1: Modal de novo lead → painel lateral
+// ============================================================
+(function patchOpenForm(){
+  function waitFor(fn){
+    if(typeof window.crmOpenForm==='function') fn();
+    else setTimeout(function(){waitFor(fn);},300);
+  }
+  waitFor(function(){
+    window.crmOpenForm=function(){
+      var old=document.getElementById('crm-form-side');
+      if(old) old.remove();
+
+      var overlay=document.createElement('div');
+      overlay.id='crm-form-overlay';
+      overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1500;backdrop-filter:blur(2px)';
+      overlay.onclick=function(e){if(e.target===overlay)closeSideForm();};
+
+      var panel=document.createElement('div');
+      panel.id='crm-form-side';
+      panel.style.cssText='position:fixed;top:0;right:0;width:480px;max-width:95vw;height:100vh;background:#fff;z-index:1501;overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,0.12);display:flex;flex-direction:column';
+
+      var tipos=['frio','quente'];
+      var origens=['LinkedIn','Indicação','Instagram','Evento','Outro'];
+      var origenopts=origens.map(function(o){return '<option>'+o+'</option>';}).join('');
+      var tipopts=tipos.map(function(t){return '<option>'+t+'</option>';}).join('');
+
+      panel.innerHTML=
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.07);position:sticky;top:0;background:#fff;z-index:2">'
+          +'<div style="font-size:15px;font-weight:500;color:#1c1410">Novo lead</div>'
+          +'<button id="crm-form-close-btn" style="width:32px;height:32px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:transparent;font-size:20px;cursor:pointer;color:#6b5a4e;display:flex;align-items:center;justify-content:center">&times;</button>'
+        +'</div>'
+        +'<div style="padding:1.25rem;flex:1">'
+          +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'
+            +'<div style="display:flex;flex-direction:column;gap:4px;grid-column:1/-1"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Nome completo *</label><input class="crm-form-inp" id="cf2-name" placeholder="Ana Silva"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Profissão *</label><input class="crm-form-inp" id="cf2-prof" placeholder="Product Manager"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Empresa</label><input class="crm-form-inp" id="cf2-emp" placeholder="Empresa atual"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">WhatsApp</label><input class="crm-form-inp" id="cf2-wpp" placeholder="(51) 99999-0000"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">E-mail</label><input class="crm-form-inp" id="cf2-email" placeholder="email@exemplo.com"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px;grid-column:1/-1"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">LinkedIn</label><input class="crm-form-inp" id="cf2-li" placeholder="linkedin.com/in/..."></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Tipo</label><select class="crm-form-sel" id="cf2-tipo">'+tipopts+'</select></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Origem</label><select class="crm-form-sel" id="cf2-orig" onchange="crmToggleIndicadoPor(this.value,\'cf2-indicado\')">'+origenopts+'</select></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px;grid-column:1/-1" id="cf2-indicado-row"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Indicado por</label><input class="crm-form-inp" id="cf2-indicado" placeholder="Nome de quem indicou"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Aniversário (DD/MM)</label><input class="crm-form-inp" id="cf2-aniv" placeholder="15/03"></div>'
+            +'<div style="display:flex;flex-direction:column;gap:4px;grid-column:1/-1"><label style="font-size:11px;font-weight:500;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em">Notas iniciais</label><textarea class="crm-form-inp" id="cf2-notes" placeholder="Contexto do lead..." style="height:72px;resize:vertical;font-family:inherit;font-size:13px"></textarea></div>'
+          +'</div>'
+        +'</div>'
+        +'<div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,0,0,0.07);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:#fff">'
+          +'<button id="crm-form-cancel" class="crm-btn" style="padding:8px 16px">Cancelar</button>'
+          +'<button id="crm-form-save" class="crm-btn main" style="padding:8px 16px">Salvar lead</button>'
+        +'</div>';
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(panel);
+      document.body.style.overflow='hidden';
+
+      // Ocultar row indicado inicialmente
+      var indRow=document.getElementById('cf2-indicado-row');
+      if(indRow) indRow.style.display='none';
+
+      document.getElementById('crm-form-close-btn').onclick=closeSideForm;
+      document.getElementById('crm-form-cancel').onclick=closeSideForm;
+      document.getElementById('crm-form-save').onclick=saveSideForm;
+
+      // Animar entrada
+      panel.style.transform='translateX(100%)';
+      panel.style.transition='transform .25s cubic-bezier(.4,0,.2,1)';
+      requestAnimationFrame(function(){panel.style.transform='translateX(0)';});
+      document.getElementById('cf2-name').focus();
+    };
+
+    function closeSideForm(){
+      var p=document.getElementById('crm-form-side');
+      var o=document.getElementById('crm-form-overlay');
+      if(p){p.style.transform='translateX(100%)';setTimeout(function(){p.remove();},250);}
+      if(o) o.remove();
+      document.body.style.overflow='';
+    }
+
+    function saveSideForm(){
+      var name=(document.getElementById('cf2-name').value||'').trim();
+      var prof=(document.getElementById('cf2-prof').value||'').trim();
+      if(!name||!prof){alert('Nome e profissão são obrigatórios.');return;}
+      var orig=document.getElementById('cf2-orig').value;
+      if(!window.crmLeads||typeof window.crmNextId==='undefined')return;
+      window.crmLeads.push({
+        id:window.crmNextId++,
+        name:name,
+        profissao:prof,
+        empresa:document.getElementById('cf2-emp').value||'—',
+        whatsapp:document.getElementById('cf2-wpp').value||'—',
+        email:document.getElementById('cf2-email').value||'—',
+        linkedin:document.getElementById('cf2-li').value||'—',
+        aniversario:document.getElementById('cf2-aniv').value||'',
+        origem:orig,
+        tipo:document.getElementById('cf2-tipo').value||'frio',
+        col:'linkedin',score:10,
+        indicadoPor:orig==='Indicação'?(document.getElementById('cf2-indicado').value||''):'',
+        notas:document.getElementById('cf2-notes').value||'Lead recém-adicionado.',
+        timeline:[{t:'Lead criado',d:new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),c:'#b5623e'}]
+      });
+      closeSideForm();
+      if(typeof crmSave==='function') crmSave();
+      if(typeof crmRenderAll==='function') crmRenderAll();
+    }
+
+    window.crmToggleIndicadoPor=function(val,inputId){
+      var rowId=inputId+'-row';
+      var row=document.getElementById(rowId);
+      if(row) row.style.display=val==='Indicação'?'flex':'none';
+    };
+  });
+})();
+
+// ============================================================
+// PATCH 2: Injetar script da próxima mensagem + Registrar Ação
+//          no painel lateral do lead (crm-side-body)
+// ============================================================
+(function patchRenderPanel(){
+  function waitFor(fn){
+    if(typeof window.crmRenderPanel==='function') fn();
+    else setTimeout(function(){waitFor(fn);},300);
+  }
+  waitFor(function(){
+    var orig=window.crmRenderPanel;
+    window.crmRenderPanel=function(){
+      orig();
+      // Aguardar o painel renderizar e injetar melhorias
+      setTimeout(function(){injetarMelhoriasPainel();},80);
+    };
+  });
+
+  function injetarMelhoriasPainel(){
+    var body=document.getElementById('crm-side-body');
+    if(!body||document.getElementById('crm-panel-melhorias'))return;
+    if(!window.crmSel||!window.crmLeads)return;
+    var l=window.crmLeads.find(function(x){return x.id===window.crmSel;});
+    if(!l)return;
+
+    var stepLabel=l.funil_step?CRM_STEP_LABELS[l.funil_step]:'';
+    var scriptTxt=l.funil_step?CRM_STEP_SCRIPTS[l.funil_step]:'';
+    var acoes=CRM_ACOES_FASE[l.col]||[];
+    var sugAcao=acoes.find(function(a){return a.sug;});
+
+    var wrap=document.createElement('div');
+    wrap.id='crm-panel-melhorias';
+
+    // Script da próxima mensagem
+    if(scriptTxt){
+      var scriptBox=document.createElement('div');
+      scriptBox.style.cssText='border-left:3px solid #b5623e;padding:10px 12px;background:#faf2ee;margin:12px 0';
+      scriptBox.innerHTML=
+        '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#7a3a22;margin-bottom:5px">Próxima mensagem — '+stepLabel+'</div>'
+        +'<div style="font-size:12px;color:#4a2010;line-height:1.65;font-style:italic">'+scriptTxt+'</div>';
+      wrap.appendChild(scriptBox);
+    }
+
+    // Registrar ação
+    var acaoSec=document.createElement('div');
+    acaoSec.style.cssText='margin:12px 0';
+
+    var secLabel=document.createElement('div');
+    secLabel.style.cssText='font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px';
+    secLabel.textContent='Registrar ação';
+    acaoSec.appendChild(secLabel);
+
+    var acaoBox=document.createElement('div');
+    acaoBox.style.cssText='background:#faf7f4;border-radius:8px;padding:10px 12px';
+
+    var acaoBtns=document.createElement('div');
+    acaoBtns.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0';
+
+    acoes.forEach(function(a){
+      var btn=document.createElement('button');
+      btn.style.cssText='padding:7px 10px;font-size:11px;border-radius:8px;text-align:left;cursor:pointer;line-height:1.3;transition:all .15s;'
+        +(a.sug
+          ?'border:1px solid #b5623e;background:#faf2ee;color:#7a3a22;font-weight:500'
+          :'border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410');
+      btn.innerHTML=a.label+(a.sug?'<span style="display:block;font-size:9px;color:#993C1D;margin-top:2px">sugerido</span>':'');
+      btn.onclick=function(){registrarAcaoPanel(l.id,a.id,a.label);};
+      acaoBtns.appendChild(btn);
+    });
+
+    acaoBox.appendChild(acaoBtns);
+    acaoSec.appendChild(acaoBox);
+    wrap.appendChild(acaoSec);
+
+    // Inserir antes da seção "Adicionar interação" existente
+    var secInteracao=Array.from(body.querySelectorAll('div')).find(function(d){
+      return d.textContent.trim()==='Adicionar interação'||d.textContent.trim()==='Adicionar intera\u00e7\u00e3o';
+    });
+    if(secInteracao&&secInteracao.parentNode===body){
+      body.insertBefore(wrap, secInteracao);
+    } else {
+      // Inserir logo após os campos de dados
+      var acts=body.querySelector('.crm-acts');
+      if(acts) body.insertBefore(wrap,acts);
+      else body.appendChild(wrap);
+    }
+  }
+
+  function registrarAcaoPanel(id,acaoId,acaoLabel){
+    if(!window.crmLeads)return;
+    var l=window.crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    var today=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+    l.timeline.push({t:acaoLabel,d:today,c:'#4a7c5a'});
+
+    // Avançar etapa automaticamente
+    if(acaoId&&CRM_STEP_NEXT[acaoId]) l.funil_step=CRM_STEP_NEXT[acaoId];
+
+    // Limpar próxima ação agendada
+    l.proxAcao=''; l.proxData='';
+
+    if(typeof crmSave==='function') crmSave();
+    if(typeof crmRenderPanel==='function') crmRenderPanel();
+
+    // Toast de confirmação
+    var toast=document.createElement('div');
+    toast.style.cssText='position:fixed;bottom:20px;right:20px;background:#EAF3DE;border:0.5px solid #97C459;border-radius:8px;padding:10px 16px;font-size:12px;color:#27500A;z-index:3000;opacity:0;transition:opacity .2s';
+    toast.textContent='✓ Registrado: '+acaoLabel;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function(){toast.style.opacity='1';});
+    setTimeout(function(){toast.style.opacity='0';setTimeout(function(){toast.remove();},200);},2500);
+  }
+})();
