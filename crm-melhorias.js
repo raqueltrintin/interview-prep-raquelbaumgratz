@@ -42,29 +42,31 @@
   };
   var CRM_ACOES_FASE={
     linkedin:[
-      {id:'msg1',label:'Mensagem 1 enviada',sug:true},
-      {id:'fu11',label:'Follow-up 1.1 enviado',sug:false},
-      {id:'fu12',label:'Follow-up 1.2 enviado',sug:false},
-      {id:'fu2',label:'Pediu WhatsApp',sug:false},
-      {id:'respondeu',label:'Respondeu com interesse',sug:false}
+      {id:'msg1',label:'Enviar mensagem 1',sug:true},
+      {id:'fu11',label:'Enviar follow-up 1.1',sug:false},
+      {id:'fu12',label:'Enviar follow-up 1.2',sug:false},
+      {id:'fu2',label:'Pedir WhatsApp',sug:false},
+      {id:'fu20',label:'Enviar follow-up 2.0',sug:false},
+      {id:'fu201',label:'Enviar follow-up 2.0.1',sug:false},
+      {id:'respondeu',label:'Registrar resposta com interesse',sug:false}
     ],
     qualif:[
-      {id:'abertura',label:'Ligação feita',sug:true},
-      {id:'perguntas',label:'3 perguntas feitas',sug:false},
-      {id:'convite',label:'Convite para reunião',sug:false},
-      {id:'horario',label:'Horário proposto',sug:false},
-      {id:'nao_atendeu',label:'Não atendeu — msg enviada',sug:false}
+      {id:'abertura',label:'Fazer ligação',sug:true},
+      {id:'perguntas',label:'Fazer 3 perguntas',sug:false},
+      {id:'convite',label:'Convidar para reunião',sug:false},
+      {id:'horario',label:'Propor horário',sug:false},
+      {id:'nao_atendeu',label:'Registrar não atendeu',sug:false}
     ],
     reuniao:[
-      {id:'acordo',label:'Acordo sim/não feito',sug:true},
-      {id:'dor',label:'Dor aprofundada',sug:false},
-      {id:'solucao',label:'Solução apresentada',sug:false},
-      {id:'verificar',label:'Reação verificada',sug:false},
-      {id:'preco',label:'Preço apresentado',sug:false}
+      {id:'acordo',label:'Fazer acordo sim/não',sug:true},
+      {id:'dor',label:'Aprofundar dor',sug:false},
+      {id:'solucao',label:'Apresentar solução',sug:false},
+      {id:'verificar',label:'Verificar reação',sug:false},
+      {id:'preco',label:'Apresentar preço',sug:false}
     ],
-    proposta:[{id:'followup_proposta',label:'Follow-up enviado',sug:true}],
-    fechado:[{id:'fechamento',label:'Fechamento confirmado',sug:true}],
-    heating:[{id:'heating_msg',label:'Conteúdo enviado',sug:true}]
+    proposta:[{id:'followup_proposta',label:'Enviar follow-up',sug:true}],
+    fechado:[{id:'fechamento',label:'Confirmar fechamento',sug:true}],
+    heating:[{id:'heating_msg',label:'Enviar conteúdo de aquecimento',sug:true}]
   };
 
   // ── Estado da fila ───────────────────────────────────────────────────────
