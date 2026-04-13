@@ -507,27 +507,45 @@
       var name=(document.getElementById('cf2-name').value||'').trim();
       var prof=(document.getElementById('cf2-prof').value||'').trim();
       if(!name||!prof){alert('Nome e profissão são obrigatórios.');return;}
+      // Copiar valores para os campos do formulário original e chamar crmSaveForm
       var orig=document.getElementById('cf2-orig').value;
-      if(!window.crmLeads||typeof window.crmNextId==='undefined')return;
-      window.crmLeads.push({
-        id:window.crmNextId++,
-        name:name,
-        profissao:prof,
-        empresa:document.getElementById('cf2-emp').value||'—',
-        whatsapp:document.getElementById('cf2-wpp').value||'—',
-        email:document.getElementById('cf2-email').value||'—',
-        linkedin:document.getElementById('cf2-li').value||'—',
-        aniversario:document.getElementById('cf2-aniv').value||'',
-        origem:orig,
-        tipo:document.getElementById('cf2-tipo').value||'frio',
-        col:'linkedin',score:10,
-        indicadoPor:orig==='Indicação'?(document.getElementById('cf2-indicado').value||''):'',
-        notas:document.getElementById('cf2-notes').value||'Lead recém-adicionado.',
-        timeline:[{t:'Lead criado',d:new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),c:'#b5623e'}]
-      });
-      closeSideForm();
-      if(typeof crmSave==='function') crmSave();
-      if(typeof crmRenderAll==='function') crmRenderAll();
+      var tipo=document.getElementById('cf2-tipo').value||'frio';
+      // Garantir que o form original existe
+      var origForm=document.getElementById('crm-form-grid');
+      if(!origForm){
+        // Form original não está no DOM, criar campos temporários
+        origForm=document.createElement('div');
+        origForm.id='crm-form-grid';
+        origForm.style.display='none';
+        document.body.appendChild(origForm);
+      }
+      origForm.innerHTML=
+        '<input id="cf-name" value="'+name.replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-prof" value="'+prof.replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-emp" value="'+(document.getElementById('cf2-emp').value||'').replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-wpp" value="'+(document.getElementById('cf2-wpp').value||'').replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-email" value="'+(document.getElementById('cf2-email').value||'').replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-li" value="'+(document.getElementById('cf2-li').value||'').replace(/"/g,'&quot;')+'">'
+        +'<input id="cf-aniv" value="'+(document.getElementById('cf2-aniv').value||'')+'">'
+        +'<select id="cf-orig"><option value="'+orig+'" selected>'+orig+'</option></select>'
+        +'<input id="cf-indicado" value="'+(document.getElementById('cf2-indicado')&&orig==='Indicação'?document.getElementById('cf2-indicado').value:'')+'">'
+        +'<input id="cf-notes" value="'+(document.getElementById('cf2-notes').value||'').replace(/"/g,'&quot;')+'">';
+      // Chamar o save original que tem acesso ao escopo correto
+      if(typeof window.crmSaveForm==='function'){
+        window.crmSaveForm();
+        // Adicionar campo tipo ao lead recém-criado
+        setTimeout(function(){
+          if(!window.crmLeads)return;
+          // Último lead adicionado
+          var leads=window.crmLeads;
+          if(leads&&leads.length>0){
+            var last=leads[leads.length-1];
+            if(!last.tipo) last.tipo=tipo;
+            if(typeof crmSave==='function') crmSave();
+          }
+        },100);
+        closeSideForm();
+      }
     }
 
     window.crmToggleIndicadoPor=function(val,inputId){
