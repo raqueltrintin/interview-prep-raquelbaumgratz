@@ -577,7 +577,7 @@
   function injetarMelhoriasPainel(){
     var body=document.getElementById('crm-side-body');
     if(!body||document.getElementById('crm-panel-melhorias'))return;
-    if(!window.crmSel||!window.crmLeads)return;
+    if(!window.crmLeads||window.crmSel==null)return;
     var l=window.crmLeads.find(function(x){return x.id===window.crmSel;});
     if(!l)return;
 
@@ -585,62 +585,182 @@
     var scriptTxt=l.funil_step?CRM_STEP_SCRIPTS[l.funil_step]:'';
     var acoes=CRM_ACOES_FASE[l.col]||[];
     var sugAcao=acoes.find(function(a){return a.sug;});
+    var COLS_ALL=[
+      {id:'linkedin',name:'Leads'},{id:'qualif',name:'Call qualif.'},
+      {id:'reuniao',name:'Reunião'},{id:'proposta',name:'Proposta'},
+      {id:'fechado',name:'Fechado'},{id:'heating',name:'Monthly Heating'},
+      {id:'arquivado',name:'Arquivado'},{id:'negativa',name:'Não contatar'}
+    ];
 
     var wrap=document.createElement('div');
     wrap.id='crm-panel-melhorias';
+    wrap.style.cssText='margin:0 0 4px';
 
-    // Script da próxima mensagem
+    // ── Tipo + Etapa ──────────────────────────────────────────────────────
+    var tipoEtapaBox=document.createElement('div');
+    tipoEtapaBox.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;padding:10px 12px;background:#faf7f4;border-radius:8px';
+
+    // Tipo frio/quente — editável
+    var tipoLabel=document.createElement('div');
+    tipoLabel.style.cssText='font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px';
+    tipoLabel.textContent='Tipo';
+    var tipoSel=document.createElement('select');
+    tipoSel.style.cssText='padding:4px 8px;font-size:12px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer;font-family:inherit';
+    tipoSel.innerHTML='<option value="frio"'+(l.tipo==='frio'?' selected':'')+'>Lead frio</option><option value="quente"'+(l.tipo==='quente'?' selected':'')+'>Lead quente</option>';
+    tipoSel.onchange=function(){l.tipo=this.value;if(typeof crmSave==='function')crmSave();};
+    var tipoWrap=document.createElement('div');
+    tipoWrap.appendChild(tipoLabel);
+    tipoWrap.appendChild(tipoSel);
+    tipoEtapaBox.appendChild(tipoWrap);
+
+    // Etapa do funil — editável
+    var etapaLabel=document.createElement('div');
+    etapaLabel.style.cssText='font-size:10px;color:#8a7a6e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px';
+    etapaLabel.textContent='Etapa';
+    var etapaSel=document.createElement('select');
+    etapaSel.style.cssText='padding:4px 8px;font-size:12px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer;font-family:inherit';
+    var etapaOpts='<option value="">Selecionar...</option>';
+    (CRM_STEPS[l.col]||[]).forEach(function(s){
+      etapaOpts+='<option value="'+s+'"'+(l.funil_step===s?' selected':'')+'>'+CRM_STEP_LABELS[s]+'</option>';
+    });
+    etapaSel.innerHTML=etapaOpts;
+    etapaSel.onchange=function(){
+      if(!this.value)return;
+      l.funil_step=this.value;
+      if(typeof crmSave==='function')crmSave();
+      // Re-renderizar melhorias com nova etapa
+      var old2=document.getElementById('crm-panel-melhorias');
+      if(old2)old2.remove();
+      setTimeout(injetarMelhoriasPainel,50);
+    };
+    var etapaWrap=document.createElement('div');
+    etapaWrap.appendChild(etapaLabel);
+    etapaWrap.appendChild(etapaSel);
+    tipoEtapaBox.appendChild(etapaWrap);
+    wrap.appendChild(tipoEtapaBox);
+
+    // ── Script da próxima mensagem ────────────────────────────────────────
     if(scriptTxt){
       var scriptBox=document.createElement('div');
-      scriptBox.style.cssText='border-left:3px solid #b5623e;padding:10px 12px;background:#faf2ee;margin:12px 0';
+      scriptBox.style.cssText='border-left:3px solid #b5623e;padding:10px 12px;background:#faf2ee;margin-bottom:10px';
       scriptBox.innerHTML=
         '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#7a3a22;margin-bottom:5px">Próxima mensagem — '+stepLabel+'</div>'
         +'<div style="font-size:12px;color:#4a2010;line-height:1.65;font-style:italic">'+scriptTxt+'</div>';
       wrap.appendChild(scriptBox);
     }
 
-    // Registrar ação
-    var acaoSec=document.createElement('div');
-    acaoSec.style.cssText='margin:12px 0';
+    // ── Registrar ação ────────────────────────────────────────────────────
+    if(acoes.length>0){
+      var secLbl=document.createElement('div');
+      secLbl.className='crm-sec';
+      secLbl.style.marginTop='0';
+      secLbl.textContent='Registrar ação';
+      wrap.appendChild(secLbl);
 
-    var secLabel=document.createElement('div');
-    secLabel.style.cssText='font-size:10px;font-weight:600;color:#8a7a6e;text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px';
-    secLabel.textContent='Registrar ação';
-    acaoSec.appendChild(secLabel);
+      var acaoBox=document.createElement('div');
+      acaoBox.style.cssText='background:#faf7f4;border-radius:8px;padding:10px 12px;margin-bottom:8px';
+      var grid=document.createElement('div');
+      grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:6px';
 
-    var acaoBox=document.createElement('div');
-    acaoBox.style.cssText='background:#faf7f4;border-radius:8px;padding:10px 12px';
-
-    var acaoBtns=document.createElement('div');
-    acaoBtns.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0';
-
-    acoes.forEach(function(a){
-      var btn=document.createElement('button');
-      btn.style.cssText='padding:7px 10px;font-size:11px;border-radius:8px;text-align:left;cursor:pointer;line-height:1.3;transition:all .15s;'
-        +(a.sug
-          ?'border:1px solid #b5623e;background:#faf2ee;color:#7a3a22;font-weight:500'
-          :'border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410');
-      btn.innerHTML=a.label+(a.sug?'<span style="display:block;font-size:9px;color:#993C1D;margin-top:2px">sugerido</span>':'');
-      btn.onclick=function(){registrarAcaoPanel(l.id,a.id,a.label);};
-      acaoBtns.appendChild(btn);
-    });
-
-    acaoBox.appendChild(acaoBtns);
-    acaoSec.appendChild(acaoBox);
-    wrap.appendChild(acaoSec);
-
-    // Inserir antes da seção "Adicionar interação" existente
-    var secInteracao=Array.from(body.querySelectorAll('div')).find(function(d){
-      return d.textContent.trim()==='Adicionar interação'||d.textContent.trim()==='Adicionar intera\u00e7\u00e3o';
-    });
-    if(secInteracao&&secInteracao.parentNode===body){
-      body.insertBefore(wrap, secInteracao);
-    } else {
-      // Inserir logo após os campos de dados
-      var acts=body.querySelector('.crm-acts');
-      if(acts) body.insertBefore(wrap,acts);
-      else body.appendChild(wrap);
+      acoes.forEach(function(a){
+        var btn=document.createElement('button');
+        btn.style.cssText='padding:7px 10px;font-size:11px;border-radius:8px;text-align:left;cursor:pointer;line-height:1.3;transition:all .15s;'
+          +(a.sug
+            ?'border:1px solid #b5623e;background:#faf2ee;color:#7a3a22;font-weight:500'
+            :'border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410');
+        btn.innerHTML=a.label+(a.sug?'<span style="display:block;font-size:9px;color:#993C1D;margin-top:2px">sugerido</span>':'');
+        btn.onclick=function(){registrarAcaoPanel(l.id,a.id,a.label);};
+        grid.appendChild(btn);
+      });
+      acaoBox.appendChild(grid);
+      wrap.appendChild(acaoBox);
     }
+
+    // ── Mover para fase ───────────────────────────────────────────────────
+    var moverLbl=document.createElement('div');
+    moverLbl.className='crm-sec';
+    moverLbl.textContent='Mover para fase';
+    wrap.appendChild(moverLbl);
+
+    var moverSel=document.createElement('select');
+    moverSel.className='crm-form-sel';
+    moverSel.style.cssText='width:100%;margin-bottom:12px;font-size:12px';
+    var moverOpts='<option value="">Selecionar fase...</option>';
+    COLS_ALL.filter(function(c){return c.id!==l.col;}).forEach(function(c){
+      moverOpts+='<option value="'+c.id+'">'+c.name+'</option>';
+    });
+    moverSel.innerHTML=moverOpts;
+    moverSel.onchange=function(){
+      if(!this.value)return;
+      var newCol=this.value;
+      l.col=newCol;
+      // Definir etapa padrão para a nova fase
+      var stepMap={linkedin:'msg1',qualif:'abertura',reuniao:'acordo',proposta:'followup_proposta',fechado:'fechamento',heating:'heating_msg'};
+      if(stepMap[newCol])l.funil_step=stepMap[newCol];
+      if(!l.timeline)l.timeline=[];
+      var colName=COLS_ALL.find(function(c){return c.id===newCol;});
+      l.timeline.push({t:'Movido para '+(colName?colName.name:newCol),d:new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}),c:'#b5623e'});
+      if(typeof crmSave==='function')crmSave();
+      if(typeof crmRenderAll==='function')crmRenderAll();
+      if(typeof crmRenderPanel==='function')crmRenderPanel();
+    };
+    wrap.appendChild(moverSel);
+
+    // ── Histórico melhorado (com botão × só em manuais) ───────────────────
+    var histLbl=document.createElement('div');
+    histLbl.className='crm-sec';
+    histLbl.textContent='Histórico';
+    wrap.appendChild(histLbl);
+
+    var histWrap=document.createElement('div');
+    histWrap.id='crm-hist-melhorado';
+    histWrap.style.marginBottom='8px';
+    renderHistorico(histWrap, l);
+    wrap.appendChild(histWrap);
+
+    // Inserir no topo do body, antes de tudo
+    var firstChild=body.firstChild;
+    body.insertBefore(wrap, firstChild);
+  }
+
+  function renderHistorico(container, l){
+    container.innerHTML='';
+    var hist=l.timeline||[];
+    if(hist.length===0){
+      container.innerHTML='<div style="font-size:12px;color:#8a7a6e;padding:8px 0">Nenhuma interação registrada.</div>';
+      return;
+    }
+    [...hist].reverse().forEach(function(t,ri){
+      var realIdx=hist.length-1-ri;
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;gap:9px;align-items:flex-start;margin-bottom:7px';
+      var dot=document.createElement('div');
+      dot.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(t.c||'#8a7a6e')+';flex-shrink:0;margin-top:3px';
+      var info=document.createElement('div');
+      info.style.flex='1';
+      info.innerHTML='<div style="font-size:12px;color:#1c1410">'+t.t+'</div><div style="font-size:11px;color:#8a7a6e;margin-top:1px">'+t.d+'</div>';
+      row.appendChild(dot);
+      row.appendChild(info);
+      // Botão × só para entradas manuais (não automáticas)
+      if(!t.auto){
+        var del=document.createElement('button');
+        del.style.cssText='border:none;background:none;color:#c0392b;cursor:pointer;font-size:16px;opacity:.4;padding:0 4px;line-height:1;flex-shrink:0';
+        del.title='Remover';
+        del.textContent='×';
+        del.onmouseenter=function(){this.style.opacity='1';};
+        del.onmouseleave=function(){this.style.opacity='.4';};
+        del.onclick=(function(idx){
+          return function(){
+            l.timeline.splice(idx,1);
+            if(typeof crmSave==='function')crmSave();
+            var hw=document.getElementById('crm-hist-melhorado');
+            if(hw)renderHistorico(hw,l);
+          };
+        })(realIdx);
+        row.appendChild(del);
+      }
+      container.appendChild(row);
+    });
   }
 
   function registrarAcaoPanel(id,acaoId,acaoLabel){
