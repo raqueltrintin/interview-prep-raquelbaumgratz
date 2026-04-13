@@ -9228,11 +9228,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   const CRM_ACTIONS = {
-    linkedin: ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Enviar conexão no LinkedIn','Esquentar o lead','Contatar novamente'],
-    qualif:   ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Enviar conexão no LinkedIn','Esquentar o lead','Contatar novamente','Call agendada','Call realizada','Call não atendida — tentar novamente'],
-    reuniao:  ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Esquentar o lead','Contatar novamente','Reunião realizada','Objeção contornada','Proposta enviada'],
-    proposta: ['Fazer follow-up','Contatar novamente','Esquentar o lead','Objeção: preço','Objeção: timing','Contrato enviado'],
-    fechado:  ['Contatar novamente','Onboarding agendado','Primeira sessão realizada','Indicação solicitada'],
+    linkedin: ['Mensagem 1 enviada','Follow-up 1.1 enviado','Follow-up 1.2 enviado','Pediu WhatsApp','Follow-up 2.0 enviado','Follow-up 2.0.1 enviado','Respondeu com interesse'],
+    qualif:   ['Ligação feita','Credencial apresentada','3 perguntas feitas','Convite para reunião','Horário proposto','Não atendeu — msg enviada','Reagendou ligação'],
+    reuniao:  ['Acordo sim/não feito','Dor aprofundada','Solução apresentada','Reação verificada','Preço apresentado'],
+    proposta: ['Follow-up enviado','Objeção de preço','Objeção de timing','Contrato enviado'],
+    fechado:  ['Fechamento confirmado','Onboarding agendado','Primeira sessão realizada','Indicação solicitada'],
+    heating:  ['Conteúdo enviado','Reagendou contato'],
   };
 
   function crmClosePanel(){
