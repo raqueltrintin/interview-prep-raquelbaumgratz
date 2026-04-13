@@ -9096,6 +9096,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   let crmLeads=[];
   let crmSel=null, crmQ='', crmNextId=1, crmSaveTimer=null;
+  // Expor em window para acesso externo
+  Object.defineProperty(window,'crmLeads',{get:function(){return crmLeads;},set:function(v){crmLeads=v;}});
+  Object.defineProperty(window,'crmSel',{get:function(){return crmSel;},set:function(v){crmSel=v;}});
+  Object.defineProperty(window,'crmNextId',{get:function(){return crmNextId;},set:function(v){crmNextId=v;}});
 
   function crmCol(id){return CRM_COLS_ALL.find(c=>c.id===id)||CRM_COLS[0]}
   function crmIni(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
