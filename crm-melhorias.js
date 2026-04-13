@@ -52,10 +52,12 @@
     ],
     qualif:[
       {id:'abertura',label:'Fazer ligação',sug:true},
+      {id:'horario',label:'Propor horário para ligação',sug:false},
       {id:'perguntas',label:'Fazer 3 perguntas',sug:false},
       {id:'convite',label:'Convidar para reunião',sug:false},
-      {id:'horario',label:'Propor horário',sug:false},
-      {id:'nao_atendeu',label:'Registrar não atendeu',sug:false}
+      {id:'nao_atendeu',label:'Registrar não atendeu — msg enviada',sug:false},
+      {id:'segundo_toque',label:'Enviar segundo toque — sem resposta',sug:false},
+      {id:'encerrar_heating',label:'Encerrar com porta aberta → Heating',sug:false}
     ],
     reuniao:[
       {id:'acordo',label:'Fazer acordo sim/não',sug:true},
@@ -772,6 +774,19 @@
     if(!l.timeline)l.timeline=[];
     var today=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
     l.timeline.push({t:acaoLabel,d:today,c:'#4a7c5a'});
+
+    // Ação especial: encerrar e mover para Heating
+    if(acaoId==='encerrar_heating'){
+      if(typeof crmHeating==='function'){crmSave&&crmSave();crmHeating(id);return;}
+      l.col='heating';l.funil_step='heating_msg';
+      var nxt=new Date();nxt.setDate(nxt.getDate()+30);
+      l.heating_next=nxt.toISOString().slice(0,10);
+      l.proxData=l.heating_next;
+      l.proxAcao='';
+      if(typeof crmSave==='function')crmSave();
+      if(typeof crmRenderAll==='function')crmRenderAll();
+      return;
+    }
 
     // Avançar etapa automaticamente
     if(acaoId&&CRM_STEP_NEXT[acaoId]) l.funil_step=CRM_STEP_NEXT[acaoId];
