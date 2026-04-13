@@ -570,11 +570,11 @@
     window.crmRenderPanel=function(){
       orig();
       // Aguardar o painel renderizar e injetar melhorias
-      setTimeout(function(){injetarMelhoriasPainel();},80);
+      setTimeout(function(){window.injetarMelhoriasPainel&&window.injetarMelhoriasPainel();},150);
     };
   });
 
-  function injetarMelhoriasPainel(){
+  window.injetarMelhoriasPainel=function injetarMelhoriasPainel(){
     var body=document.getElementById('crm-side-body');
     if(!body||document.getElementById('crm-panel-melhorias'))return;
     if(!window.crmLeads||window.crmSel==null)return;
@@ -723,7 +723,7 @@
     body.insertBefore(wrap, firstChild);
   }
 
-  function renderHistorico(container, l){
+  window.renderHistorico=function renderHistorico(container, l){
     container.innerHTML='';
     var hist=l.timeline||[];
     if(hist.length===0){
