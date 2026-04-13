@@ -4029,11 +4029,14 @@
         <div id="crm-diaria"></div>
       </div>
       <div class="crm-hdr">
-        <div class="crm-tab" id="crm-tabs">
-          <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <div class="crm-tab" id="crm-tabs">
+            <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
+          </div>
+          <div class="crm-tab" id="crm-view-tabs" style="background:rgba(181,98,62,0.08)"></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
@@ -4041,6 +4044,7 @@
           <button class="crm-btn-new" onclick="crmOpenForm()">+ Novo lead</button>
         </div>
       </div>
+      <div id="crm-onboarding-banner" style="display:none;background:#fdf6ec;border:1px solid rgba(201,122,42,0.3);border-radius:10px;padding:12px 16px;margin-bottom:1rem"></div>
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
       <div id="crm-panel" style="display:none"></div>
@@ -7136,11 +7140,14 @@ Best regards,
         <div id="crm-diaria"></div>
       </div>
       <div class="crm-hdr">
-        <div class="crm-tab" id="crm-tabs">
-          <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
-          <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <div class="crm-tab" id="crm-tabs">
+            <button class="crm-tab-btn active" onclick="crmSetTab('ativos')">Ativos</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('arquivado')">Arquivados</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('negativa')">Não contatar</button>
+            <button class="crm-tab-btn" onclick="crmSetTab('heating')">Monthly Heating</button>
+          </div>
+          <div class="crm-tab" id="crm-view-tabs" style="background:rgba(181,98,62,0.08)"></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="crm-saving" id="crm-saving"></div>
@@ -7148,6 +7155,7 @@ Best regards,
           <button class="crm-btn-new" onclick="crmOpenForm()">+ Novo lead</button>
         </div>
       </div>
+      <div id="crm-onboarding-banner" style="display:none;background:#fdf6ec;border:1px solid rgba(201,122,42,0.3);border-radius:10px;padding:12px 16px;margin-bottom:1rem"></div>
       <div class="crm-metrics" id="crm-metrics"></div>
       <div class="crm-kanban" id="crm-kanban"></div>
       <div id="crm-panel" style="display:none"></div>
@@ -9098,6 +9106,58 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   let crmSel=null, crmQ='', crmNextId=1, crmSaveTimer=null;
 
   function crmCol(id){return CRM_COLS_ALL.find(c=>c.id===id)||CRM_COLS[0]}
+
+  // ── Etapas do funil ─────────────────────────────────────────────────────
+  const CRM_STEPS={
+    linkedin:['msg1','fu11','fu12','fu2','fu20','fu201'],
+    qualif:  ['abertura','credencial','perguntas','convite','horario'],
+    reuniao: ['acordo','dor','solucao','verificar','preco'],
+    proposta:['followup_proposta'],
+    fechado: ['fechamento'],
+    heating: ['heating_msg'],
+  };
+  const CRM_STEP_LABELS={
+    msg1:'Mensagem 1',fu11:'Follow-up 1.1',fu12:'Follow-up 1.2',
+    fu2:'Pediu WhatsApp',fu20:'Follow-up 2.0',fu201:'Follow-up 2.0.1',
+    abertura:'Abertura ligação',credencial:'Credencial',perguntas:'3 perguntas',
+    convite:'Convite reunião',horario:'Oferta horário',
+    acordo:'Acordo inicial',dor:'Aprofundar dor',solucao:'Apresentação',
+    verificar:'Verificar reação',preco:'Preço',fechamento:'Fechamento',
+    followup_proposta:'Follow-up proposta',heating_msg:'Conteúdo de aquecimento',
+  };
+  const CRM_STEP_SCRIPTS={
+    msg1:'"Oi [nome], tudo bem? Tenho trabalhado com profissionais brasileiros que querem uma vaga remota internacional mas não estão conseguindo a colocação. Não por falta de qualificação técnica, mas por não saberem se posicionar e comunicar o valor deles na hora da entrevista. Faz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?"',
+    fu11:'"Oii [nome], você chegou a ver a mensagem acima?"',
+    fu12:'"Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante."',
+    fu2:'"Ótimo [nome], me passa seu WhatsApp para que eu possa entrar em contato com você e te apresentar como você pode conseguir uma vaga remota que pague em dólar."',
+    fu20:'"[nome]?"',
+    fu201:'"Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante."',
+    abertura:'"Oi [nome], aqui é a Raquel Baumgratz. A gente estava conversando no LinkedIn, você pode falar agora?" → Se não puder: "Que horário fica melhor hoje ou amanhã?"',
+    convite:'"Entendi. Quero marcar contigo uma reunião de no máximo uma hora. É uma reunião de decisão — no final você vai precisar me dar um sim ou um não. As decisões importantes da tua vida você toma sozinha ou compartilha com alguém?"',
+    horario:'"Você consegue fazer hoje às 21h ou amanhã às 9h da manhã?"',
+    acordo:'"Antes de começar, quero fazer um acordo com você. No final da nossa conversa eu vou precisar de um sim ou um não. Se for sim, a gente segue para a próxima etapa. Se for não, tudo bem — somos adultas, cada uma segue a sua vida. Estamos combinadas?"',
+    preco:'"O investimento para essa mentoria é de R$15.000 — ou em 12 vezes de R$1.300 no cartão." → Pare. Não justifique. Não preencha o silêncio.',
+    heating_msg:'Enviar conteúdo relevante — dica de entrevista, post, case de sucesso. Sem pressão de venda.',
+  };
+  const CRM_STEP_NEXT={
+    msg1:'fu11',fu11:'fu12',fu2:'abertura',fu20:'fu201',
+    abertura:'perguntas',perguntas:'convite',convite:'horario',
+    acordo:'dor',dor:'solucao',solucao:'verificar',verificar:'preco',preco:'fechamento',
+  };
+  const CRM_ACOES_POR_FASE={
+    linkedin:[{id:'msg1',label:'Mensagem 1 enviada',sug:true},{id:'fu11',label:'Follow-up 1.1 enviado',sug:false},{id:'fu12',label:'Follow-up 1.2 enviado',sug:false},{id:'fu2',label:'Pediu WhatsApp',sug:false},{id:'respondeu_interesse',label:'Respondeu com interesse',sug:false},{id:'sem_resposta',label:'Sem resposta registrada',sug:false}],
+    qualif:  [{id:'abertura',label:'Ligação feita',sug:true},{id:'credencial',label:'Credencial apresentada',sug:false},{id:'perguntas',label:'3 perguntas feitas',sug:false},{id:'convite',label:'Convite para reunião',sug:false},{id:'horario',label:'Horário proposto',sug:false},{id:'nao_atendeu',label:'Não atendeu — msg enviada',sug:false}],
+    reuniao: [{id:'acordo',label:'Acordo sim/não feito',sug:true},{id:'dor',label:'Dor aprofundada',sug:false},{id:'solucao',label:'Solução apresentada',sug:false},{id:'verificar',label:'Reação verificada',sug:false},{id:'preco',label:'Preço apresentado',sug:false}],
+    proposta:[{id:'followup_proposta',label:'Follow-up enviado',sug:true},{id:'objecao_preco',label:'Objeção de preço',sug:false},{id:'objecao_timing',label:'Objeção de timing',sug:false}],
+    fechado: [{id:'fechamento',label:'Fechamento confirmado',sug:true},{id:'indicacao',label:'Indicação solicitada',sug:false}],
+    heating: [{id:'heating_msg',label:'Conteúdo enviado',sug:true},{id:'reagendou',label:'Reagendou contato',sug:false}],
+  };
+
+  // Fila do dia: índice atual e leads já concluídos nesta sessão
+  let crmFilaIdx=0;
+  let crmFilaFeitos=[];
+  let crmView='fila'; // 'fila' ou 'kanban'
+  let crmOnboarding=false; // modo configuração inicial
   function crmIni(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
   function crmSc(s){return s>=80?'#4a7c5a':s>=50?'#c97a2a':'#b5623e'}
   function crmToday(){return new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}
@@ -9175,12 +9235,22 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   function crmRenderAll(){
     crmRenderMetrics();
-    crmRenderKanban();
+    crmRenderViewTabs();
+    if(crmView==='fila') crmRenderFila();
+    else crmRenderKanban();
     crmRenderPanel();
-    crmRenderDiaria();
     var dd=document.getElementById('crm-diaria-date');
     if(dd)dd.textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+    var semEtapa=crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa'&&!l.funil_step;});
+    if(semEtapa.length>3){crmRenderOnboardingBanner(semEtapa.length);}
+    else{var ob=document.getElementById('crm-onboarding-banner');if(ob)ob.style.display='none';}
   }
+  function crmRenderViewTabs(){
+    var wrap=document.getElementById('crm-view-tabs');
+    if(!wrap)return;
+    wrap.innerHTML='<button class="crm-tab-btn'+(crmView==='fila'?' active':'')+'" onclick="crmSetView(\'fila\')">Fila do dia</button>'+'<button class="crm-tab-btn'+(crmView==='kanban'?' active':'')+'" onclick="crmSetView(\'kanban\')">Kanban</button>';
+  }
+  function crmSetView(v){crmView=v;if(v==='kanban')crmSel=null;crmRenderAll();}
 
   function crmRenderMetrics(){
     var el=document.getElementById('crm-metrics');
@@ -9213,10 +9283,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
         <div class="crm-col-hd"><span class="crm-col-nm">${c.name}</span><span class="crm-col-bdg">${cards.length}</span></div>
         ${cards.length===0?'<div class="crm-empty">Vazio</div>':cards.map(l=>{
           const av=crmAniv(l.aniversario);
+          const stepLabel=l.funil_step?CRM_STEP_LABELS[l.funil_step]:'';
+          const tipoColor=l.tipo==='quente'?'#BA7517':'#185FA5';
+          const tipoBg=l.tipo==='quente'?'#FAEEDA':'#E6F1FB';
           return '<div class="crm-card'+(l.id===crmSel?' sel':'')+
-            '" onclick="crmPick('+l.id+')" style="display:flex;align-items:center;gap:8px;padding:8px 10px">'+
-            '<div class="crm-av" style="background:'+c.pb+';color:'+c.pc+';width:26px;height:26px;font-size:10px;flex-shrink:0">'+crmIni(l.name)+'</div>'+
-            '<div style="font-size:13px;font-weight:500;color:#1c1410;line-height:1.3">'+l.name+'</div>'+
+            '" onclick="crmPick('+l.id+')" style="padding:10px">'+
+            '<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'+
+            '<div class="crm-av" style="background:'+c.pb+';color:'+c.pc+';width:28px;height:28px;font-size:10px;flex-shrink:0">'+crmIni(l.name)+'</div>'+
+            '<div style="flex:1;min-width:0">'+
+              '<div style="font-size:12.5px;font-weight:500;color:#1c1410;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+l.name+'</div>'+
+              '<div style="font-size:10.5px;color:#8a7a6e;margin-top:1px">'+l.profissao+'</div>'+
+            '</div>'+
+            '</div>'+
+            '<div style="display:flex;gap:4px;flex-wrap:wrap">'+
+            (l.tipo?'<span style="font-size:10px;font-weight:500;padding:2px 6px;border-radius:20px;background:'+tipoBg+';color:'+tipoColor+'">'+l.tipo.charAt(0).toUpperCase()+l.tipo.slice(1)+'</span>':'')+
+            (stepLabel?'<span style="font-size:10px;padding:2px 6px;border-radius:20px;background:rgba(0,0,0,0.05);color:#8a7a6e;border:0.5px solid rgba(0,0,0,0.07)">'+stepLabel+'</span>':'')+
+            (av?'<span class="crm-aniv">'+av+'</span>':'')+
+            '</div>'+
           '</div>';
         }).join('')}
       </div>`;
@@ -9384,10 +9467,235 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   function crmRenderDiaria(){
-    const el=document.getElementById('crm-diaria');
+    // Mantida para compatibilidade — não usada na nova fila
+  }
+
+  // ── Fila do dia ──────────────────────────────────────────────────────────
+  function crmGetFila(){
+    var today=new Date().toISOString().slice(0,10);
+    return crmLeads.filter(function(l){
+      if(l.col==='arquivado'||l.col==='negativa')return false;
+      if(crmFilaFeitos.includes(l.id))return false;
+      if(l.col==='heating'){
+        if(!l.heating_next)return false;
+        return l.heating_next<=today;
+      }
+      if(!l.proxData&&!l.proxAcao)return true;
+      if(!l.proxData)return true;
+      return l.proxData<=today;
+    }).sort(function(a,b){
+      var da=a.proxData||'9999',db=b.proxData||'9999';
+      return da>db?1:-1;
+    });
+  }
+
+  function crmRenderFila(){
+    var el=document.getElementById('crm-kanban');
     if(!el)return;
-    const today=new Date().toISOString().slice(0,10);
-    const todayFmt=crmToday();
+    var fila=crmGetFila();
+    var total=fila.length+crmFilaFeitos.length;
+    var feitos=crmFilaFeitos.length;
+
+    if(fila.length===0){
+      el.innerHTML='<div style="padding:2rem;text-align:center;width:100%">'+
+        '<div style="font-size:28px;margin-bottom:8px">&#10003;</div>'+
+        '<div style="font-size:15px;font-weight:500;color:#1c1410;margin-bottom:4px">Tudo feito por hoje!</div>'+
+        '<div style="font-size:12px;color:#8a7a6e">Você trabalhou '+feitos+' lead'+(feitos!==1?'s':'')+' hoje.</div>'+
+      '</div>';
+      return;
+    }
+    var idx=Math.min(crmFilaIdx,fila.length-1);
+    var l=fila[idx];
+    var c=crmCol(l.col);
+    var stepLabel=CRM_STEP_LABELS[l.funil_step]||(l.proxAcao||'Próxima ação');
+    var script=CRM_STEP_SCRIPTS[l.funil_step]||'';
+    var isHeating=l.col==='heating';
+    var today=new Date().toISOString().slice(0,10);
+    var proxDataFmt=l.proxData?l.proxData.split('-').reverse().join('/'):'';
+    var atrasado=l.proxData&&l.proxData<today;
+    var diasAtraso=atrasado?Math.round((new Date(today)-new Date(l.proxData))/(1000*60*60*24)):0;
+
+    // Barra de progresso
+    var pips='';
+    for(var i=0;i<total;i++){
+      var cls=i<feitos?'background:#639922':i===feitos?'background:#b5623e':'background:rgba(0,0,0,0.08)';
+      pips+='<div style="height:4px;flex:1;border-radius:2px;'+cls+'"></div>';
+    }
+
+    // Ações da fila
+    var acoes=CRM_ACOES_POR_FASE[l.col]||[];
+    var sugAcao=acoes.find(function(a){return a.sug;});
+
+    el.innerHTML='<div style="width:100%;max-width:680px;margin:0 auto">'+
+      // Header
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
+        '<div>'+
+          '<div style="font-size:14px;font-weight:500;color:#1c1410">Fila do dia</div>'+
+          '<div style="font-size:12px;color:#8a7a6e">'+feitos+' de '+total+' concluídos &middot; '+fila.length+' restante'+(fila.length!==1?'s':'')+'</div>'+
+        '</div>'+
+        (fila.length>1?'<button onclick="crmFilaPular()" style="padding:6px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:transparent;color:#8a7a6e;cursor:pointer">Pular por agora</button>':'')+
+      '</div>'+
+      // Progresso
+      '<div style="display:flex;gap:3px;margin-bottom:14px">'+pips+'</div>'+
+      // Card do lead
+      '<div style="background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:12px;padding:1.25rem">'+
+        // Header do lead
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">'+
+          '<div style="width:40px;height:40px;border-radius:50%;background:'+c.pb+';color:'+c.pc+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0">'+crmIni(l.name)+'</div>'+
+          '<div style="flex:1">'+
+            '<div style="font-size:15px;font-weight:500;color:#1c1410">'+l.name+'</div>'+
+            '<div style="font-size:12px;color:#8a7a6e">'+l.profissao+(l.empresa&&l.empresa!=='—'?' &middot; '+l.empresa:'')+'</div>'+
+          '</div>'+
+          '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">'+
+            '<span style="font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px;background:'+c.pb+';color:'+c.pc+'">'+c.name+'</span>'+
+            (l.funil_step?'<span style="font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.05);color:#8a7a6e">'+stepLabel+'</span>':'')+
+            (atrasado?'<span style="font-size:10px;color:#c0392b">&nbsp;&#9651; '+diasAtraso+'d em atraso</span>':'')+
+            (isHeating?'<span style="font-size:10px;padding:2px 8px;border-radius:20px;background:#fdf0e8;color:#7a3a22">Monthly Heating</span>':'')+
+          '</div>'+
+        '</div>'+
+        // Script
+        (script?'<div style="border-left:3px solid #b5623e;padding:10px 12px;background:#faf2ee;border-radius:0;margin-bottom:12px">'+
+          '<div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:#7a3a22;margin-bottom:4px">Mensagem a enviar — '+stepLabel+'</div>'+
+          '<div style="font-size:12px;color:#4a2010;line-height:1.65;font-style:italic">'+script+'</div>'+
+        '</div>':'')+
+        // Se não tem etapa definida
+        (!l.funil_step&&l.col!=='fechado'?'<div style="background:#fdf6ec;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#8a5010">'+
+          '&#9888; Etapa não definida. Defina abaixo para ver o script correto.'+
+        '</div>':'')+
+        // Ações
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+
+          (sugAcao?'<button onclick="crmFilaFeito('+l.id+',\''+sugAcao.id+'\',\''+sugAcao.label.replace(/'/g,"\\'")+'\',true)" style="padding:8px 18px;font-size:13px;font-weight:500;border-radius:8px;border:none;background:#b5623e;color:#fff;cursor:pointer">Feito — '+sugAcao.label+'</button>':'<button onclick="crmFilaFeito('+l.id+',\'\',\'Ação concluída\',true)" style="padding:8px 18px;font-size:13px;font-weight:500;border-radius:8px;border:none;background:#b5623e;color:#fff;cursor:pointer">Marcar feito</button>')+
+          '<button onclick="crmFilaAbrirPanel('+l.id+')" style="padding:8px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:transparent;color:#1c1410;cursor:pointer">Ver detalhes</button>'+
+          (l.funil_step?'':'<select onchange="crmDefinirEtapa('+l.id+',this.value);this.value=\'\'" style="padding:6px 10px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer">'+
+            '<option value="">Definir etapa...</option>'+
+            (CRM_STEPS[l.col]||[]).map(function(s){return'<option value="'+s+'">'+CRM_STEP_LABELS[s]+'</option>';}).join('')+
+          '</select>')+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function crmFilaFeito(id,acaoId,acaoLabel,avancar){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    if(acaoLabel)l.timeline.push({t:acaoLabel,d:crmToday(),c:'#4a7c5a',manual:true});
+    if(avancar&&acaoId&&CRM_STEP_NEXT[acaoId])l.funil_step=CRM_STEP_NEXT[acaoId];
+    // Monthly Heating: reagendar +30 dias
+    if(l.col==='heating'){
+      var next=new Date();next.setDate(next.getDate()+30);
+      l.heating_next=next.toISOString().slice(0,10);
+      l.proxData=l.heating_next;
+    } else {
+      l.proxAcao='';l.proxData='';
+    }
+    crmFilaFeitos.push(id);
+    crmFilaIdx=0;
+    crmSave();crmRenderAll();
+  }
+
+  function crmFilaPular(){
+    var fila=crmGetFila();
+    if(fila.length<=1)return;
+    crmFilaIdx=(crmFilaIdx+1)%fila.length;
+    crmRenderFila();
+  }
+
+  function crmFilaAbrirPanel(id){
+    crmView='kanban';
+    crmSel=Number(id);
+    crmRenderAll();
+    setTimeout(function(){
+      var sp=document.getElementById('crm-side-panel');
+      if(sp)sp.scrollIntoView({behavior:'smooth'});
+    },200);
+  }
+
+  function crmDefinirEtapa(id,step){
+    if(!step)return;
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    l.funil_step=step;
+    crmSave();crmRenderFila();
+  }
+
+  // ── Onboarding banner ────────────────────────────────────────────────────
+  function crmRenderOnboardingBanner(count){
+    var ob=document.getElementById('crm-onboarding-banner');
+    if(!ob)return;
+    ob.style.display='block';
+    ob.innerHTML='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'+
+      '<div style="font-size:13px;color:#7a3a22;flex:1"><strong>'+count+' leads sem etapa definida.</strong> Defina a etapa de cada um para ativar o script automático na fila do dia.</div>'+
+      '<button onclick="crmIniciarOnboarding()" style="padding:6px 14px;font-size:12px;font-weight:500;border-radius:8px;border:0.5px solid #7a3a22;background:transparent;color:#7a3a22;cursor:pointer;white-space:nowrap">Configurar agora</button>'+
+      '<button onclick="document.getElementById(\'crm-onboarding-banner\').style.display=\'none\'" style="padding:6px 10px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.1);background:transparent;color:#8a7a6e;cursor:pointer">Depois</button>'+
+    '</div>';
+  }
+
+  function crmIniciarOnboarding(){
+    var semEtapa=crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa'&&!l.funil_step;});
+    if(semEtapa.length===0){alert('Todos os leads já têm etapa definida!');return;}
+    var l=semEtapa[0];
+    var c=crmCol(l.col);
+    var steps=CRM_STEPS[l.col]||[];
+    var html='<div style="font-weight:500;color:#1c1410;margin-bottom:4px">'+l.name+'</div>'+
+      '<div style="font-size:12px;color:#8a7a6e;margin-bottom:10px">'+l.profissao+' &middot; '+c.name+'</div>'+
+      '<div style="font-size:12px;color:#1c1410;margin-bottom:8px">Em qual etapa está este lead?</div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">'+
+      steps.map(function(s){
+        return'<button onclick="crmOnboardingSet('+l.id+',\''+s+'\')" style="padding:8px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer;text-align:left">'+CRM_STEP_LABELS[s]+'</button>';
+      }).join('')+
+      '<button onclick="crmOnboardingSet('+l.id+',\'\')" style="padding:8px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.08);background:transparent;color:#8a7a6e;cursor:pointer;text-align:left">Pular este lead</button>'+
+      '</div>'+
+      '<div style="font-size:11px;color:#8a7a6e;margin-top:10px">'+semEtapa.length+' lead'+(semEtapa.length!==1?'s':'')+' restante'+(semEtapa.length!==1?'s':'')+'</div>';
+    var ob=document.getElementById('crm-onboarding-banner');
+    if(ob){ob.style.display='block';ob.innerHTML=html;}
+  }
+
+  function crmOnboardingSet(id,step){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(l&&step)l.funil_step=step;
+    if(l&&!step)l.funil_step='__skip'; // pular
+    crmSave();
+    var semEtapa=crmLeads.filter(function(l){return l.col!=='arquivado'&&l.col!=='negativa'&&!l.funil_step;});
+    if(semEtapa.length>0)crmIniciarOnboarding();
+    else{var ob=document.getElementById('crm-onboarding-banner');if(ob)ob.style.display='none';crmRenderAll();}
+  }
+
+  function crmConcluirAcao(id){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(l.proxAcao){
+      if(!l.timeline)l.timeline=[];
+      l.timeline.push({t:'✓ '+l.proxAcao,d:crmToday(),c:'#4a7c5a',manual:true});
+    }
+    l.proxAcao='';l.proxData='';
+    crmSave();crmRenderAll();
+    if(crmSel===id)crmRenderPanel();
+  }
+
+  // ── Registrar ação rápida no painel com sugestão e desfazer ─────────────
+  function crmQuickIntV2(id,acaoId,acaoLabel){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l)return;
+    if(!l.timeline)l.timeline=[];
+    l.timeline.push({t:acaoLabel,d:crmToday(),c:'#4a7c5a',manual:true});
+    if(acaoId&&CRM_STEP_NEXT[acaoId])l.funil_step=CRM_STEP_NEXT[acaoId];
+    crmSave();crmRenderPanel();crmRenderKanban();
+  }
+
+  function crmDelIntV2(id,idx){
+    id=Number(id);
+    var l=crmLeads.find(function(x){return x.id===id;});
+    if(!l||!l.timeline[idx])return;
+    if(!l.timeline[idx].manual){alert('Entradas automáticas não podem ser removidas.');return;}
+    l.timeline.splice(idx,1);
+    crmSave();crmRenderPanel();
+  }
     // Leads com ação programada para hoje ou atrasada
     const urgentes=crmLeads.filter(l=>{
       if(l.col==='arquivado'||l.col==='negativa')return false;
@@ -9510,6 +9818,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     if(!l.timeline)l.timeline=[];
     l.timeline.unshift({t:'Enviado para Monthly Heating',d:crmToday(),c:'#7a3a22'});
     l.col='heating';
+    // Agendar próximo contato: 30 dias
+    var next=new Date();next.setDate(next.getDate()+30);
+    l.heating_next=next.toISOString().slice(0,10);
+    l.proxData=l.heating_next;
+    l.funil_step='heating_msg';
     crmClosePanel();
     crmSave();crmRenderAll();
   }
