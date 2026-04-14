@@ -48,7 +48,10 @@
       {id:'fu2',label:'Pedir WhatsApp',sug:false},
       {id:'fu20',label:'Enviar follow-up 2.0',sug:false},
       {id:'fu201',label:'Enviar follow-up 2.0.1',sug:false},
-      {id:'respondeu',label:'Registrar resposta com interesse',sug:false}
+      {id:'respondeu',label:'Registrar resposta com interesse',sug:false},
+      {id:'sem_interesse',label:'Respondeu sem interesse no momento',sug:false},
+      {id:'silencio',label:'Silêncio',sug:false},
+      {id:'interesse_sem_ingles',label:'Tem interesse mas não sabe inglês',sug:false}
     ],
     qualif:[
       {id:'abertura',label:'Fazer ligação',sug:true},
@@ -57,14 +60,17 @@
       {id:'convite',label:'Convidar para reunião',sug:false},
       {id:'nao_atendeu',label:'Registrar não atendeu — msg enviada',sug:false},
       {id:'segundo_toque',label:'Enviar segundo toque — sem resposta',sug:false},
-      {id:'encerrar_heating',label:'Encerrar com porta aberta → Heating',sug:false}
+      {id:'encerrar_heating',label:'Encerrar com porta aberta → Heating',sug:false},
+      {id:'mais_info_msg',label:'Pediu mais informações por mensagem',sug:false}
     ],
     reuniao:[
       {id:'acordo',label:'Fazer acordo sim/não',sug:true},
       {id:'dor',label:'Aprofundar dor',sug:false},
       {id:'solucao',label:'Apresentar solução',sug:false},
       {id:'verificar',label:'Verificar reação',sug:false},
-      {id:'preco',label:'Apresentar preço',sug:false}
+      {id:'preco',label:'Apresentar preço',sug:false},
+      {id:'nao_compareceu',label:'Não compareceu na reunião',sug:false},
+      {id:'silencio_reuniao',label:'Silêncio',sug:false}
     ],
     proposta:[{id:'followup_proposta',label:'Enviar follow-up',sug:true}],
     fechado:[{id:'fechamento',label:'Confirmar fechamento',sug:true}],
@@ -561,10 +567,24 @@
 })();
 
 // ============================================================
-// PATCH 2: Injetar script da próxima mensagem + Registrar Ação
-//          no painel lateral do lead (crm-side-body)
+// PATCH 2: Injetar melhorias no painel lateral via MutationObserver
 // ============================================================
 (function patchRenderPanel(){
+  // Observar quando o crm-side-body tem conteúdo novo
+  function iniciarObserver(){
+    var body=document.getElementById('crm-side-body');
+    if(!body){setTimeout(iniciarObserver,500);return;}
+    var obs=new MutationObserver(function(){
+      // Remover melhorias antigas e reinjetar
+      var old2=document.getElementById('crm-panel-melhorias');
+      if(old2)old2.remove();
+      setTimeout(function(){
+        if(window.injetarMelhoriasPainel) window.injetarMelhoriasPainel();
+      },80);
+    });
+    obs.observe(body,{childList:true,subtree:false});
+  }
+  // Também patchear crmRenderPanel como backup
   function waitFor(fn){
     if(typeof window.crmRenderPanel==='function') fn();
     else setTimeout(function(){waitFor(fn);},300);
@@ -573,9 +593,13 @@
     var orig=window.crmRenderPanel;
     window.crmRenderPanel=function(){
       orig();
-      // Aguardar o painel renderizar e injetar melhorias
-      setTimeout(function(){window.injetarMelhoriasPainel&&window.injetarMelhoriasPainel();},150);
+      setTimeout(function(){
+        var old2=document.getElementById('crm-panel-melhorias');
+        if(old2)old2.remove();
+        if(window.injetarMelhoriasPainel) window.injetarMelhoriasPainel();
+      },150);
     };
+    iniciarObserver();
   });
 
   window.injetarMelhoriasPainel=function injetarMelhoriasPainel(){
