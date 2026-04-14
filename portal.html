@@ -9228,9 +9228,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   const CRM_ACTIONS = {
-    linkedin: ['Enviar mensagem 1','Enviar follow-up 1.1','Enviar follow-up 1.2','Pedir WhatsApp','Enviar follow-up 2.0','Enviar follow-up 2.0.1','Registrar resposta com interesse'],
-    qualif:   ['Fazer ligação','Propor horário para ligação','Fazer 3 perguntas','Convidar para reunião','Enviar segundo toque — sem resposta','Encerrar com porta aberta → Heating','Registrar não atendeu — msg enviada','Reagendar ligação'],
-    reuniao:  ['Fazer acordo sim/não','Aprofundar dor','Apresentar solução','Verificar reação','Apresentar preço'],
+    linkedin: ['Enviar mensagem 1','Enviar follow-up 1.1','Enviar follow-up 1.2','Pedir WhatsApp','Enviar follow-up 2.0','Enviar follow-up 2.0.1','Registrar resposta com interesse','Respondeu sem interesse no momento','Silêncio','Tem interesse mas não sabe inglês'],
+    qualif:   ['Fazer ligação','Propor horário para ligação','Fazer 3 perguntas','Convidar para reunião','Enviar segundo toque — sem resposta','Encerrar com porta aberta → Heating','Registrar não atendeu — msg enviada','Reagendar ligação','Pediu mais informações por mensagem'],
+    reuniao:  ['Fazer acordo sim/não','Aprofundar dor','Apresentar solução','Verificar reação','Apresentar preço','Não compareceu na reunião','Silêncio'],
     proposta: ['Enviar follow-up','Registrar objeção de preço','Registrar objeção de timing','Enviar contrato'],
     fechado:  ['Confirmar fechamento','Agendar onboarding','Realizar primeira sessão','Pedir indicação'],
     heating:  ['Enviar conteúdo de aquecimento','Reagendar contato'],
@@ -9279,7 +9279,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     });
 
     var optsHtml='<option value="">Selecionar ação...</option>';
-    (CRM_ACTIONS[l.col]||[]).forEach(function(a){
+    var proxOpcoes=(CRM_PROX_ACOES&&CRM_PROX_ACOES[l.col])||CRM_ACTIONS[l.col]||[];
+    proxOpcoes.forEach(function(a){
       optsHtml+='<option value="'+a+'"'+(a===prox?' selected':'')+'>'+a+'</option>';
     });
     optsHtml+='<option value="__custom">Outra ação...</option>';
@@ -9348,6 +9349,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.body.style.overflow='hidden';
   }
 
+  const CRM_PROX_ACOES = {
+    linkedin: null,
+    qualif:   null,
+    reuniao:  ['Reunião de Proposta','Enviar material com proposta','Fazer follow-up questionando decisão','Propor novo horário de reunião'],
+    proposta: null,
+    fechado:  null,
+    heating:  null,
+  };
   function crmSaveProx(id){
     id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
