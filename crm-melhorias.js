@@ -21,7 +21,7 @@
     followup_proposta:'Follow-up proposta',heating_msg:'Conteúdo de aquecimento'
   };
   var CRM_STEP_SCRIPTS={
-    msg1:'"Oi [nome], tudo bem? Tenho trabalhado com profissionais brasileiros que querem uma vaga remota internacional mas não estão conseguindo a colocação. Não por falta de qualificação técnica, mas por não saberem se posicionar e comunicar o valor deles na hora da entrevista. Faz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?"',
+    msg1:'"Oi [nome], tudo bem?\n\nTenho acompanhado profissionais brasileiros que são qualificados, entregam resultado, mas ainda assim se sentem mal pagos e sem perspectiva de crescimento real.\n\nFaz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?"',
     fu11:'"Oii [nome], você chegou a ver a mensagem acima?"',
     fu12:'"Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante."',
     fu2:'"Ótimo [nome], me passa seu WhatsApp para que eu possa entrar em contato com você e te apresentar como você pode conseguir uma vaga remota que pague em dólar."',
