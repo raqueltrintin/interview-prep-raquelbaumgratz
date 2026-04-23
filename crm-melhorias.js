@@ -80,7 +80,7 @@
   // ── Estado da fila ───────────────────────────────────────────────────────
   var crmFilaIdx=0;
   var crmFilaFeitos=[];
-  var crmView='fila';
+  var crmView='kanban';
 
   // ── Helpers ──────────────────────────────────────────────────────────────
   function crmMIni(n){return(n||'').split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();}
@@ -99,338 +99,178 @@
     return all.find(function(c){return c.id===id;})||all[0];
   }
 
-  // ── Fila do dia ──────────────────────────────────────────────────────────
-  function crmGetFila(){
-    if(!window.crmLeads)return[];
+  // ── Funil completo — etapas e scripts ───────────────────────────────────
+  var CRM_FUNIL_ETAPAS={
+    linkedin:['msg1','fu11','fu12','b_qual','fu2','fu20','fu201','a4','sem_interesse','interesse_sem_ingles'],
+    qualif:['abertura','horario','perguntas','convite','horario_reuniao','segundo_toque','nao_atendeu','mais_info_msg'],
+    reuniao:['acordo','dor','solucao','verificar','preco','nao_compareceu','silencio_reuniao'],
+    proposta:['followup_proposta','objecao_preco','objecao_timing'],
+    fechado:['fechamento'],
+    heating:['heating_msg']
+  };
+  var CRM_NEXT_ETAPA={
+    msg1:'fu11', fu11:'fu12', fu12:null,
+    b_qual:null, fu2:'fu20', fu20:'fu201', fu201:null, a4:null,
+    abertura:'perguntas', perguntas:'convite', convite:'horario_reuniao',
+    horario_reuniao:null, segundo_toque:null, nao_atendeu:'horario',
+    acordo:'dor', dor:'solucao', solucao:'verificar', verificar:'preco', preco:'fechamento'
+  };
+  var CRM_SCRIPT_ETAPA={
+    msg1:'"Oi [nome], tudo bem?\n\nTenho acompanhado profissionais brasileiros que são qualificados, entregam resultado, mas ainda assim se sentem mal pagos e sem perspectiva de crescimento real.\n\nFaz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?"',
+    fu11:'"Oii [nome], você chegou a ver a mensagem acima?"',
+    fu12:'"Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante."',
+    b_qual:'"Legal. Você já está se candidatando para vagas ou ainda está naquela fase de \\"sei que preciso mas ainda não comecei\\"? Te pergunto porque os profissionais que me procuram costumam estar em um destes dois momentos. Você tá em qual desses?"',
+    fu2:'"Ótimo [nome], me passa seu WhatsApp para que eu possa entrar em contato com você."',
+    fu20:'"[nome]?"',
+    fu201:'"Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Tudo bem, retorno aqui mais adiante."',
+    a4:'"Perfeito, [nome]. Quero apenas que você saiba que quando for o momento eu posso te ajudar com isso."',
+    abertura:'"Oi [nome], aqui é a Raquel Baumgratz. A gente estava conversando no LinkedIn, você pode falar agora?" → Se não puder: "Que horário fica melhor hoje ou amanhã?"',
+    horario:'"Que horário fica melhor hoje ou amanhã para falarmos?"',
+    perguntas:'1. O que você quer hoje, profissionalmente?\n2. Você acredita que tem as habilidades para passar em uma entrevista em inglês?\n3. Por que você quer isso? Qual o motivo real?',
+    convite:'"Entendi. Quero marcar contigo uma reunião de no máximo uma hora. É uma reunião de decisão — no final você vai precisar me dar um sim ou um não."',
+    horario_reuniao:'"Você consegue fazer hoje às 21h ou amanhã às 9h da manhã?"',
+    segundo_toque:'"Oii [nome], conseguiu ver minha mensagem?"',
+    acordo:'"Antes de começar, quero fazer um acordo com você. No final eu vou precisar de um sim ou um não. Estamos combinadas?"',
+    dor:'"Me conta mais sobre o que te trouxe até aqui. O que está acontecendo hoje no teu trabalho ou na tua vida que fez você querer essa mudança?"',
+    solucao:'Credencial + apresentação do programa. Escutar o que ela disse na ligação e conectar.',
+    verificar:'"O que você achou até aqui?" → "É exatamente o que preciso" = sinal verde. "Interessante" = explorar antes.',
+    preco:'"O investimento para essa mentoria é de R$15.000 — ou em 12 vezes de R$1.300 no cartão." → Pare. Não preencha o silêncio.',
+    heating_msg:'Enviar conteúdo relevante — dica de entrevista, post, case de sucesso. Sem pressão de venda.',
+    followup_proposta:'Fazer follow-up questionando decisão.',
+    nao_atendeu:'Não atendeu — enviar mensagem: "Oii [nome]. Estou te ligando para continuarmos a conversa. Como estás?"'
+  };
+
+  // ── Ações do dia melhoradas ──────────────────────────────────────────────
+  function crmRenderDiariaM(){
+    var el=document.getElementById('crm-diaria');
+    if(!el||!window.crmLeads)return;
     var today=new Date().toISOString().slice(0,10);
-    return window.crmLeads.filter(function(l){
+    var todayFmt=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+
+    var urgentes=window.crmLeads.filter(function(l){
       if(l.col==='arquivado'||l.col==='negativa')return false;
-      if(crmFilaFeitos.includes(l.id))return false;
-      if(l.col==='heating')return l.heating_next&&l.heating_next<=today;
-      if(!l.proxData&&!l.proxAcao)return true;
+      if(l.col==='heating') return l.heating_next&&l.heating_next<=today;
+      if(!l.proxData&&!l.proxAcao)return false;
       if(!l.proxData)return true;
       return l.proxData<=today;
     }).sort(function(a,b){return(a.proxData||'9999')>(b.proxData||'9999')?1:-1;});
-  }
 
-  function crmRenderFilaM(){
-    var el=document.getElementById('crm-kanban');
-    if(!el)return;
-    var fila=crmGetFila();
-    var total=fila.length+crmFilaFeitos.length;
-    var feitos=crmFilaFeitos.length;
-
-    if(fila.length===0){
-      el.innerHTML='<div style="padding:2rem;text-align:center;width:100%;grid-column:1/-1">'
-        +'<div style="font-size:32px;margin-bottom:8px">✓</div>'
-        +'<div style="font-size:15px;font-weight:500;color:#1c1410;margin-bottom:4px">Tudo feito por hoje!</div>'
-        +'<div style="font-size:12px;color:#8a7a6e">Você trabalhou '+feitos+' lead'+(feitos!==1?'s':'')+' hoje.</div>'
-        +'</div>';
+    if(urgentes.length===0){
+      el.innerHTML='<div style="font-size:12px;color:#8a7a6e;padding:8px 0">Nenhuma ação pendente para hoje. 🎉</div>';
       return;
     }
 
-    var idx=Math.min(crmFilaIdx,fila.length-1);
-    var l=fila[idx];
-    var c=crmMCol(l.col);
-    var stepLabel=l.funil_step?CRM_STEP_LABELS[l.funil_step]:(l.proxAcao||'Próxima ação');
-    var scriptTxt=l.funil_step?CRM_STEP_SCRIPTS[l.funil_step]:'';
-    var today=new Date().toISOString().slice(0,10);
-    var atrasado=l.proxData&&l.proxData<today;
-    var diasAtraso=atrasado?Math.round((new Date(today)-new Date(l.proxData))/(1000*60*60*24)):0;
-    var acoes=CRM_ACOES_FASE[l.col]||[];
-    var sugAcao=acoes.find(function(a){return a.sug;});
+    var colMap={linkedin:'Leads',qualif:'Call qualif.',reuniao:'Reunião',proposta:'Proposta',fechado:'Fechado',heating:'Heating'};
+    var colColor={linkedin:'#b5623e',qualif:'#c97a2a',reuniao:'#4a7c5a',proposta:'#185FA5',fechado:'#6b5a4e',heating:'#7a3a22'};
 
-    var pips='';
-    for(var pi=0;pi<Math.min(total,20);pi++){
-      var pc=pi<feitos?'#4a7c5a':pi===feitos?'#b5623e':'rgba(0,0,0,0.08)';
-      pips+='<div style="height:4px;flex:1;border-radius:2px;background:'+pc+'"></div>';
-    }
+    var html='<table style="width:100%;border-collapse:collapse;font-size:12.5px">';
+    html+='<thead><tr style="border-bottom:1px solid rgba(0,0,0,0.08)">';
+    html+='<th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Lead</th>';
+    html+='<th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Fase</th>';
+    html+='<th style="text-align:left;padding:6px 8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#8a7a6e">Próxima ação</th>';
+    html+='<th style="padding:6px 8px"></th>';
+    html+='</tr></thead><tbody>';
 
-    var stepsOpts='<option value="">Definir etapa...</option>';
-    (CRM_STEPS[l.col]||[]).forEach(function(s){
-      stepsOpts+='<option value="'+s+'">'+CRM_STEP_LABELS[s]+'</option>';
+    urgentes.forEach(function(l){
+      var atrasado=l.proxData&&l.proxData<today;
+      var dateFmt=l.proxData?l.proxData.split('-').reverse().join('/'):'—';
+      var colNm=colMap[l.col]||l.col;
+      var colClr=colColor[l.col]||'#8a7a6e';
+      var colBg=colClr+'18';
+
+      // Etapa — usar funil_step se existir, senão proxAcao
+      var etapaId=l.funil_step||'';
+      var etapaLabel=etapaId&&CRM_STEP_LABELS[etapaId]?CRM_STEP_LABELS[etapaId]:(l.proxAcao||'—');
+      var script=etapaId&&CRM_SCRIPT_ETAPA[etapaId]?CRM_SCRIPT_ETAPA[etapaId]:'';
+
+      // Próxima ação do funil (a que deve ser executada agora)
+      var acoesFase=CRM_ACOES_FASE[l.col]||[];
+      var sugAcao=acoesFase.find(function(a){return a.sug;});
+      var acaoLabel=etapaLabel;
+      var acaoId=etapaId;
+
+      html+='<tr style="border-bottom:1px solid rgba(0,0,0,0.05)" id="diaria-row-'+l.id+'">';
+      // Lead
+      html+='<td style="padding:8px" onclick="crmDiariaToggle('+l.id+')" style="cursor:pointer">';
+      html+='<div style="display:flex;align-items:center;gap:7px;cursor:pointer" onclick="crmDiariaToggle('+l.id+')">';
+      html+='<div style="width:28px;height:28px;border-radius:50%;background:'+colBg+';color:'+colClr+';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">'+crmMIni(l.name)+'</div>';
+      html+='<div><div style="font-weight:500;color:#1c1410">'+l.name+'</div>';
+      if(l.profissao&&l.profissao!=='—')html+='<div style="font-size:11px;color:#8a7a6e">'+l.profissao+'</div>';
+      html+='</div></div></td>';
+      // Fase
+      html+='<td style="padding:8px"><span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;background:'+colBg+';color:'+colClr+'">'+colNm+'</span></td>';
+      // Ação
+      html+='<td style="padding:8px;color:#1c1410">'+acaoLabel;
+      if(atrasado)html+=' <span style="font-size:10px;color:#c0392b;font-weight:500">⚠ '+dateFmt+'</span>';
+      html+='</td>';
+      // Botão feito
+      html+='<td style="padding:8px;white-space:nowrap">';
+      html+='<button onclick="crmDiariaFeito('+l.id+',\''+acaoId+'\')" style="font-size:11px;padding:5px 12px;border-radius:6px;border:1px solid rgba(74,124,90,0.4);background:rgba(74,124,90,0.07);color:#2a5a38;cursor:pointer;margin-right:4px">✓ Feito</button>';
+      html+='</td>';
+      html+='</tr>';
+
+      // Script expansível
+      if(script){
+        html+='<tr id="diaria-script-'+l.id+'" style="display:none"><td colspan="4" style="padding:0 8px 10px">';
+        html+='<div style="border-left:3px solid #b5623e;padding:8px 12px;background:#faf2ee;border-radius:0;font-size:12px;color:#4a2010;line-height:1.65;font-style:italic">'+script.replace(/\n/g,'<br>')+'</div>';
+        html+='</td></tr>';
+      }
     });
 
-    var tipoStr='';
-    if(l.tipo==='quente')tipoStr='<span style="font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;background:#FAEEDA;color:#633806;margin-left:6px">Quente</span>';
-    else if(l.tipo==='frio')tipoStr='<span style="font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;background:#E6F1FB;color:#0C447C;margin-left:6px">Frio</span>';
-
-    var html='<div style="grid-column:1/-1;max-width:700px;margin:0 auto;width:100%">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'
-        +'<div>'
-          +'<div style="font-size:14px;font-weight:500;color:#1c1410">Fila do dia</div>'
-          +'<div style="font-size:12px;color:#8a7a6e">'+feitos+' de '+total+' concluídos · '+fila.length+' restante'+(fila.length!==1?'s':'')+'</div>'
-        +'</div>'
-        +(fila.length>1?'<button onclick="crmFilaPularM()" style="padding:6px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.15);background:transparent;color:#8a7a6e;cursor:pointer">Pular por agora</button>':'')
-      +'</div>'
-      +'<div style="display:flex;gap:3px;margin-bottom:14px">'+pips+'</div>'
-      +'<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:1.25rem">'
-        +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">'
-          +'<div style="width:42px;height:42px;border-radius:50%;background:'+c.pb+';color:'+c.pc+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">'+crmMIni(l.name)+'</div>'
-          +'<div style="flex:1">'
-            +'<div style="font-size:15px;font-weight:500;color:#1c1410">'+l.name+tipoStr+'</div>'
-            +'<div style="font-size:12px;color:#8a7a6e;margin-top:2px">'+l.profissao+(l.empresa&&l.empresa!=='—'?' · '+l.empresa:'')+'</div>'
-          +'</div>'
-          +'<div style="text-align:right">'
-            +'<span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+c.pb+';color:'+c.pc+'">'+c.name+'</span>'
-            +(l.funil_step?'<br><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(0,0,0,0.05);color:#8a7a6e;margin-top:3px;display:inline-block">'+stepLabel+'</span>':'')
-            +(atrasado?'<br><span style="font-size:10px;color:#c0392b;margin-top:2px;display:inline-block">⚠ '+diasAtraso+'d em atraso</span>':'')
-            +(l.col==='heating'?'<br><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:#fdf0e8;color:#7a3a22;margin-top:3px;display:inline-block">Monthly Heating</span>':'')
-          +'</div>'
-        +'</div>';
-
-    if(scriptTxt){
-      html+='<div style="border-left:3px solid #b5623e;padding:10px 12px;background:#faf2ee;margin-bottom:12px">'
-        +'<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#7a3a22;margin-bottom:5px">Mensagem a enviar — '+stepLabel+'</div>'
-        +'<div style="font-size:12px;color:#4a2010;line-height:1.65;font-style:italic">'+scriptTxt+'</div>'
-        +'</div>';
-    }
-
-    if(!l.funil_step&&l.col!=='fechado'){
-      html+='<div style="background:#fdf6ec;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#8a5010">⚠ Etapa não definida. Use o seletor abaixo.</div>';
-    }
-
-    html+='<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">';
-    var btnLbl=sugAcao?'Feito — '+sugAcao.label:'Marcar feito';
-    html+='<button id="crm-fila-btn-m" style="padding:8px 18px;font-size:13px;font-weight:500;border-radius:8px;border:none;background:#b5623e;color:#fff;cursor:pointer">'+btnLbl+'</button>';
-    html+='<button onclick="crmFilaVerDetalhesM('+l.id+')" style="padding:8px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:transparent;color:#1c1410;cursor:pointer">Ver detalhes</button>';
-    if(!l.funil_step){
-      html+='<select id="crm-fila-step-m" style="padding:6px 10px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer">'+stepsOpts+'</select>';
-    }
-    html+='</div></div></div>';
-
+    html+='</tbody></table>';
     el.innerHTML=html;
-
-    // Bind eventos depois de inserir no DOM
-    var btn=document.getElementById('crm-fila-btn-m');
-    if(btn){
-      var _id=l.id,_aid=sugAcao?sugAcao.id:'',_albl=sugAcao?sugAcao.label:'Ação concluída';
-      btn.onclick=function(){crmFilaFeitoM(_id,_aid,_albl);};
-    }
-    var sel=document.getElementById('crm-fila-step-m');
-    if(sel){
-      var _id2=l.id;
-      sel.onchange=function(){
-        if(!this.value)return;
-        var lead=window.crmLeads&&window.crmLeads.find(function(x){return x.id===_id2;});
-        if(lead){lead.funil_step=this.value;if(typeof crmSave==='function')crmSave();crmRenderFilaM();}
-      };
-    }
   }
 
-  function crmFilaFeitoM(id,acaoId,acaoLabel){
+  window.crmDiariaToggle=function(id){
+    var row=document.getElementById('diaria-script-'+id);
+    if(row)row.style.display=row.style.display==='none'?'table-row':'none';
+  };
+
+  window.crmDiariaFeito=function(id,acaoId){
     if(!window.crmLeads)return;
     var l=window.crmLeads.find(function(x){return x.id===id;});
     if(!l)return;
     if(!l.timeline)l.timeline=[];
-    if(acaoLabel)l.timeline.push({t:acaoLabel,d:crmMToday(),c:'#4a7c5a'});
-    if(acaoId&&CRM_STEP_NEXT[acaoId])l.funil_step=CRM_STEP_NEXT[acaoId];
-    if(l.col==='heating'){
-      var nxt=new Date();nxt.setDate(nxt.getDate()+30);
-      l.heating_next=nxt.toISOString().slice(0,10);
-      l.proxData=l.heating_next;
-    } else {
-      l.proxAcao='';l.proxData='';
+    var today=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+    var label=acaoId&&CRM_STEP_LABELS[acaoId]?CRM_STEP_LABELS[acaoId]:(l.proxAcao||'Ação concluída');
+    l.timeline.push({t:label,d:today,c:'#4a7c5a'});
+
+    // Avançar etapa
+    var next=acaoId&&CRM_NEXT_ETAPA[acaoId];
+    if(next)l.funil_step=next;
+
+    // Limpar próxima ação
+    l.proxAcao='';l.proxData='';
+
+    // Heating automático se etapa for de encerramento
+    var heatEtapas=['fu12','fu201','a4','segundo_toque','encerrar_heating'];
+    if(heatEtapas.includes(acaoId)){
+      if(typeof crmHeating==='function'){crmHeating(id);return;}
     }
-    crmFilaFeitos.push(id);
-    crmFilaIdx=0;
+
     if(typeof crmSave==='function')crmSave();
-    crmRenderCRMM();
-  }
 
-  window.crmFilaPularM=function(){
-    var fila=crmGetFila();
-    if(fila.length<=1)return;
-    crmFilaIdx=(crmFilaIdx+1)%fila.length;
-    crmRenderFilaM();
+    // Remover linha da tabela com animação suave
+    var row=document.getElementById('diaria-row-'+id);
+    var rowScript=document.getElementById('diaria-script-'+id);
+    if(row){row.style.opacity='0';row.style.transition='opacity .3s';setTimeout(function(){row.remove();if(rowScript)rowScript.remove();},300);}
+
+    // Toast
+    var toast=document.createElement('div');
+    toast.style.cssText='position:fixed;bottom:20px;right:20px;background:#EAF3DE;border:0.5px solid #97C459;border-radius:8px;padding:10px 16px;font-size:12px;color:#27500A;z-index:3000;opacity:0;transition:opacity .2s';
+    toast.textContent='✓ '+label+' — registrado';
+    document.body.appendChild(toast);
+    requestAnimationFrame(function(){toast.style.opacity='1';});
+    setTimeout(function(){toast.style.opacity='0';setTimeout(function(){toast.remove();},200);},2500);
   };
 
-  window.crmFilaVerDetalhesM=function(id){
-    crmView='kanban';
-    if(typeof crmPick==='function')crmPick(id);
-    renderViewTabsM();
-    crmRenderKanbanM();
-    setTimeout(function(){
-      var sp=document.getElementById('crm-side-panel');
-      if(sp)sp.scrollIntoView({behavior:'smooth'});
-    },200);
+  // Remover fila do dia — substituir por renderização da diária melhorada
+  window.crmRenderFilaM=function(){
+    // Fila do dia removida — usar Ações do dia no topo
+    var el=document.getElementById('crm-kanban');
+    if(!el)return;
+    if(typeof crmRenderKanban==='function')crmRenderKanban();
   };
-
-  // ── Kanban melhorado (com etapa e tipo no card) ──────────────────────────
-  function crmRenderKanbanM(){
-    if(typeof crmRenderKanban==='function'){
-      // Chamar o kanban original primeiro
-      crmRenderKanban();
-      // Depois melhorar os cards com etapa e tipo
-      setTimeout(function(){
-        if(!window.crmLeads)return;
-        var cards=document.querySelectorAll('.crm-card');
-        cards.forEach(function(card){
-          var onclick=card.getAttribute('onclick')||'';
-          var match=onclick.match(/crmPick\((\d+)\)/);
-          if(!match)return;
-          var id=Number(match[1]);
-          var l=window.crmLeads.find(function(x){return x.id===id;});
-          if(!l)return;
-          // Verificar se já tem badges
-          if(card.querySelector('.crm-m-badges'))return;
-          var badges='<div class="crm-m-badges" style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;padding:0 10px 8px">';
-          if(l.tipo==='quente')badges+='<span style="font-size:10px;font-weight:500;padding:2px 6px;border-radius:20px;background:#FAEEDA;color:#633806">Quente</span>';
-          else if(l.tipo==='frio')badges+='<span style="font-size:10px;font-weight:500;padding:2px 6px;border-radius:20px;background:#E6F1FB;color:#0C447C">Frio</span>';
-          if(l.funil_step&&CRM_STEP_LABELS[l.funil_step])badges+='<span style="font-size:10px;padding:2px 6px;border-radius:20px;background:rgba(0,0,0,0.05);color:#8a7a6e;border:0.5px solid rgba(0,0,0,0.07)">'+CRM_STEP_LABELS[l.funil_step]+'</span>';
-          badges+='</div>';
-          card.insertAdjacentHTML('beforeend',badges);
-        });
-      },100);
-    }
-  }
-
-  // ── View tabs ────────────────────────────────────────────────────────────
-  function renderViewTabsM(){
-    var wrap=document.getElementById('crm-view-tabs-m');
-    if(!wrap)return;
-    wrap.innerHTML=''
-      +'<button class="crm-tab-btn'+(crmView==='fila'?' active':'')+'" onclick="crmSetViewM(\'fila\')">Fila do dia</button>'
-      +'<button class="crm-tab-btn'+(crmView==='kanban'?' active':'')+'" onclick="crmSetViewM(\'kanban\')">Kanban</button>';
-  }
-
-  window.crmSetViewM=function(v){
-    crmView=v;
-    if(v==='kanban'&&typeof crmSel!=='undefined')window.crmSel=null;
-    renderViewTabsM();
-    crmRenderCRMM();
-  };
-
-  // ── Onboarding ───────────────────────────────────────────────────────────
-  function crmCheckOnboardingM(){
-    if(!window.crmLeads)return;
-    var sem=window.crmLeads.filter(function(l){
-      return l.col!=='arquivado'&&l.col!=='negativa'&&!l.funil_step;
-    });
-    var banner=document.getElementById('crm-onboarding-m');
-    if(!banner)return;
-    if(sem.length<=3){banner.style.display='none';return;}
-    banner.style.display='block';
-    banner.innerHTML='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
-      +'<div style="font-size:13px;color:#7a3a22;flex:1"><b>'+sem.length+' leads sem etapa definida.</b> Defina a etapa de cada um para ativar o script automático na fila do dia.</div>'
-      +'<button onclick="crmOnboardingIniciarM()" style="padding:6px 14px;font-size:12px;font-weight:500;border-radius:8px;border:0.5px solid #7a3a22;background:transparent;color:#7a3a22;cursor:pointer;white-space:nowrap">Configurar agora</button>'
-      +'<button onclick="document.getElementById(\'crm-onboarding-m\').style.display=\'none\'" style="padding:6px 10px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.1);background:transparent;color:#8a7a6e;cursor:pointer">Depois</button>'
-      +'</div>';
-  }
-
-  window.crmOnboardingIniciarM=function(){
-    if(!window.crmLeads)return;
-    var sem=window.crmLeads.filter(function(l){
-      return l.col!=='arquivado'&&l.col!=='negativa'&&!l.funil_step;
-    });
-    if(!sem.length){var b=document.getElementById('crm-onboarding-m');if(b)b.style.display='none';return;}
-    var l=sem[0];
-    var c=crmMCol(l.col);
-    var steps=CRM_STEPS[l.col]||[];
-    var banner=document.getElementById('crm-onboarding-m');
-    if(!banner)return;
-    var h='<div style="font-size:13px;font-weight:500;color:#1c1410;margin-bottom:4px">'+l.name+'</div>'
-      +'<div style="font-size:12px;color:#8a7a6e;margin-bottom:10px">'+l.profissao+' · '+c.name+'</div>'
-      +'<div style="font-size:12px;color:#1c1410;margin-bottom:8px">Em qual etapa está este lead?</div>'
-      +'<div style="display:flex;flex-wrap:wrap;gap:6px">';
-    steps.forEach(function(s){
-      h+='<button onclick="crmOnboardingSetM('+l.id+',\''+s+'\')" style="padding:6px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.12);background:#fff;color:#1c1410;cursor:pointer">'+CRM_STEP_LABELS[s]+'</button>';
-    });
-    h+='<button onclick="crmOnboardingSetM('+l.id+',\'\')" style="padding:6px 12px;font-size:12px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.08);background:transparent;color:#8a7a6e;cursor:pointer">Pular</button>'
-      +'</div>'
-      +'<div style="font-size:11px;color:#8a7a6e;margin-top:8px">'+sem.length+' lead'+(sem.length!==1?'s':'')+' restante'+(sem.length!==1?'s':'')+'</div>';
-    banner.innerHTML=h;
-  };
-
-  window.crmOnboardingSetM=function(id,step){
-    if(!window.crmLeads)return;
-    var l=window.crmLeads.find(function(x){return x.id===id;});
-    if(l)l.funil_step=step||'__skip';
-    if(typeof crmSave==='function')crmSave();
-    var sem=window.crmLeads.filter(function(l2){return l2.col!=='arquivado'&&l2.col!=='negativa'&&!l2.funil_step;});
-    if(sem.length>0)window.crmOnboardingIniciarM();
-    else{var b=document.getElementById('crm-onboarding-m');if(b)b.style.display='none';crmRenderCRMM();}
-  };
-
-  // ── Render principal ─────────────────────────────────────────────────────
-  function crmRenderCRMM(){
-    renderViewTabsM();
-    if(crmView==='fila') crmRenderFilaM();
-    else crmRenderKanbanM();
-    crmCheckOnboardingM();
-  }
-
-  // ── Patch do crmHeating para +30 dias ────────────────────────────────────
-  function patchCrmHeating(){
-    var orig=window.crmHeating;
-    if(!orig)return;
-    window.crmHeating=function(id){
-      orig(id);
-      // Adicionar heating_next +30 dias ao lead que acabou de ser movido
-      if(!window.crmLeads)return;
-      var l=window.crmLeads.find(function(x){return x.id===Number(id);});
-      if(l&&l.col==='heating'){
-        var nxt=new Date();nxt.setDate(nxt.getDate()+30);
-        l.heating_next=nxt.toISOString().slice(0,10);
-        l.proxData=l.heating_next;
-        l.funil_step='heating_msg';
-        if(typeof crmSave==='function')crmSave();
-      }
-    };
-  }
-
-  // ── Injeção do HTML ──────────────────────────────────────────────────────
-  function injetarUIm(){
-    // Adicionar view tabs e banner de onboarding antes do crm-metrics
-    var metrics=document.getElementById('crm-metrics');
-    if(!metrics||document.getElementById('crm-view-tabs-m'))return;
-
-    // Banner de onboarding
-    var banner=document.createElement('div');
-    banner.id='crm-onboarding-m';
-    banner.style.cssText='display:none;background:#fdf6ec;border:1px solid rgba(201,122,42,0.3);border-radius:10px;padding:12px 16px;margin-bottom:1rem';
-    metrics.parentNode.insertBefore(banner,metrics);
-
-    // View tabs
-    var vtabs=document.createElement('div');
-    vtabs.id='crm-view-tabs-m';
-    vtabs.className='crm-tab';
-    vtabs.style.cssText='background:rgba(181,98,62,0.08);margin-bottom:0.5rem';
-    metrics.parentNode.insertBefore(vtabs,banner);
-  }
-
-  // ── Intercept crmRenderAll ───────────────────────────────────────────────
-  function patchCrmRenderAll(){
-    var orig=window.crmRenderAll;
-    if(!orig)return;
-    window.crmRenderAll=function(){
-      orig();
-      // Após render original, aplicar melhorias
-      injetarUIm();
-      renderViewTabsM();
-      if(crmView==='fila'){
-        crmRenderFilaM();
-      }
-      crmCheckOnboardingM();
-    };
-  }
-
-  // ── Init: aguardar crmRenderAll estar disponível ─────────────────────────
-  function init(){
-    if(typeof window.crmRenderAll==='function'){
-      patchCrmRenderAll();
-      patchCrmHeating();
-    } else {
-      setTimeout(init,300);
-    }
-  }
-
-  // Aguardar DOM e funções do portal carregarem
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',function(){setTimeout(init,500);});
-  } else {
-    setTimeout(init,500);
-  }
 
 })();
 
