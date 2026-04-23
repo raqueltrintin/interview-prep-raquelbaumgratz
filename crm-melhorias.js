@@ -670,3 +670,224 @@
     setTimeout(function(){toast.style.opacity='0';setTimeout(function(){toast.remove();},200);},2500);
   }
 })();
+
+// ============================================================
+// TO-DO KANBAN — injetado em Marketing via crm-melhorias.js
+// ============================================================
+(function todoKanban(){
+  var tdCards=[];
+  var tdDragId=null;
+  var TD_SB_URL='https://ruyyanefahvhqdambsis.supabase.co';
+  var TD_SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
+  var TD_NOTE_KEY='todo_kanban_v1';
+  var TD_COLS=['banco','semana','processo','feito'];
+  var TD_COL_LABELS={'banco':'🗄 Banco de dados','semana':'📅 Semana','processo':'⚙️ Em processo','feito':'✅ Feito'};
+
+  function tdSave(){
+    var body=JSON.stringify({note_key:TD_NOTE_KEY,note_value:JSON.stringify(tdCards)});
+    fetch(TD_SB_URL+'/rest/v1/notes?note_key=eq.'+TD_NOTE_KEY,{method:'DELETE',headers:{apikey:TD_SB_KEY,Authorization:'Bearer '+TD_SB_KEY}}).then(function(){
+      fetch(TD_SB_URL+'/rest/v1/notes',{method:'POST',headers:{apikey:TD_SB_KEY,Authorization:'Bearer '+TD_SB_KEY,'Content-Type':'application/json'},body:body});
+    });
+  }
+
+  function tdLoad(){
+    fetch(TD_SB_URL+'/rest/v1/notes?note_key=eq.'+TD_NOTE_KEY+'&select=note_value',{headers:{apikey:TD_SB_KEY,Authorization:'Bearer '+TD_SB_KEY}})
+      .then(function(r){return r.json();})
+      .then(function(data){
+        if(data&&data[0]&&data[0].note_value) tdCards=JSON.parse(data[0].note_value);
+        tdRender();
+      }).catch(function(){tdRender();});
+  }
+
+  function tdRender(){
+    var wrap=document.getElementById('td-board');
+    if(!wrap)return;
+    TD_COLS.forEach(function(col){
+      var list=document.getElementById('td-list-'+col);
+      var badge=document.getElementById('td-cnt-'+col);
+      if(!list)return;
+      var cards=tdCards.filter(function(c){return c.col===col;});
+      if(badge)badge.textContent=cards.length;
+      list.innerHTML='';
+      if(!cards.length){
+        var empty=document.createElement('div');
+        empty.style.cssText='color:rgba(28,20,16,0.3);font-size:11px;font-style:italic;text-align:center;padding:1rem 0';
+        empty.textContent='Vazio';
+        list.appendChild(empty);
+        return;
+      }
+      cards.forEach(function(c){
+        var card=document.createElement('div');
+        card.draggable=true;
+        card.style.cssText='background:#fff;border:1px solid rgba(28,20,16,0.12);border-radius:7px;padding:.6rem .75rem;cursor:grab;display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;transition:box-shadow .15s';
+        card.ondragstart=function(e){tdDragId=c.id;setTimeout(function(){card.style.opacity='.4';},0);};
+        card.ondragend=function(){card.style.opacity='1';document.querySelectorAll('.td-dz').forEach(function(z){z.style.borderColor='transparent';});};
+        var txt=document.createElement('span');
+        txt.style.cssText='flex:1;font-size:13px;color:#1c1410;line-height:1.4;white-space:pre-wrap';
+        txt.textContent=c.texto;
+        var del=document.createElement('button');
+        del.textContent='×';
+        del.style.cssText='background:none;border:none;color:rgba(28,20,16,0.25);cursor:pointer;font-size:18px;padding:0;line-height:1;flex-shrink:0';
+        del.onmouseenter=function(){del.style.color='#c04040';};
+        del.onmouseleave=function(){del.style.color='rgba(28,20,16,0.25)';};
+        del.onclick=function(){tdCards=tdCards.filter(function(x){return x.id!==c.id;});tdRender();tdSave();};
+        card.appendChild(txt);
+        card.appendChild(del);
+        list.appendChild(card);
+      });
+    });
+  }
+
+  function tdBuildUI(){
+    var el=document.getElementById('todo');
+    if(!el||document.getElementById('td-board'))return;
+    el.innerHTML='<style>'
+      +'.td-col{background:rgba(28,20,16,0.04);border:1px solid rgba(28,20,16,0.1);border-radius:10px;padding:.85rem;min-height:160px}'
+      +'.td-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(28,20,16,0.08)}'
+      +'.td-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(28,20,16,0.45)}'
+      +'.td-col-cnt{font-size:10px;background:rgba(192,128,90,0.18);color:#a06040;border-radius:10px;padding:1px 7px;font-weight:600}'
+      +'.td-dz{min-height:24px;border:1.5px dashed transparent;border-radius:6px;margin-top:.3rem;transition:border-color .15s}'
+      +'.td-add-inp{width:100%;border:1px solid rgba(28,20,16,0.2);border-radius:6px;padding:6px 8px;font-size:12px;font-family:inherit;background:#fff;color:#1c1410;outline:none;resize:none;box-sizing:border-box}'
+      +'.td-add-inp:focus{border-color:#c0805a}'
+      +'</style>'
+      +'<div style="padding:1rem 0 2rem">'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid rgba(28,20,16,0.1)">'
+          +'<span style="font-size:15px;font-style:italic;color:#b5623a;letter-spacing:.04em">To-do</span>'
+          +'<span id="td-saving" style="font-size:11px;color:rgba(28,20,16,0.4)"></span>'
+        +'</div>'
+        +'<div id="td-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;align-items:start"></div>'
+      +'</div>';
+
+    var board=document.getElementById('td-board');
+    TD_COLS.forEach(function(col){
+      var colEl=document.createElement('div');
+      colEl.className='td-col';
+      colEl.ondragover=function(e){e.preventDefault();colEl.querySelector('.td-dz').style.borderColor='#c0805a';};
+      colEl.ondragleave=function(){colEl.querySelector('.td-dz').style.borderColor='transparent';};
+      colEl.ondrop=function(e){
+        e.preventDefault();
+        colEl.querySelector('.td-dz').style.borderColor='transparent';
+        if(!tdDragId)return;
+        var card=tdCards.find(function(c){return c.id===tdDragId;});
+        if(card&&card.col!==col){card.col=col;tdRender();tdSave();}
+        tdDragId=null;
+      };
+
+      colEl.innerHTML='<div class="td-col-hdr"><span class="td-col-title">'+TD_COL_LABELS[col]+'</span><span class="td-col-cnt" id="td-cnt-'+col+'">0</span></div>'
+        +'<div id="td-list-'+col+'"></div>'
+        +'<div class="td-dz" id="td-dz-'+col+'"></div>';
+
+      // Área de adicionar
+      var addArea=document.createElement('div');
+      addArea.style.marginTop='.5rem';
+      var inp=document.createElement('textarea');
+      inp.className='td-add-inp';
+      inp.id='td-inp-'+col;
+      inp.rows=2;
+      inp.placeholder='Nova tarefa...';
+      inp.style.display='none';
+      var btns=document.createElement('div');
+      btns.style.cssText='display:none;gap:6px;margin-top:4px';
+      var ok=document.createElement('button');
+      ok.textContent='Adicionar';
+      ok.style.cssText='background:#c0805a;color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit';
+      var cancel=document.createElement('button');
+      cancel.textContent='Cancelar';
+      cancel.style.cssText='background:none;border:1px solid rgba(28,20,16,0.15);color:#8a7a6e;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit';
+      btns.appendChild(ok);
+      btns.appendChild(cancel);
+
+      var addBtn=document.createElement('button');
+      addBtn.textContent='+ adicionar tarefa';
+      addBtn.style.cssText='background:none;border:1px dashed rgba(28,20,16,0.2);color:rgba(28,20,16,0.4);border-radius:6px;padding:5px;font-size:11px;cursor:pointer;width:100%;margin-top:.3rem;transition:all .15s;font-family:inherit';
+      addBtn.onmouseenter=function(){addBtn.style.borderColor='#c0805a';addBtn.style.color='#a06040';};
+      addBtn.onmouseleave=function(){addBtn.style.borderColor='rgba(28,20,16,0.2)';addBtn.style.color='rgba(28,20,16,0.4)';};
+      addBtn.onclick=function(){inp.style.display='block';btns.style.display='flex';addBtn.style.display='none';inp.focus();};
+      cancel.onclick=function(){inp.style.display='none';btns.style.display='none';addBtn.style.display='block';inp.value='';};
+      ok.onclick=function(){
+        var txt=inp.value.trim();
+        if(!txt)return;
+        tdCards.push({id:Date.now(),col:col,texto:txt});
+        tdRender();tdSave();
+        inp.value='';inp.style.display='none';btns.style.display='none';addBtn.style.display='block';
+      };
+
+      addArea.appendChild(inp);
+      addArea.appendChild(btns);
+      addArea.appendChild(addBtn);
+      colEl.appendChild(addArea);
+      board.appendChild(colEl);
+    });
+
+    tdLoad();
+  }
+
+  // Adicionar "To-do" como subitem de Marketing no nav
+  function patchNav(){
+    // Esperar o nav renderizar
+    var orig=window.ngSelectSub||window.setLang;
+    if(!orig)return;
+    var origSetLang=window.setLang;
+    if(!origSetLang)return;
+
+    window.setLang=function(lang){
+      origSetLang(lang);
+      setTimeout(addTodoNav,300);
+    };
+  }
+
+  function addTodoNav(){
+    // Verificar se já existe
+    if(document.querySelector('[data-todo-added]'))return;
+    // Encontrar seção todo no DOM — se não existir, criar
+    var secs=document.getElementById('sections');
+    if(!secs)return;
+    // Criar seção todo se não existir
+    if(!document.getElementById('todo')){
+      var div=document.createElement('div');
+      div.className='section';
+      div.id='todo';
+      secs.appendChild(div);
+    }
+    document.querySelector('[data-todo-added]')||injectTodoSection();
+  }
+
+  function injectTodoSection(){
+    // Monitorar quando a seção todo fica visível
+    var target=document.getElementById('todo');
+    if(!target)return;
+    target.setAttribute('data-todo-added','1');
+    var obs=new MutationObserver(function(){
+      if(target.classList.contains('active')&&!document.getElementById('td-board')){
+        tdBuildUI();
+      }
+    });
+    obs.observe(target,{attributes:true,attributeFilter:['class']});
+    // Também verificar imediatamente
+    if(target.classList.contains('active'))tdBuildUI();
+  }
+
+  // Aguardar o portal carregar
+  function init(){
+    if(typeof window.setLang!=='function'){setTimeout(init,400);return;}
+    // Patch setLang para detectar mudança de seção
+    var origSetLang=window.setLang;
+    window.setLang=function(lang){
+      origSetLang(lang);
+      setTimeout(injectTodoSection,500);
+    };
+    injectTodoSection();
+    // Também monitorar cliques no nav
+    document.addEventListener('click',function(){
+      setTimeout(function(){
+        var todo=document.getElementById('todo');
+        if(todo&&todo.classList.contains('active')&&!document.getElementById('td-board')){
+          tdBuildUI();
+        }
+      },200);
+    });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(init,600);});
+  else setTimeout(init,600);
+})();
