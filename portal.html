@@ -1313,6 +1313,101 @@
           </div>
         </div>
       </div>
+      <div class="section" id="todo">
+        <style>
+          .td-wrap{padding:1rem 0 2rem;}
+          .td-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid rgba(28,20,16,0.1);}
+          .td-title{font-size:15px;font-style:italic;color:#b5623a;letter-spacing:.04em;}
+          .td-board{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;align-items:start;}
+          @media(max-width:800px){.td-board{grid-template-columns:repeat(2,1fr);}}
+          @media(max-width:480px){.td-board{grid-template-columns:1fr;}}
+          .td-col{background:rgba(28,20,16,0.04);border:1px solid rgba(28,20,16,0.1);border-radius:10px;padding:.85rem;min-height:180px;}
+          .td-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid rgba(28,20,16,0.08);}
+          .td-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(28,20,16,0.45);}
+          .td-col-count{font-size:10px;background:rgba(192,128,90,0.18);color:#a06040;border-radius:10px;padding:1px 7px;font-weight:600;}
+          .td-cards{display:flex;flex-direction:column;gap:.5rem;}
+          .td-empty{color:rgba(28,20,16,0.3);font-size:11px;font-style:italic;text-align:center;padding:1rem 0;}
+          .td-card{background:#fff;border:1px solid rgba(28,20,16,0.12);border-radius:7px;padding:.65rem .75rem;cursor:grab;transition:border-color .2s,box-shadow .2s;display:flex;align-items:flex-start;gap:8px;}
+          .td-card:hover{box-shadow:0 2px 8px rgba(28,20,16,0.08);border-color:rgba(192,128,90,0.4);}
+          .td-card:active{cursor:grabbing;}
+          .td-card.td-dragging{opacity:.4;}
+          .td-card-text{flex:1;font-size:13px;color:#1c1410;line-height:1.4;}
+          .td-card-del{background:none;border:none;color:rgba(28,20,16,0.25);cursor:pointer;font-size:16px;padding:0;line-height:1;flex-shrink:0;}
+          .td-card-del:hover{color:#c04040;}
+          .td-drop-zone{min-height:28px;border:1.5px dashed transparent;border-radius:6px;margin-top:.3rem;transition:border-color .2s,background .2s;}
+          .td-drop-zone.td-dz-active{border-color:#c0805a;background:rgba(192,128,90,0.06);}
+          .td-add-form{margin-top:.5rem;display:none;}
+          .td-add-form.open{display:flex;flex-direction:column;gap:6px;}
+          .td-add-inp{width:100%;border:1px solid rgba(28,20,16,0.2);border-radius:6px;padding:6px 8px;font-size:12px;font-family:inherit;background:#fff;color:#1c1410;outline:none;resize:none;}
+          .td-add-inp:focus{border-color:#c0805a;}
+          .td-add-btns{display:flex;gap:6px;}
+          .td-add-ok{background:#c0805a;color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;}
+          .td-add-cancel{background:none;border:1px solid rgba(28,20,16,0.15);color:#8a7a6e;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;}
+          .td-btn-add{background:none;border:1px dashed rgba(28,20,16,0.2);color:rgba(28,20,16,0.4);border-radius:6px;padding:5px;font-size:11px;cursor:pointer;width:100%;margin-top:.3rem;transition:all .15s;}
+          .td-btn-add:hover{border-color:#c0805a;color:#a06040;}
+          .td-saving{font-size:11px;color:rgba(28,20,16,0.4);}
+        </style>
+        <div class="td-wrap">
+          <div class="td-hdr">
+            <span class="td-title">To-do</span>
+            <span class="td-saving" id="td-saving"></span>
+          </div>
+          <div class="td-board">
+            <div class="td-col" ondragover="tdDragOver(event,'banco')" ondrop="tdDrop(event,'banco')" ondragleave="tdDragLeave(event)">
+              <div class="td-col-hdr"><span class="td-col-title">🗄 Banco de dados</span><span class="td-col-count" id="td-count-banco">0</span></div>
+              <div class="td-cards" id="td-list-banco"><div class="td-empty">Vazio</div></div>
+              <div class="td-drop-zone" id="td-dz-banco"></div>
+              <div class="td-add-form" id="td-form-banco">
+                <textarea class="td-add-inp" id="td-inp-banco" rows="2" placeholder="Descreva a tarefa..."></textarea>
+                <div class="td-add-btns">
+                  <button class="td-add-ok" onclick="tdAddCard('banco')">Adicionar</button>
+                  <button class="td-add-cancel" onclick="tdCancelAdd('banco')">Cancelar</button>
+                </div>
+              </div>
+              <button class="td-btn-add" onclick="tdOpenAdd('banco')">+ adicionar tarefa</button>
+            </div>
+            <div class="td-col" ondragover="tdDragOver(event,'semana')" ondrop="tdDrop(event,'semana')" ondragleave="tdDragLeave(event)">
+              <div class="td-col-hdr"><span class="td-col-title">📅 Semana</span><span class="td-col-count" id="td-count-semana">0</span></div>
+              <div class="td-cards" id="td-list-semana"><div class="td-empty">Vazio</div></div>
+              <div class="td-drop-zone" id="td-dz-semana"></div>
+              <div class="td-add-form" id="td-form-semana">
+                <textarea class="td-add-inp" id="td-inp-semana" rows="2" placeholder="Descreva a tarefa..."></textarea>
+                <div class="td-add-btns">
+                  <button class="td-add-ok" onclick="tdAddCard('semana')">Adicionar</button>
+                  <button class="td-add-cancel" onclick="tdCancelAdd('semana')">Cancelar</button>
+                </div>
+              </div>
+              <button class="td-btn-add" onclick="tdOpenAdd('semana')">+ adicionar tarefa</button>
+            </div>
+            <div class="td-col" ondragover="tdDragOver(event,'processo')" ondrop="tdDrop(event,'processo')" ondragleave="tdDragLeave(event)">
+              <div class="td-col-hdr"><span class="td-col-title">⚙️ Em processo</span><span class="td-col-count" id="td-count-processo">0</span></div>
+              <div class="td-cards" id="td-list-processo"><div class="td-empty">Vazio</div></div>
+              <div class="td-drop-zone" id="td-dz-processo"></div>
+              <div class="td-add-form" id="td-form-processo">
+                <textarea class="td-add-inp" id="td-inp-processo" rows="2" placeholder="Descreva a tarefa..."></textarea>
+                <div class="td-add-btns">
+                  <button class="td-add-ok" onclick="tdAddCard('processo')">Adicionar</button>
+                  <button class="td-add-cancel" onclick="tdCancelAdd('processo')">Cancelar</button>
+                </div>
+              </div>
+              <button class="td-btn-add" onclick="tdOpenAdd('processo')">+ adicionar tarefa</button>
+            </div>
+            <div class="td-col" ondragover="tdDragOver(event,'feito')" ondrop="tdDrop(event,'feito')" ondragleave="tdDragLeave(event)">
+              <div class="td-col-hdr"><span class="td-col-title">✅ Feito</span><span class="td-col-count" id="td-count-feito">0</span></div>
+              <div class="td-cards" id="td-list-feito"><div class="td-empty">Vazio</div></div>
+              <div class="td-drop-zone" id="td-dz-feito"></div>
+              <div class="td-add-form" id="td-form-feito">
+                <textarea class="td-add-inp" id="td-inp-feito" rows="2" placeholder="Descreva a tarefa..."></textarea>
+                <div class="td-add-btns">
+                  <button class="td-add-ok" onclick="tdAddCard('feito')">Adicionar</button>
+                  <button class="td-add-cancel" onclick="tdCancelAdd('feito')">Cancelar</button>
+                </div>
+              </div>
+              <button class="td-btn-add" onclick="tdOpenAdd('feito')">+ adicionar tarefa</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="section mentor-only" id="social"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
@@ -8414,6 +8509,7 @@ Best regards,
       if (sid === 'conteudo' && typeof kbRenderAll === 'function') {
         setTimeout(kbRenderAll, 0);
       }
+      if (sid === 'todo') { if (!_tdLoaded) { _tdLoaded=true; tdLoad(); } else { tdRender(); } }
 
     });
 
@@ -8844,6 +8940,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
     marketing: { icon: '📣', label: 'Marketing', subs: [
       { id: 'conteudo', icon: '✏️', label: 'Planejamento de Conteúdo' },
+      { id: 'todo', icon: '✅', label: 'To-do' },
     ]},
 
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
@@ -10892,6 +10989,133 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     } catch(e) { console.error('kb2Load error:', e); kb2Cards = []; }
     kb2Render();
   }
+
+  // ── TO-DO KANBAN ──────────────────────────────────────────────────────────
+  var tdCards = [];
+  var tdDragId = null;
+  var tdSaveTimer = null;
+
+  var TD_URL = 'https://ruyyanefahvhqdambsis.supabase.co';
+  var TD_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
+  var TD_TABLE = 'todo_kanban';
+
+  function tdApi(method, path, body) {
+    var h = { 'apikey': TD_KEY, 'Authorization': 'Bearer ' + TD_KEY, 'Content-Type': 'application/json' };
+    if (method === 'POST') h['Prefer'] = 'return=representation';
+    return fetch(TD_URL + '/rest/v1/' + path, {
+      method: method, headers: h,
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function(r) {
+      if (r.status === 204 || method === 'DELETE') return null;
+      return r.json();
+    });
+  }
+
+  function tdRender() {
+    var cols = ['banco','semana','processo','feito'];
+    cols.forEach(function(col) {
+      var list = document.getElementById('td-list-' + col);
+      var badge = document.getElementById('td-count-' + col);
+      if (!list) return;
+      var cards = tdCards.filter(function(c) { return c.coluna === col; });
+      badge && (badge.textContent = cards.length);
+      if (!cards.length) {
+        list.innerHTML = '<div class="td-empty">Vazio</div>';
+        return;
+      }
+      list.innerHTML = cards.map(function(c) {
+        return '<div class="td-card" draggable="true"'
+          + ' ondragstart="tdDragStart(event,' + c.id + ')"'
+          + ' ondragend="tdDragEnd(event)">'
+          + '<span class="td-card-text">' + c.texto.replace(/[<]/g,'&lt;').replace(/
+/g,'<br>') + '</span>'
+          + '<button class="td-card-del" onclick="tdDelete(' + c.id + ')" title="Remover">&times;</button>'
+          + '</div>';
+      }).join('');
+    });
+  }
+
+  function tdDragStart(e, id) {
+    tdDragId = id;
+    setTimeout(function() {
+      var el = e.target; if (el) el.classList.add('td-dragging');
+    }, 0);
+  }
+  function tdDragEnd(e) {
+    document.querySelectorAll('.td-card').forEach(function(c) { c.classList.remove('td-dragging'); });
+    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
+  }
+  function tdDragOver(e, col) {
+    e.preventDefault();
+    var dz = document.getElementById('td-dz-' + col);
+    if (dz) dz.classList.add('td-dz-active');
+  }
+  function tdDragLeave(e) {
+    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
+  }
+  function tdDrop(e, col) {
+    e.preventDefault();
+    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
+    if (!tdDragId) return;
+    var card = tdCards.find(function(c) { return c.id === tdDragId; });
+    if (!card || card.coluna === col) return;
+    card.coluna = col;
+    tdRender();
+    var sav = document.getElementById('td-saving');
+    if (sav) sav.textContent = 'Salvando...';
+    tdApi('PATCH', TD_TABLE + '?id=eq.' + tdDragId, { coluna: col }).then(function() {
+      if (sav) { sav.textContent = 'Salvo'; setTimeout(function() { sav.textContent = ''; }, 2000); }
+    });
+    tdDragId = null;
+  }
+
+  function tdOpenAdd(col) {
+    document.querySelectorAll('.td-add-form').forEach(function(f) { f.classList.remove('open'); });
+    var form = document.getElementById('td-form-' + col);
+    if (form) { form.classList.add('open'); var inp = document.getElementById('td-inp-' + col); if (inp) inp.focus(); }
+  }
+  function tdCancelAdd(col) {
+    var form = document.getElementById('td-form-' + col);
+    if (form) form.classList.remove('open');
+    var inp = document.getElementById('td-inp-' + col);
+    if (inp) inp.value = '';
+  }
+  function tdAddCard(col) {
+    var inp = document.getElementById('td-inp-' + col);
+    var texto = inp ? inp.value.trim() : '';
+    if (!texto) return;
+    var sav = document.getElementById('td-saving');
+    if (sav) sav.textContent = 'Salvando...';
+    tdApi('POST', TD_TABLE, { coluna: col, texto: texto }).then(function(res) {
+      if (res && res[0]) tdCards.push(res[0]);
+      tdRender();
+      tdCancelAdd(col);
+      if (sav) { sav.textContent = 'Salvo'; setTimeout(function() { sav.textContent = ''; }, 2000); }
+    }).catch(function() {
+      // Fallback local se tabela não existir ainda
+      tdCards.push({ id: Date.now(), coluna: col, texto: texto });
+      tdRender();
+      tdCancelAdd(col);
+      if (sav) sav.textContent = '';
+    });
+  }
+  function tdDelete(id) {
+    tdCards = tdCards.filter(function(c) { return c.id !== id; });
+    tdRender();
+    tdApi('DELETE', TD_TABLE + '?id=eq.' + id);
+  }
+
+  async function tdLoad() {
+    try {
+      var res = await tdApi('GET', TD_TABLE + '?order=created_at.asc&select=*');
+      if (Array.isArray(res)) tdCards = res;
+    } catch(e) { tdCards = []; }
+    tdRender();
+  }
+
+  // Carregar quando a seção todo for aberta
+  var _tdLoaded = false;
+  var _origSetSec = window.setSec;
 
 </script>
   <!-- AP Side Panel (fora do SECTIONS para sobreviver ao setLang) -->
