@@ -738,7 +738,7 @@
     });
   }
 
-  function tdBuildUI(){
+  window.tdBuildUI=function tdBuildUI(){
     var el=document.getElementById('todo');
     if(!el||document.getElementById('td-board'))return;
     el.innerHTML='<style>'
