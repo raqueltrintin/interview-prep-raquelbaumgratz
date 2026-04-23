@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perks · GCA — Global Career Accelerator</title>
+<title>Beyond Fluency · GCA — Global Career Accelerator</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1159,7 +1159,7 @@
       <button class="login-lang-btn active" id="login-lang-pt" onclick="setLang('pt')">🇧🇷 PT</button>
       <button class="login-lang-btn" id="login-lang-en" onclick="setLang('en')">🇺🇸 EN</button>
     </div>
-    <div class="login-eyebrow">Perks · GCA</div>
+    <div class="login-eyebrow">Beyond Fluency · GCA</div>
     <h1>Prepare-se para a sua <em>próxima entrevista</em></h1>
     <p id="login-subtitle">Entre com o seu email e senha de acesso.</p>
     <div class="password-group">
@@ -1310,101 +1310,6 @@
               <button class="kb2-btn-save" onclick="kb2Save()">Salvar card</button>
             </div>
             <div id="kb2-msg" class="kb2-msg"></div>
-          </div>
-        </div>
-      </div>
-      <div class="section" id="todo">
-        <style>
-          .td-wrap{padding:1rem 0 2rem;}
-          .td-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid rgba(28,20,16,0.1);}
-          .td-title{font-size:15px;font-style:italic;color:#b5623a;letter-spacing:.04em;}
-          .td-board{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;align-items:start;}
-          @media(max-width:800px){.td-board{grid-template-columns:repeat(2,1fr);}}
-          @media(max-width:480px){.td-board{grid-template-columns:1fr;}}
-          .td-col{background:rgba(28,20,16,0.04);border:1px solid rgba(28,20,16,0.1);border-radius:10px;padding:.85rem;min-height:180px;}
-          .td-col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid rgba(28,20,16,0.08);}
-          .td-col-title{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(28,20,16,0.45);}
-          .td-col-count{font-size:10px;background:rgba(192,128,90,0.18);color:#a06040;border-radius:10px;padding:1px 7px;font-weight:600;}
-          .td-cards{display:flex;flex-direction:column;gap:.5rem;}
-          .td-empty{color:rgba(28,20,16,0.3);font-size:11px;font-style:italic;text-align:center;padding:1rem 0;}
-          .td-card{background:#fff;border:1px solid rgba(28,20,16,0.12);border-radius:7px;padding:.65rem .75rem;cursor:grab;transition:border-color .2s,box-shadow .2s;display:flex;align-items:flex-start;gap:8px;}
-          .td-card:hover{box-shadow:0 2px 8px rgba(28,20,16,0.08);border-color:rgba(192,128,90,0.4);}
-          .td-card:active{cursor:grabbing;}
-          .td-card.td-dragging{opacity:.4;}
-          .td-card-text{flex:1;font-size:13px;color:#1c1410;line-height:1.4;}
-          .td-card-del{background:none;border:none;color:rgba(28,20,16,0.25);cursor:pointer;font-size:16px;padding:0;line-height:1;flex-shrink:0;}
-          .td-card-del:hover{color:#c04040;}
-          .td-drop-zone{min-height:28px;border:1.5px dashed transparent;border-radius:6px;margin-top:.3rem;transition:border-color .2s,background .2s;}
-          .td-drop-zone.td-dz-active{border-color:#c0805a;background:rgba(192,128,90,0.06);}
-          .td-add-form{margin-top:.5rem;display:none;}
-          .td-add-form.open{display:flex;flex-direction:column;gap:6px;}
-          .td-add-inp{width:100%;border:1px solid rgba(28,20,16,0.2);border-radius:6px;padding:6px 8px;font-size:12px;font-family:inherit;background:#fff;color:#1c1410;outline:none;resize:none;}
-          .td-add-inp:focus{border-color:#c0805a;}
-          .td-add-btns{display:flex;gap:6px;}
-          .td-add-ok{background:#c0805a;color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;}
-          .td-add-cancel{background:none;border:1px solid rgba(28,20,16,0.15);color:#8a7a6e;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;}
-          .td-btn-add{background:none;border:1px dashed rgba(28,20,16,0.2);color:rgba(28,20,16,0.4);border-radius:6px;padding:5px;font-size:11px;cursor:pointer;width:100%;margin-top:.3rem;transition:all .15s;}
-          .td-btn-add:hover{border-color:#c0805a;color:#a06040;}
-          .td-saving{font-size:11px;color:rgba(28,20,16,0.4);}
-        </style>
-        <div class="td-wrap">
-          <div class="td-hdr">
-            <span class="td-title">To-do</span>
-            <span class="td-saving" id="td-saving"></span>
-          </div>
-          <div class="td-board">
-            <div class="td-col" ondragover="tdDragOver(event,'banco')" ondrop="tdDrop(event,'banco')" ondragleave="tdDragLeave(event)">
-              <div class="td-col-hdr"><span class="td-col-title">🗄 Banco de dados</span><span class="td-col-count" id="td-count-banco">0</span></div>
-              <div class="td-cards" id="td-list-banco"><div class="td-empty">Vazio</div></div>
-              <div class="td-drop-zone" id="td-dz-banco"></div>
-              <div class="td-add-form" id="td-form-banco">
-                <textarea class="td-add-inp" id="td-inp-banco" rows="2" placeholder="Descreva a tarefa..."></textarea>
-                <div class="td-add-btns">
-                  <button class="td-add-ok" onclick="tdAddCard('banco')">Adicionar</button>
-                  <button class="td-add-cancel" onclick="tdCancelAdd('banco')">Cancelar</button>
-                </div>
-              </div>
-              <button class="td-btn-add" onclick="tdOpenAdd('banco')">+ adicionar tarefa</button>
-            </div>
-            <div class="td-col" ondragover="tdDragOver(event,'semana')" ondrop="tdDrop(event,'semana')" ondragleave="tdDragLeave(event)">
-              <div class="td-col-hdr"><span class="td-col-title">📅 Semana</span><span class="td-col-count" id="td-count-semana">0</span></div>
-              <div class="td-cards" id="td-list-semana"><div class="td-empty">Vazio</div></div>
-              <div class="td-drop-zone" id="td-dz-semana"></div>
-              <div class="td-add-form" id="td-form-semana">
-                <textarea class="td-add-inp" id="td-inp-semana" rows="2" placeholder="Descreva a tarefa..."></textarea>
-                <div class="td-add-btns">
-                  <button class="td-add-ok" onclick="tdAddCard('semana')">Adicionar</button>
-                  <button class="td-add-cancel" onclick="tdCancelAdd('semana')">Cancelar</button>
-                </div>
-              </div>
-              <button class="td-btn-add" onclick="tdOpenAdd('semana')">+ adicionar tarefa</button>
-            </div>
-            <div class="td-col" ondragover="tdDragOver(event,'processo')" ondrop="tdDrop(event,'processo')" ondragleave="tdDragLeave(event)">
-              <div class="td-col-hdr"><span class="td-col-title">⚙️ Em processo</span><span class="td-col-count" id="td-count-processo">0</span></div>
-              <div class="td-cards" id="td-list-processo"><div class="td-empty">Vazio</div></div>
-              <div class="td-drop-zone" id="td-dz-processo"></div>
-              <div class="td-add-form" id="td-form-processo">
-                <textarea class="td-add-inp" id="td-inp-processo" rows="2" placeholder="Descreva a tarefa..."></textarea>
-                <div class="td-add-btns">
-                  <button class="td-add-ok" onclick="tdAddCard('processo')">Adicionar</button>
-                  <button class="td-add-cancel" onclick="tdCancelAdd('processo')">Cancelar</button>
-                </div>
-              </div>
-              <button class="td-btn-add" onclick="tdOpenAdd('processo')">+ adicionar tarefa</button>
-            </div>
-            <div class="td-col" ondragover="tdDragOver(event,'feito')" ondrop="tdDrop(event,'feito')" ondragleave="tdDragLeave(event)">
-              <div class="td-col-hdr"><span class="td-col-title">✅ Feito</span><span class="td-col-count" id="td-count-feito">0</span></div>
-              <div class="td-cards" id="td-list-feito"><div class="td-empty">Vazio</div></div>
-              <div class="td-drop-zone" id="td-dz-feito"></div>
-              <div class="td-add-form" id="td-form-feito">
-                <textarea class="td-add-inp" id="td-inp-feito" rows="2" placeholder="Descreva a tarefa..."></textarea>
-                <div class="td-add-btns">
-                  <button class="td-add-ok" onclick="tdAddCard('feito')">Adicionar</button>
-                  <button class="td-add-cancel" onclick="tdCancelAdd('feito')">Cancelar</button>
-                </div>
-              </div>
-              <button class="td-btn-add" onclick="tdOpenAdd('feito')">+ adicionar tarefa</button>
-            </div>
           </div>
         </div>
       </div>
@@ -3889,80 +3794,52 @@
   </div>
 
   <div class="col2">
-    <div style="display:flex;flex-direction:column;gap:4px">
-      <div class="col-label" style="text-align:center">LEAD FRIO — VOCÊ ABORDOU</div>
+    <div>
+      <div class="col-label">VOCÊ ABORDOU PRIMEIRO</div>
       <div class="step p" onclick="funil_show('a')">
         <div class="step-inner">
-          <div class="step-num">1</div>
-          <div><div class="step-title">Mensagem de abertura</div><div class="step-sub">Lead frio — você abordou primeiro</div></div>
+          <div class="step-num">1a</div>
+          <div><div class="step-title">Mensagem de abertura</div><div class="step-sub">Lead frio</div></div>
         </div>
       </div>
-      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="step p" onclick="funil_show('b')">
+    </div>
+    <div>
+      <div class="col-label">ELA VEIO ATÉ VOCÊ</div>
+      <div class="step p" onclick="funil_show('c')">
         <div class="step-inner">
-          <div class="step-num">2</div>
-          <div><div class="step-title">Respondeu com interesse</div><div class="step-sub">"É uma meta para 2026"</div></div>
+          <div class="step-num">1b</div>
+          <div><div class="step-title">Ela iniciou o contato</div><div class="step-sub">Lead quente</div></div>
         </div>
       </div>
-      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="step p" onclick="funil_show('b_qual')">
-        <div class="step-inner">
-          <div class="step-num">3</div>
-          <div><div class="step-title">Pergunta de qualificação</div><div class="step-sub">Já se candidatando ou ainda não começou?</div></div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
-        <div>
-          <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="step p" onclick="funil_show('b_c1')">
-            <div class="step-inner">
-              <div class="step-num" style="font-size:9px">4①</div>
-              <div><div class="step-title">Já se candidatando</div><div class="step-sub">Pedir WhatsApp → diagnóstico</div></div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="step g" onclick="funil_show('b_c2')">
-            <div class="step-inner">
-              <div class="step-num" style="font-size:9px">4②</div>
-              <div><div class="step-title">Ainda não começou</div><div class="step-sub">WhatsApp + doc + Heating</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+  </div>
+
+  <div class="col2">
+    <div>
       <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="step p" onclick="funil_show('a2')">
         <div class="step-inner">
-          <div class="step-num">—</div>
-          <div><div class="step-title">Sem resposta — Follow-up 1.1</div><div class="step-sub">Após 48h</div></div>
+          <div class="step-num">2a</div>
+          <div><div class="step-title">Follow-up 1 — sem resposta</div><div class="step-sub">Após 48h</div></div>
         </div>
       </div>
       <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="step g" onclick="funil_show('a3')">
         <div class="step-inner">
-          <div class="step-num">—</div>
-          <div><div class="step-title">Follow-up 1.2 — encerrar</div><div class="step-sub">Porta aberta → Monthly Heating</div></div>
-        </div>
-      </div>
-      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="step g" onclick="funil_show('a4')">
-        <div class="step-inner">
-          <div class="step-num">—</div>
-          <div><div class="step-title">Sem interesse agora</div><div class="step-sub">Porta aberta → Monthly Heating</div></div>
+          <div class="step-num">3a</div>
+          <div><div class="step-title">Follow-up 2 — encerrar</div><div class="step-sub">Porta aberta, retomar em 3-6 meses</div></div>
         </div>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:4px">
-      <div class="col-label" style="text-align:center">LEAD QUENTE — ELA VEIO ATÉ VOCÊ</div>
-      <div class="step p" onclick="funil_show('c')">
-        <div class="step-inner">
-          <div class="step-num">1</div>
-          <div><div class="step-title">Ela iniciou o contato</div><div class="step-sub">Lead quente</div></div>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <div style="width:100%">
+        <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step p" onclick="funil_show('b')">
+          <div class="step-inner">
+            <div class="step-num">2b</div>
+            <div><div class="step-title">Responde com interesse</div><div class="step-sub">Migrar para WhatsApp</div></div>
+          </div>
         </div>
-      </div>
-      <div style="text-align:center;padding:12px 8px;font-size:12px;color:#8a7a6e;border:1px dashed rgba(181,98,62,0.3);border-radius:8px;margin-top:4px">
-        ↓ Pular direto para<br><strong style="color:#b5623e">2. Ligação de qualificação</strong>
       </div>
     </div>
   </div>
@@ -8356,7 +8233,7 @@ Best regards,
   const UI = {
     pt: {
       logout: 'Sair',
-      eyebrow: 'Perks · GCA',
+      eyebrow: 'Beyond Fluency · GCA',
       eyebrowMentor: 'Modo Mentora · Visão Completa',
       desc: 'Guia de preparação para entrevistas internacionais em inglês.',
       descMentor: 'Você está vendo o conteúdo completo, incluindo guias de coaching e sinais de atenção.',
@@ -8396,7 +8273,7 @@ Best regards,
     },
     en: {
       logout: 'Sign out',
-      eyebrow: 'Perks · GCA',
+      eyebrow: 'Beyond Fluency · GCA',
       eyebrowMentor: 'Mentor Mode · Full View',
       desc: 'Preparation guide for international interviews in English.',
       descMentor: 'You are viewing the full content, including coaching guides and attention flags.',
@@ -8509,7 +8386,6 @@ Best regards,
       if (sid === 'conteudo' && typeof kbRenderAll === 'function') {
         setTimeout(kbRenderAll, 0);
       }
-      if (sid === 'todo') { if (!_tdLoaded) { _tdLoaded=true; tdLoad(); } else { tdRender(); } }
 
     });
 
@@ -8809,13 +8685,9 @@ Best regards,
 
   // ── Funil de Vendas JS ──────────────────────────────────────────────
   var D={
-  a:{ph:'LinkedIn - Lead Frio',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Mensagem de abertura',secs:[{label:'Mensagem 1 — enviar no LinkedIn',script:'Oi [nome], tudo bem?\n\nTenho acompanhado profissionais brasileiros que são qualificados, entregam resultado, mas ainda assim se sentem mal pagos e sem perspectiva de crescimento real.\n\nFaz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?',tip:'Aguarde a resposta. Não envie follow-up antes de 48h.'}]},
+  a:{ph:'LinkedIn - Lead Frio',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Mensagem de abertura',secs:[{label:'Mensagem 1 — enviar no LinkedIn',script:'Oi [nome], tudo bem?\n\nTenho trabalhado com profissionais brasileiros que querem uma vaga remota internacional mas não estão conseguindo a colocação. Não por falta de qualificação técnica, mas por não saberem se posicionar e comunicar o valor deles na hora da entrevista.\n\nFaz parte das tuas metas de 2026 trabalhar para uma empresa que pague em dólar?',tip:'Aguarde a resposta. Não envie follow-up antes de 48h.'}]},
   a2:{ph:'LinkedIn - Follow-up 1.1',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Follow-up 1.1 — sem resposta',secs:[{label:'Mensagem a enviar',script:'Oii [nome], você chegou a ver a mensagem acima?',tip:'Uma mensagem só. Se continuar sem resposta, aguarda mais 48h e manda o follow-up 1.2.'}]},
   a3:{ph:'LinkedIn - Follow-up 1.2',phbg:'#1e1a16',phc:'#8a7a6e',phb:'#3a3028',title:'Follow-up 1.2 — encerrar com porta aberta',secs:[{label:'Mensagem a enviar',script:'Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante.',tip:'Depois dessa mensagem, encerre o contato. Mover para o grupo de Monthly Heating — conteúdo relevante 1x/mês.'}]},
-  a4:{ph:'LinkedIn - Sem interesse agora',phbg:'#1e1a16',phc:'#8a7a6e',phb:'#3a3028',title:'Respondeu sem interesse no momento',secs:[{label:'Mensagem a enviar',script:'Perfeito, [nome]. Quero apenas que você saiba que quando for o momento eu posso te ajudar com isso.',tip:'Curta, sem pressão. Depois dessa mensagem, mover para Monthly Heating — ela já sabe que você existe quando estiver pronta.'}]},
-  b_qual:{ph:'LinkedIn - Qualificação',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Pergunta de qualificação — antes de pedir WhatsApp',secs:[{label:'Mensagem a enviar',script:'Legal. Você já está se candidatando para vagas ou ainda está naquela fase de "sei que preciso mas ainda não comecei"? Te pergunto porque os profissionais que me procuram costumam estar em um destes dois momentos. Você tá em qual desses?',tip:'Aguarde a resposta antes de qualquer próximo passo. A resposta define o caminho.'}]},
-  b_c1:{ph:'LinkedIn - Cenário 1',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Já está se candidatando — pedir WhatsApp',secs:[{label:'Mensagem a enviar',script:'Ótimo [nome], me passa seu WhatsApp para que eu possa entrar em contato com você e te apresentar como você pode conseguir uma vaga remota que pague em dólar.',tip:'Marcar para diagnóstico rápido. Lead com urgência real — prioridade na fila.'}]},
-  b_c2:{ph:'LinkedIn - Cenário 2',phbg:'#1e1a16',phc:'#8a7a6e',phb:'#3a3028',title:'Ainda não começou — documento + Heating',secs:[{label:'Mensagem a enviar',script:'Faz sentido. Me passa seu WhatsApp que vou te mandar um material que vai te ajudar a entender melhor como funciona esse mercado. Depois a gente conversa quando você estiver mais pronta.',tip:'Mandar o documento por lá e adicionar ao Monthly Heating. Não pressionar — ela precisa amadurecer o momento.'}]},
   b:{ph:'LinkedIn - Interesse',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Respondeu: "é uma meta" — pedir WhatsApp',secs:[{label:'Follow-up 2 — pedir WhatsApp',script:'Ótimo [nome], me passa seu WhatsApp para que eu possa entrar em contato com você e te apresentar como você pode conseguir uma vaga remota que pague em dólar.',tip:'IMPORTANTE: Peça o número dela, não dê o teu. Quem dá o número perde o controle do próximo passo.'}]},
   b2:{ph:'LinkedIn - Follow-up 2.0',phbg:'#2a1a10',phc:'#e8b89a',phb:'#7a3a22',title:'Não enviou o WhatsApp — follow-up 2.0',secs:[{label:'Mensagem a enviar',script:'[nome]?',tip:'Simples e direta. Se ainda sem resposta, aguarda e manda o 2.0.1.'}]},
   b3:{ph:'LinkedIn - Follow-up 2.0.1',phbg:'#1e1a16',phc:'#8a7a6e',phb:'#3a3028',title:'Follow-up 2.0.1 — encerrar com porta aberta',secs:[{label:'Mensagem a enviar',script:'Oi [nome], tudo bem? Passando por aqui por conta da mensagem que te enviei outro dia. Estou entendendo que talvez isso não seja importante para você agora. Tudo bem, retorno aqui mais adiante.',tip:'Mover para Monthly Heating.'}]},
@@ -8940,7 +8812,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
     marketing: { icon: '📣', label: 'Marketing', subs: [
       { id: 'conteudo', icon: '✏️', label: 'Planejamento de Conteúdo' },
-      { id: 'todo', icon: '✅', label: 'To-do' },
     ]},
 
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
@@ -9225,10 +9096,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
   let crmLeads=[];
   let crmSel=null, crmQ='', crmNextId=1, crmSaveTimer=null;
-  // Expor em window para acesso externo
-  Object.defineProperty(window,'crmLeads',{get:function(){return crmLeads;},set:function(v){crmLeads=v;}});
-  Object.defineProperty(window,'crmSel',{get:function(){return crmSel;},set:function(v){crmSel=v;}});
-  Object.defineProperty(window,'crmNextId',{get:function(){return crmNextId;},set:function(v){crmNextId=v;}});
 
   function crmCol(id){return CRM_COLS_ALL.find(c=>c.id===id)||CRM_COLS[0]}
   function crmIni(n){return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
@@ -9357,12 +9224,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
   }
 
   const CRM_ACTIONS = {
-    linkedin: ['Enviar mensagem 1','Enviar follow-up 1.1','Enviar follow-up 1.2','Pedir WhatsApp','Enviar follow-up 2.0','Enviar follow-up 2.0.1','Registrar resposta com interesse','Respondeu sem interesse no momento','Silêncio','Tem interesse mas não sabe inglês'],
-    qualif:   ['Fazer ligação','Propor horário para ligação','Fazer 3 perguntas','Convidar para reunião','Enviar segundo toque — sem resposta','Encerrar com porta aberta → Heating','Registrar não atendeu — msg enviada','Reagendar ligação','Pediu mais informações por mensagem'],
-    reuniao:  ['Fazer acordo sim/não','Aprofundar dor','Apresentar solução','Verificar reação','Apresentar preço','Não compareceu na reunião','Silêncio'],
-    proposta: ['Enviar follow-up','Registrar objeção de preço','Registrar objeção de timing','Enviar contrato'],
-    fechado:  ['Confirmar fechamento','Agendar onboarding','Realizar primeira sessão','Pedir indicação'],
-    heating:  ['Enviar conteúdo de aquecimento','Reagendar contato'],
+    linkedin: ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Enviar conexão no LinkedIn','Esquentar o lead','Contatar novamente'],
+    qualif:   ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Enviar conexão no LinkedIn','Esquentar o lead','Contatar novamente','Call agendada','Call realizada','Call não atendida — tentar novamente'],
+    reuniao:  ['Enviar mensagem de abertura','Fazer follow-up','Pedir WhatsApp','Esquentar o lead','Contatar novamente','Reunião realizada','Objeção contornada','Proposta enviada'],
+    proposta: ['Fazer follow-up','Contatar novamente','Esquentar o lead','Objeção: preço','Objeção: timing','Contrato enviado'],
+    fechado:  ['Contatar novamente','Onboarding agendado','Primeira sessão realizada','Indicação solicitada'],
   };
 
   function crmClosePanel(){
@@ -9408,8 +9274,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     });
 
     var optsHtml='<option value="">Selecionar ação...</option>';
-    var proxOpcoes=(CRM_PROX_ACOES&&CRM_PROX_ACOES[l.col])||CRM_ACTIONS[l.col]||[];
-    proxOpcoes.forEach(function(a){
+    (CRM_ACTIONS[l.col]||[]).forEach(function(a){
       optsHtml+='<option value="'+a+'"'+(a===prox?' selected':'')+'>'+a+'</option>';
     });
     optsHtml+='<option value="__custom">Outra ação...</option>';
@@ -9478,14 +9343,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     document.body.style.overflow='hidden';
   }
 
-  const CRM_PROX_ACOES = {
-    linkedin: null,
-    qualif:   null,
-    reuniao:  ['Reunião de Proposta','Enviar material com proposta','Fazer follow-up questionando decisão','Propor novo horário de reunião'],
-    proposta: null,
-    fechado:  null,
-    heating:  null,
-  };
   function crmSaveProx(id){
     id=Number(id);
     const l=crmLeads.find(x=>x.id===id);
@@ -10990,126 +10847,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     kb2Render();
   }
 
-  // ── TO-DO KANBAN ──────────────────────────────────────────────────────────
-  var tdCards = [];
-  var tdDragId = null;
-  var tdSaveTimer = null;
-
-  var TD_SB_URL = 'https://ruyyanefahvhqdambsis.supabase.co';
-  var TD_SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1eXlhbmVmYWh2aHFkYW1ic2lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjMyNzQsImV4cCI6MjA4OTUzOTI3NH0.bx_dGljKSw0cZyhn1uXPEylJtnHZqC16s8LeR6Af9KM';
-  var TD_NOTE_KEY = 'todo_kanban_v1';
-
-  function tdSaveSB() {
-    var body = JSON.stringify({ note_key: TD_NOTE_KEY, note_value: JSON.stringify(tdCards) });
-    fetch(TD_SB_URL + '/rest/v1/notes?note_key=eq.' + TD_NOTE_KEY, {
-      method: 'DELETE',
-      headers: { 'apikey': TD_SB_KEY, 'Authorization': 'Bearer ' + TD_SB_KEY }
-    }).then(function() {
-      fetch(TD_SB_URL + '/rest/v1/notes', {
-        method: 'POST',
-        headers: { 'apikey': TD_SB_KEY, 'Authorization': 'Bearer ' + TD_SB_KEY, 'Content-Type': 'application/json' },
-        body: body
-      });
-    });
-  }
-
-  function tdRender() {
-    var cols = ['banco','semana','processo','feito'];
-    cols.forEach(function(col) {
-      var list = document.getElementById('td-list-' + col);
-      var badge = document.getElementById('td-count-' + col);
-      if (!list) return;
-      var cards = tdCards.filter(function(c) { return c.coluna === col; });
-      badge && (badge.textContent = cards.length);
-      if (!cards.length) {
-        list.innerHTML = '<div class="td-empty">Vazio</div>';
-        return;
-      }
-      list.innerHTML = cards.map(function(c) {
-        return '<div class="td-card" draggable="true"'
-          + ' ondragstart="tdDragStart(event,' + c.id + ')"'
-          + ' ondragend="tdDragEnd(event)">'
-          + '<span class="td-card-text">' + c.texto.replace(/[<]/g,'&lt;').replace(/
-/g,'<br>') + '</span>'
-          + '<button class="td-card-del" onclick="tdDelete(' + c.id + ')" title="Remover">&times;</button>'
-          + '</div>';
-      }).join('');
-    });
-  }
-
-  function tdDragStart(e, id) {
-    tdDragId = id;
-    setTimeout(function() {
-      var el = e.target; if (el) el.classList.add('td-dragging');
-    }, 0);
-  }
-  function tdDragEnd(e) {
-    document.querySelectorAll('.td-card').forEach(function(c) { c.classList.remove('td-dragging'); });
-    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
-  }
-  function tdDragOver(e, col) {
-    e.preventDefault();
-    var dz = document.getElementById('td-dz-' + col);
-    if (dz) dz.classList.add('td-dz-active');
-  }
-  function tdDragLeave(e) {
-    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
-  }
-  function tdDrop(e, col) {
-    e.preventDefault();
-    document.querySelectorAll('.td-drop-zone').forEach(function(z) { z.classList.remove('td-dz-active'); });
-    if (!tdDragId) return;
-    var card = tdCards.find(function(c) { return c.id === tdDragId; });
-    if (!card || card.coluna === col) return;
-    card.coluna = col;
-    tdRender();
-    tdSaveSB();
-    tdDragId = null;
-  }
-
-  function tdOpenAdd(col) {
-    document.querySelectorAll('.td-add-form').forEach(function(f) { f.classList.remove('open'); });
-    var form = document.getElementById('td-form-' + col);
-    if (form) { form.classList.add('open'); var inp = document.getElementById('td-inp-' + col); if (inp) inp.focus(); }
-  }
-  function tdCancelAdd(col) {
-    var form = document.getElementById('td-form-' + col);
-    if (form) form.classList.remove('open');
-    var inp = document.getElementById('td-inp-' + col);
-    if (inp) inp.value = '';
-  }
-  function tdAddCard(col) {
-    var inp = document.getElementById('td-inp-' + col);
-    var texto = inp ? inp.value.trim() : '';
-    if (!texto) return;
-    tdCards.push({ id: Date.now(), coluna: col, texto: texto });
-    tdRender();
-    tdCancelAdd(col);
-    tdSaveSB();
-  }
-  function tdDelete(id) {
-    tdCards = tdCards.filter(function(c) { return c.id !== id; });
-    tdRender();
-    tdSaveSB();
-  }
-
-  async function tdLoad() {
-    try {
-      var res = await fetch(TD_SB_URL + '/rest/v1/notes?note_key=eq.' + TD_NOTE_KEY + '&select=note_value', {
-        headers: { 'apikey': TD_SB_KEY, 'Authorization': 'Bearer ' + TD_SB_KEY }
-      });
-      var data = await res.json();
-      if (data && data[0] && data[0].note_value) {
-        tdCards = JSON.parse(data[0].note_value);
-      }
-    } catch(e) { tdCards = []; }
-    tdRender();
-  }
-
-  // Carregar quando a seção todo for aberta
-  var _tdLoaded = false;
-  var _origSetSec = window.setSec;
-
 </script>
   <!-- AP Side Panel (fora do SECTIONS para sobreviver ao setLang) -->
   <div class="ap-overlay-bg" id="ap-overlay-bg" onclick="apClosePanel()"></div>
@@ -11120,6 +10857,5 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
     </div>
     <div class="ap-side-body" id="ap-side-body"></div>
   </div>
-<script src="/crm-melhorias.js?v=1"></script>
 </body>
 </html>
