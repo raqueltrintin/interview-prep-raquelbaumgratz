@@ -1313,6 +1313,7 @@
           </div>
         </div>
       </div>
+      <div class="section" id="todo"></div>
       <div class="section mentor-only" id="social"></div>
       <div class="section mentor-only" id="coaching"></div>
       <div class="section mentor-only" id="mentorados"></div>
@@ -8386,6 +8387,9 @@ Best regards,
       if (sid === 'conteudo' && typeof kbRenderAll === 'function') {
         setTimeout(kbRenderAll, 0);
       }
+      if (sid === 'todo' && typeof window.tdBuildUI === 'function') {
+        setTimeout(window.tdBuildUI, 0);
+      }
 
     });
 
@@ -8812,6 +8816,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')funil_close_
 
     marketing: { icon: '📣', label: 'Marketing', subs: [
       { id: 'conteudo', icon: '✏️', label: 'Planejamento de Conteúdo' },
+      { id: 'todo', icon: '✅', label: 'To-do' },
     ]},
 
     apps_grupo: { icon: '📋', label: 'Candidaturas', subs: [
