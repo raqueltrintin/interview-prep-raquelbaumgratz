@@ -3794,86 +3794,80 @@
   </div>
 
   <div class="col2">
-    <div>
-      <div class="col-label">VOCÊ ABORDOU PRIMEIRO</div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div class="col-label" style="text-align:center">LEAD FRIO — VOCÊ ABORDOU</div>
       <div class="step p" onclick="funil_show('a')">
         <div class="step-inner">
-          <div class="step-num">1a</div>
-          <div><div class="step-title">Mensagem de abertura</div><div class="step-sub">Lead frio</div></div>
+          <div class="step-num">1</div>
+          <div><div class="step-title">Mensagem de abertura</div><div class="step-sub">Lead frio — você abordou primeiro</div></div>
         </div>
       </div>
-    </div>
-    <div>
-      <div class="col-label">ELA VEIO ATÉ VOCÊ</div>
-      <div class="step p" onclick="funil_show('c')">
+      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="step p" onclick="funil_show('b')">
         <div class="step-inner">
-          <div class="step-num">1b</div>
-          <div><div class="step-title">Ela iniciou o contato</div><div class="step-sub">Lead quente</div></div>
+          <div class="step-num">2</div>
+          <div><div class="step-title">Respondeu com interesse</div><div class="step-sub">"É uma meta para 2026"</div></div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="col2">
-    <div>
+      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="step p" onclick="funil_show('b_qual')">
+        <div class="step-inner">
+          <div class="step-num">3</div>
+          <div><div class="step-title">Pergunta de qualificação</div><div class="step-sub">Já se candidatando ou ainda não começou?</div></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+        <div>
+          <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="step p" onclick="funil_show('b_c1')">
+            <div class="step-inner">
+              <div class="step-num" style="font-size:9px">4①</div>
+              <div><div class="step-title">Já se candidatando</div><div class="step-sub">Pedir WhatsApp → diagnóstico</div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="step g" onclick="funil_show('b_c2')">
+            <div class="step-inner">
+              <div class="step-num" style="font-size:9px">4②</div>
+              <div><div class="step-title">Ainda não começou</div><div class="step-sub">WhatsApp + doc + Heating</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="step p" onclick="funil_show('a2')">
         <div class="step-inner">
-          <div class="step-num">2a</div>
-          <div><div class="step-title">Follow-up 1 — sem resposta</div><div class="step-sub">Após 48h</div></div>
+          <div class="step-num">—</div>
+          <div><div class="step-title">Sem resposta — Follow-up 1.1</div><div class="step-sub">Após 48h</div></div>
         </div>
       </div>
       <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="step g" onclick="funil_show('a3')">
         <div class="step-inner">
-          <div class="step-num">3a</div>
-          <div><div class="step-title">Follow-up 2 — encerrar</div><div class="step-sub">Porta aberta, retomar em 3-6 meses</div></div>
+          <div class="step-num">—</div>
+          <div><div class="step-title">Follow-up 1.2 — encerrar</div><div class="step-sub">Porta aberta → Monthly Heating</div></div>
+        </div>
+      </div>
+      <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="step g" onclick="funil_show('a4')">
+        <div class="step-inner">
+          <div class="step-num">—</div>
+          <div><div class="step-title">Sem interesse agora</div><div class="step-sub">Porta aberta → Monthly Heating</div></div>
         </div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center;">
-      <div style="width:100%">
-        <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step p" onclick="funil_show('b')">
-          <div class="step-inner">
-            <div class="step-num">2b</div>
-            <div><div class="step-title">Responde com interesse</div><div class="step-sub">"É uma meta para 2026"</div></div>
-          </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div class="col-label" style="text-align:center">LEAD QUENTE — ELA VEIO ATÉ VOCÊ</div>
+      <div class="step p" onclick="funil_show('c')">
+        <div class="step-inner">
+          <div class="step-num">1</div>
+          <div><div class="step-title">Ela iniciou o contato</div><div class="step-sub">Lead quente</div></div>
         </div>
-        <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step p" onclick="funil_show('b_qual')">
-          <div class="step-inner">
-            <div class="step-num">3b</div>
-            <div><div class="step-title">Pergunta de qualificação</div><div class="step-sub">Candidatando ou ainda não começou?</div></div>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
-          <div>
-            <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#7c6af5" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#7c6af5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="step p" onclick="funil_show('b_c1')">
-              <div class="step-inner">
-                <div class="step-num" style="font-size:9px">4b①</div>
-                <div><div class="step-title">Já se candidatando</div><div class="step-sub">Pedir WhatsApp → diagnóstico</div></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <div class="step g" onclick="funil_show('b_c2')">
-              <div class="step-inner">
-                <div class="step-num" style="font-size:9px">4b②</div>
-                <div><div class="step-title">Ainda não começou</div><div class="step-sub">WhatsApp + documento + Heating</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="arr"><svg width="16" height="18" viewBox="0 0 16 18" fill="none"><line x1="8" y1="0" x2="8" y2="12" stroke="#5a5856" stroke-width="1.5"/><polyline points="4,10 8,15 12,10" stroke="#5a5856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step g" onclick="funil_show('a4')">
-          <div class="step-inner">
-            <div class="step-num">3b</div>
-            <div><div class="step-title">Sem interesse agora</div><div class="step-sub">Porta aberta, Monthly Heating</div></div>
-          </div>
-        </div>
+      </div>
+      <div style="text-align:center;padding:12px 8px;font-size:12px;color:#8a7a6e;border:1px dashed rgba(181,98,62,0.3);border-radius:8px;margin-top:4px">
+        ↓ Pular direto para<br><strong style="color:#b5623e">2. Ligação de qualificação</strong>
       </div>
     </div>
   </div>
