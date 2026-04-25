@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GYWVZ7LXQ9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GYWVZ7LXQ9');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Carreira Internacional para Brasileiros | Raquel Baumgratz</title>
+<meta name="description" content="Conteúdo prático sobre carreira internacional, vagas remotas, LinkedIn em inglês e entrevistas internacionais para profissionais brasileiros.">
+<link rel="canonical" href="https://raquelbaumgratz.com/blog/">
+<meta property="og:title" content="Blog | Carreira Internacional para Brasileiros">
+<meta property="og:description" content="Conteúdo prático sobre carreira internacional, vagas remotas e entrevistas internacionais para profissionais brasileiros.">
+<meta property="og:url" content="https://raquelbaumgratz.com/blog/">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg:        #0E0E10;
+  --bg2:       #141416;
+  --bg3:       #1A1A1D;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --gold:      #b5623e;
+  --gold2:     #d4836a;
+  --gold-dim:  rgba(181,98,62,0.15);
+  --text:      #F0EDE8;
+  --text2:     #9A9591;
+  --text3:     #5A5754;
+  --white:     #FFFFFF;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(14,14,16,0.88);
+  backdrop-filter:blur(16px);
+  border-bottom:0.5px solid var(--border);
+  padding:0 2rem;
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:17px;letter-spacing:0.03em;
+  color:var(--text);
+  text-decoration:none;
+}
+.nav-logo .c{color:var(--gold)}
+
+.nav-actions{display:flex;align-items:center;gap:12px}
+
+.btn-portal{
+  font-size:13px;font-weight:500;
+  color:var(--text2);
+  border:0.5px solid var(--border2);
+  padding:7px 16px;border-radius:4px;
+  text-decoration:none;
+  transition:color .2s,border-color .2s;
+}
+.btn-portal:hover{color:var(--text);border-color:var(--gold)}
+
+.btn-primary{
+  font-size:13px;font-weight:500;
+  background:var(--gold);color:#0E0E10;
+  padding:8px 18px;border-radius:4px;
+  text-decoration:none;letter-spacing:0.02em;
+  transition:background .2s;
+}
+.btn-primary:hover{background:var(--gold2)}
+
+.blog-container{
+  max-width:880px;
+  margin:0 auto;
+  padding:5rem 2rem 6rem;
+}
+
+.blog-header{
+  text-align:center;
+  margin-bottom:5rem;
+}
+
+.blog-header h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,6vw,3.5rem);
+  font-weight:600;
+  line-height:1.15;
+  margin-bottom:1.25rem;
+  color:var(--text);
+}
+
+.blog-header p{
+  font-size:18px;
+  color:var(--text2);
+  max-width:600px;
+  margin:0 auto;
+  line-height:1.6;
+}
+
+.posts-grid{
+  display:grid;
+  gap:2rem;
+}
+
+.post-card{
+  background:var(--bg2);
+  border:0.5px solid var(--border);
+  border-radius:8px;
+  padding:2.5rem;
+  text-decoration:none;
+  color:var(--text);
+  transition:border-color .2s,transform .2s;
+  display:block;
+}
+
+.post-card:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+
+.post-meta{
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:12px;color:var(--text2);
+  margin-bottom:1rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+.post-tag{
+  color:var(--gold);
+  font-weight:500;
+}
+
+.post-meta .dot{
+  width:3px;height:3px;
+  background:var(--text3);
+  border-radius:50%;
+}
+
+.post-card h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,3vw,1.75rem);
+  line-height:1.3;
+  font-weight:600;
+  margin-bottom:1rem;
+  color:var(--text);
+}
+
+.post-card p{
+  color:var(--text2);
+  font-size:16px;
+  line-height:1.6;
+  margin-bottom:1.25rem;
+}
+
+.read-more{
+  color:var(--gold);
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:0.02em;
+}
+
+.empty-state{
+  text-align:center;
+  padding:3rem;
+  color:var(--text3);
+  border:0.5px dashed var(--border2);
+  border-radius:8px;
+}
+
+footer{
+  border-top:0.5px solid var(--border);
+  padding:2rem;
+  text-align:center;
+  color:var(--text3);
+  font-size:13px;
+}
+
+@media(max-width:640px){
+  .blog-container{padding:3rem 1.5rem 4rem}
+  .post-card{padding:2rem 1.5rem}
+  nav{padding:0 1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Raquel Baumgratz<span class="c">.</span></a>
+  <div class="nav-actions">
+    <a href="/portal.html" class="btn-portal">Portal</a>
+    <a href="/#candidatura" class="btn-primary">Diagnóstico Gratuito</a>
+  </div>
+</nav>
+
+<div class="blog-container">
+
+  <div class="blog-header">
+    <h1>Blog</h1>
+    <p>Conteúdo prático sobre carreira internacional, vagas remotas e posicionamento profissional para brasileiros.</p>
+  </div>
+
+  <div class="posts-grid">
+
+    <a href="/blog/linkedin-em-ingles-erros-profissionais-brasileiros.html" class="post-card">
+      <div class="post-meta">
+        <span class="post-tag">Carreira Internacional</span>
+        <span class="dot"></span>
+        <span>24 abr 2026</span>
+        <span class="dot"></span>
+        <span>7 min de leitura</span>
+      </div>
+      <h2>LinkedIn em inglês: 4 erros que travam profissionais brasileiros na busca por vagas internacionais</h2>
+      <p>Os erros mais comuns que fazem profissionais brasileiros desaparecerem das buscas de recrutadores internacionais — e como corrigir cada um na prática.</p>
+      <span class="read-more">Ler artigo →</span>
+    </a>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Raquel Baumgratz · <a href="/" style="color:var(--text2);text-decoration:none">raquelbaumgratz.com</a>
+</footer>
+
+</body>
+</html>
