@@ -232,6 +232,36 @@ footer{
   nav{padding:0 1rem}
   .article-cta{padding:2rem 1.5rem}
 }
+.author-bio{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:1.75rem;
+}
+.author-photo{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  flex-shrink:0;
+  border:1.5px solid var(--border2);
+}
+.author-info{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.author-name{
+  font-size:14px;
+  font-weight:500;
+  color:var(--text);
+}
+.author-title{
+  font-size:12px;
+  color:var(--text2);
+  letter-spacing:0.03em;
+}
 </style>
 </head>
 <body>
@@ -252,6 +282,14 @@ footer{
     <a href="/blog/">Blog</a>
     <span class="sep">/</span>
     <span>LinkedIn em Inglês</span>
+  </div>
+
+  <div class="author-bio">
+    <img src="/raquel-blog.jpg" alt="Raquel Baumgratz" class="author-photo">
+    <div class="author-info">
+      <span class="author-name">Raquel Baumgratz</span>
+      <span class="author-title">Mentora de Carreira Internacional · GCA</span>
+    </div>
   </div>
 
   <div class="article-meta">
